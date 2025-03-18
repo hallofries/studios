@@ -96,5 +96,77 @@
 
     </div>
 
+    <body>
+        <!-- Background music and scroll-triggered sound -->
+    <audio id="backgroundMusic" loop>
+        <source src="image/space.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="scrollSound">
+        <source src="image/beeping.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Volume button with custom PNG -->
+    <img src="image/musicnote.png" alt="Volume Button" id="volumeButton" />
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const backgroundMusic = document.getElementById("backgroundMusic");
+            const scrollSound = document.getElementById("scrollSound");
+            const volumeButton = document.getElementById("volumeButton");
+            let isMuted = false;
+            let hasPlayedScrollSound = false;
+
+            // Function to start background music
+            function startMusic() {
+                backgroundMusic.volume = 0.4;  // Set the volume of background music
+                backgroundMusic.loop = true;   // Loop the background music
+                backgroundMusic.play().then(() => {
+                    console.log("Background music playing");
+                }).catch(err => {
+                    console.warn("Autoplay blocked or failed:", err);
+                    alert("Please click on the page to play the background music.");
+                });
+            }
+
+            // Play background music after the first user click
+            document.body.addEventListener("click", () => {
+                startMusic();
+            }, { once: true });
+
+            // Scroll event to trigger the second sound after scrolling a certain distance
+            window.addEventListener("scroll", () => {
+                const scrollY = window.scrollY || window.pageYOffset;  // Get current scroll position
+                const scrollThreshold = 4000;  // Set the scroll threshold in pixels
+
+                if (!isMuted && !hasPlayedScrollSound && scrollY > scrollThreshold) {
+                    scrollSound.currentTime = 0;
+                    scrollSound.volume = 0.1;  // Set the volume for scroll sound
+                    scrollSound.play().catch(err => console.warn("Scroll sound play blocked:", err));
+                    hasPlayedScrollSound = true;
+
+                    // Reset scroll sound state when it ends
+                    scrollSound.onended = () => {
+                        hasPlayedScrollSound = false;
+                    };
+                }
+            });
+
+            // Toggle volume (mute/unmute) when clicking the volume button
+            volumeButton.addEventListener("click", () => {
+                isMuted = !isMuted;
+                backgroundMusic.muted = isMuted;
+                scrollSound.muted = isMuted;
+                
+                // Change the image based on the mute status
+                if (isMuted) {
+                    volumeButton.src = 'image/musicnote-muted.png'; // Muted image
+                } else {
+                    volumeButton.src = 'image/musicnote.png'; // Unmuted image
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>

@@ -126,3 +126,15 @@ html, body {
         .moonmeteor:hover {
             transform: rotate(360deg);
         }
+
+           /* Volume button styling */
+      #volumeButton {
+        position: fixed;
+        top: 30px; /* Adjust this for positioning */
+        left: 30px; /* Adjust this for positioning */
+        width: 100px; /* Size of the button */
+        height: auto; /* Size of the button */
+        cursor: pointer;
+        z-index: 100; /* Ensures it stays on top */
+    }
+    

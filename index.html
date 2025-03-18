@@ -33,7 +33,7 @@
     </div>
     <div class="menu-item" id="portfolio">
         <a href="portf.html">
-            <img src="image/about.png" alt="Portfolio">
+            <img src="image/portfolio.png" alt="Portfolio">
         </a>
     </div>
     <div class="menu-item" id="contact">
@@ -41,5 +41,70 @@
             <img src="image/contact.png" alt="Contact">
         </a>
     </div>
+
+    <audio id="backgroundMusic" loop>
+        <source src="image/night ambiance.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="scrollSound">
+        <source src="image/spooky theremin.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- Volume button with custom PNG -->
+    <img src="image/musicnote.png" alt="Volume Button" id="volumeButton" />
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const backgroundMusic = document.getElementById("backgroundMusic");
+        const scrollSound = document.getElementById("scrollSound");
+        const volumeButton = document.getElementById("volumeButton");
+        let isMuted = false;
+        let hasPlayedScrollSound = false;
+    
+        function startMusic() {
+            backgroundMusic.volume = 0.4;
+            backgroundMusic.loop = true;
+            backgroundMusic.play().then(() => {
+                console.log("Background music playing");
+            }).catch(err => console.warn("Autoplay blocked:", err));
+        }
+    
+        // Play music on first user interaction
+        document.body.addEventListener("click", () => {
+            startMusic();
+        }, { once: true });
+    
+        // Play scroll sound once per scroll
+        window.addEventListener("scroll", () => {
+            if (!isMuted && !hasPlayedScrollSound) {
+                scrollSound.currentTime = 0;
+                scrollSound.volume = 0.2; 
+                scrollSound.play().catch(err => console.warn("Play blocked:", err));
+                hasPlayedScrollSound = true;
+    
+                scrollSound.onended = () => {
+                    hasPlayedScrollSound = false;
+                };
+            }
+        });
+    
+        // Toggle volume (mute/unmute) when clicking the volume button
+        volumeButton.addEventListener("click", () => {
+            isMuted = !isMuted;
+            backgroundMusic.muted = isMuted;
+            scrollSound.muted = isMuted;
+            
+            // Change the image based on the mute status
+            if (isMuted) {
+                volumeButton.src = 'image/musicnote-muted.png'; // Replace with your muted version image
+            } else {
+                volumeButton.src = 'image/musicnote.png'; // Regular musicnote image
+            }
+        });
+    });
+
+</script>
+    
+
 </body>
 </html>

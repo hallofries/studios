@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> animacia </title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #090916;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden; 
+        }
+
+        .tv-container {
+            position: relative;
+            top: 9%;
+            left: 5%;
+            width: 80%;
+            max-width: 800px;
+        }
+
+        .tv-frame {
+            width: 80%;
+            height: auto;
+        }
+
+        .video {
+            position: absolute;
+            top: 12%;
+            left: 10%;
+            width: 53%;
+            height: 48%;
+            border-radius: 8px;
+            object-fit: cover;
+            border-radius: 70px;  
+            overflow: hidden; 
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="tv-container">
+        
+        <img src="image/tele.png" alt="tvframe" class="tv-frame">
+        
+        <video class="video" controls>
+            <source src="STORMBOUND.MP4" type="video/mp4">
+
+        
+</body>
+</html>

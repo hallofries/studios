@@ -136,5 +136,9 @@ html, body {
         height: auto; /* Size of the button */
         cursor: pointer;
         z-index: 100; /* Ensures it stays on top */
+        transition: transform 0.3s;
     }
+    #volumeButton:hover {
+      transform: rotate(20deg) scale(1.2);
+  }
     

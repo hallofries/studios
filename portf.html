@@ -1,172 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> portfolio </title>
-    <link rel="stylesheet" href="portf.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>portfolio</title>
+  <link rel="stylesheet" href="portf.css">
 </head>
 <body>
 
-    <!-- MENUUU-->
+  <!-- MENU -->
+  <input type="checkbox" id="menu-toggle">
+  <label for="menu-toggle" class="toggle-button">
+    <img src="image/menu2.png" alt="Menu">
+  </label>
+  <div class="overlay"></div>
+  <div class="menu-item" id="home">
+    <a href="index.html">
+      <img src="image/home.png" alt="Home">
+    </a>
+  </div>
+  <div class="menu-item" id="about">
+    <a href="aboutme.html">
+      <img src="image/about.png" alt="About">
+    </a>
+  </div>
+  <div class="menu-item" id="portfolio">
+    <a href="portf.html">
+      <img src="image/portfolio.png" alt="Portfolio">
+    </a>
+  </div>
+  <div class="menu-item" id="contact">
+    <a href="contactme.html">
+      <img src="image/contact.png" alt="Contact">
+    </a>
+  </div>
 
-    <body onscroll="document.body.style.setProperty('--scroll-position', window.scrollY / document.documentElement.scrollHeight)">
-        <input type="checkbox" id="menu-toggle">
+  <!-- PORTFOLIO ITEMS -->
+  <div class="portfolio-item item-1" onclick="openLightbox(['image/bot1.jpg', 'image/bot2.jpg', 'image/bot3.jpg'])">
+    <img src="image/bot.png" alt="Bot">
+    <div class="description">futuristic poster series for The Bot, a glimpse into the future</div>
+  </div>
+  <div class="portfolio-item item-2" onclick="openLightbox(['image/calendars.png'])">
+    <img src="image/calendar.png" alt="Calendar">
+    <div class="description">illustrated calendar, an exploration of wonder and joy</div>
+  </div>
+  <div class="portfolio-item item-3">
+    <a href="tv.html" target="_blank">
+      <img src="image/TV.png" alt="TV">
+      <div class="description">
+        stormbound - an animated short film!<br>
+        <p>click to watch!</p>
+      </div>
+    </a>
+  </div>
+  <div class="portfolio-item item-4">
+    <img src="image/toy.png" alt="Toy">
+    <div class="description">anomaly #597, a handmade DIY sock toy</div>
+  </div>
+  <div class="portfolio-item item-5">
+    <img src="image/magazine.png" alt="Magazine">
+    <div class="description">phillipe starck - a magazine</div>
+  </div>
+  <div class="portfolio-item item-6">
+    <img src="image/fox.png" alt="Fox">
+    <div class="description">fantastic mr. fox poster series</div>
+  </div>
+  <div class="portfolio-item item-7">
+    <img src="image/citadel.png" alt="Citadel">
+    <div class="description">citadel lamp - a tale of perseverance</div>
+  </div>
+  <div class="portfolio-item item-8">
+    <img src="image/post.png" alt="Post">
+    <div class="description">georgian post redesign</div>
+  </div>
+  <div class="portfolio-item item-9">
+    <img src="image/moomins.png" alt="Moomins">
+    <div class="description">moomins poster series in memory of tove jansson</div>
+  </div>
+  <div class="portfolio-item item-10">
+    <img src="image/celestron.png" alt="Celestron">
+    <div class="description">celestron promotional black friday posters</div>
+  </div>
+  <div class="portfolio-item item-11">
+    <img src="image/popcorn.png" alt="Popcorn">
+  </div>
 
-    <input type="checkbox" id="menu-toggle">
-    <label class="toggle-button" for="menu-toggle">
-        <img src="image/menu2.png" alt="Menu">
-    </label>
+  <!-- AUDIO & VOLUME BUTTON -->
+  <audio id="backgroundMusic" loop>
+    <source src="image/space.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="scrollSound">
+    <source src="image/beeping.mp3" type="audio/mpeg">
+  </audio>
+  <img src="image/musicnote.png" alt="Volume Button" id="volumeButton">
 
-    <div class="overlay"></div>
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-content" id="lightbox-content"></div>
+    <img src="image/close.png" alt="Close" class="close-btn" onclick="closeLightbox()">
+  </div>
 
+  <!-- SCRIPTS -->
+  <script>
+    // Background music, scroll sound, and volume button functionality
+    document.addEventListener("DOMContentLoaded", function () {
+      const backgroundMusic = document.getElementById("backgroundMusic");
+      const scrollSound = document.getElementById("scrollSound");
+      const volumeButton = document.getElementById("volumeButton");
+      let isMuted = false;
+      let hasPlayedScrollSound = false;
 
-    <div class="menu-item" id="home">
-        <a href="index.html">
-            <img src="image/home.png"" alt="Home">
-        </a>
-    </div>
-    <div class="menu-item" id="about">
-        <a href="aboutme.html">
-            <img src="image/about.png" alt="About">
-        </a>
-    </div>
-    <div class="menu-item" id="portfolio">
-        <a href="portf.html">
-            <img src="image/portfolio.png" alt="Portfolio">
-        </a>
-    </div>
-    <div class="menu-item" id="contact">
-        <a href="contactme.html">
-            <img src="image/contact.png" alt="Contact">
-        </a>
-    </div>
-
-    <!-- PORTFOLIOS FOTOEBI-->
-
-     <div class="portfolio-item item-1">
-        <img src="image/bot.png" alt="Bot">
-        <div class="description">futuristic poster series for The Bot, a glimpse into the future </div> <!-- item 1 THE BOT -->
-    </div>
-    <div class="portfolio-item item-2">
-        <img src="image/calendar.png" alt="Calendar">
-        <div class="description">illustrated calendar, an exploration of wonder and joy </div>   <!-- item 2 KALEDNARI --> 
-    </div>
-    
-    <div class="portfolio-item item-3">
-        <a href="tv.html" target="_blank">        <!-- item 3 ANIMACIA -->
-            <img src="image/TV.png" alt="TV">
-            <div class="description">
-                stormbound - an animated short film! 
-                <p>click to watch!</p>
-            </div>
-        </a>
-    </div>
-    <div class="portfolio-item item-4">
-        <img src="image/toy.png" alt="Toy"> <!-- item 4 TOY -->
-        <div class="description">anomaly #597, a handmade DIY sock toy</div>
-    </div>
-    <div class="portfolio-item item-5">
-        <img src="image/magazine.png" alt="Magazine"> <!-- item 5 ZINE-->
-        <div class="description">phillipe starck - a magazine</div>
-    </div>
-    <div class="portfolio-item item-6">
-        <img src="image/fox.png" alt="Fox"> <!-- item 6 MR. FOX -->
-        <div class="description">fantastic mr. fox poster series</div>
-    </div>
-    <div class="portfolio-item item-7"> 
-        <img src="image/citadel.png" alt="Citadel"> <!-- item 7 CITADEL-->
-        <div class="description">citadel lamp - a tale of perseverance</div>
-    </div>
-    <div class="portfolio-item item-8">
-        <img src="image/post.png" alt="Post"> <!-- item 8 GEPOST-->
-        <div class="description">georgian post redesign</div>
-    </div>
-    <div class="portfolio-item item-9">
-        <img src="image/moomins.png" alt="Moomins"> <!-- item 9 MOOMIN-->
-        <div class="description">moomins poster series in memory of tove jansson</div>
-    </div>
-    <div class="portfolio-item item-10">
-        <img src="image/celestron.png" alt="Celestron"> <!-- item 10 TELESCOPE-->
-        <div class="description">celestron promotional black friday posters</div>
-    </div>
-
-    <div class="portfolio-item item-11">
-        <img src="image/popcorn.png" alt="Popcorn"> <!-- item 11 POPCORN-->
-
-    </div>
-
-    <body>
-        <!-- Background music and scroll-triggered sound -->
-    <audio id="backgroundMusic" loop>
-        <source src="image/space.mp3" type="audio/mpeg">
-    </audio>
-
-    <audio id="scrollSound">
-        <source src="image/beeping.mp3" type="audio/mpeg">
-    </audio>
-
-    <!-- Volume button with custom PNG -->
-    <img src="image/musicnote.png" alt="Volume Button" id="volumeButton" />
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const backgroundMusic = document.getElementById("backgroundMusic");
-            const scrollSound = document.getElementById("scrollSound");
-            const volumeButton = document.getElementById("volumeButton");
-            let isMuted = false;
-            let hasPlayedScrollSound = false;
-
-            // Function to start background music
-            function startMusic() {
-                backgroundMusic.volume = 0.4;  // Set the volume of background music
-                backgroundMusic.loop = true;   // Loop the background music
-                backgroundMusic.play().then(() => {
-                    console.log("Background music playing");
-                }).catch(err => {
-                    console.warn("Autoplay blocked or failed:", err);
-                    alert("Please click on the page to play the background music.");
-                });
-            }
-
-            // Play background music after the first user click
-            document.body.addEventListener("click", () => {
-                startMusic();
-            }, { once: true });
-
-            // Scroll event to trigger the second sound after scrolling a certain distance
-            window.addEventListener("scroll", () => {
-                const scrollY = window.scrollY || window.pageYOffset;  // Get current scroll position
-                const scrollThreshold = 4000;  // Set the scroll threshold in pixels
-
-                if (!isMuted && !hasPlayedScrollSound && scrollY > scrollThreshold) {
-                    scrollSound.currentTime = 0;
-                    scrollSound.volume = 0.1;  // Set the volume for scroll sound
-                    scrollSound.play().catch(err => console.warn("Scroll sound play blocked:", err));
-                    hasPlayedScrollSound = true;
-
-                    // Reset scroll sound state when it ends
-                    scrollSound.onended = () => {
-                        hasPlayedScrollSound = false;
-                    };
-                }
-            });
-
-            // Toggle volume (mute/unmute) when clicking the volume button
-            volumeButton.addEventListener("click", () => {
-                isMuted = !isMuted;
-                backgroundMusic.muted = isMuted;
-                scrollSound.muted = isMuted;
-                
-                // Change the image based on the mute status
-                if (isMuted) {
-                    volumeButton.src = 'image/musicnote-muted.png'; // Muted image
-                } else {
-                    volumeButton.src = 'image/musicnote.png'; // Unmuted image
-                }
-            });
+      function startMusic() {
+        backgroundMusic.volume = 0.4;
+        backgroundMusic.loop = true;
+        backgroundMusic.play().catch(err => {
+          console.warn("Autoplay blocked:", err);
+          alert("Please click on the page to play the background music.");
         });
-    </script>
+      }
 
+      // Start music on first click
+      document.body.addEventListener("click", () => {
+        startMusic();
+      }, { once: true });
+
+      // Scroll event for scroll sound
+      window.addEventListener("scroll", () => {
+        const scrollY = window.scrollY || window.pageYOffset;
+        const scrollThreshold = 4000;
+        if (!isMuted && !hasPlayedScrollSound && scrollY > scrollThreshold) {
+          scrollSound.currentTime = 0;
+          scrollSound.volume = 0.1;
+          scrollSound.play().catch(err => console.warn("Scroll sound blocked:", err));
+          hasPlayedScrollSound = true;
+          scrollSound.onended = () => {
+            hasPlayedScrollSound = false;
+          };
+        }
+      });
+
+      // Volume button toggle
+      volumeButton.addEventListener("click", () => {
+        isMuted = !isMuted;
+        backgroundMusic.muted = isMuted;
+        scrollSound.muted = isMuted;
+        volumeButton.src = isMuted ? 'image/musicnote-muted.png' : 'image/musicnote.png';
+      });
+    });
+
+    // Lightbox functions
+    function openLightbox(images) {
+      const lightbox = document.getElementById("lightbox");
+      const content = document.getElementById("lightbox-content");
+      // Clear any previous content
+      content.innerHTML = "";
+      // Add each image to the lightbox content
+      images.forEach(src => {
+        const img = document.createElement("img");
+        img.src = src;
+        img.classList.add("lightbox-img");
+        content.appendChild(img);
+      });
+      // Show the lightbox
+      lightbox.style.display = "flex";
+    }
+
+    function closeLightbox() {
+      document.getElementById("lightbox").style.display = "none";
+    }
+
+    // Close lightbox when clicking outside the images and close button
+    document.getElementById("lightbox").addEventListener("click", function (event) {
+      if (!event.target.classList.contains("lightbox-img") && !event.target.classList.contains("close-btn")) {
+        closeLightbox();
+      }
+    });
+
+    // Disable right-click and image dragging
+    document.addEventListener("contextmenu", function (event) {
+      event.preventDefault();
+    });
+    document.addEventListener("dragstart", function (event) {
+      if (event.target.tagName === "IMG") {
+        event.preventDefault();
+      }
+    });
+  </script>
 </body>
 </html>

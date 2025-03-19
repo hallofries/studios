@@ -40,7 +40,7 @@
     <img src="image/bot.png" alt="Bot">
     <div class="description">futuristic poster series for The Bot, a glimpse into the future</div>
   </div>
-  <div class="portfolio-item item-2" onclick="openLightbox(['image/calendars.png'])">
+  <div class="portfolio-item item-2" onclick="openLightbox(['image/calendars.png', 'image/calendars2.png'])">
     <img src="image/calendar.png" alt="Calendar">
     <div class="description">illustrated calendar, an exploration of wonder and joy</div>
   </div>
@@ -139,7 +139,7 @@
         }
       });
 
-      // Volume button toggle
+      // Volume button toggle with hover rotation effect handled in CSS
       volumeButton.addEventListener("click", () => {
         isMuted = !isMuted;
         backgroundMusic.muted = isMuted;
@@ -148,43 +148,60 @@
       });
     });
 
-    // Lightbox functions
-    function openLightbox(images) {
+ // **CHANGE:** OPEN LIGHTBOX FUNCTION
+ function openLightbox(images) {
       const lightbox = document.getElementById("lightbox");
       const content = document.getElementById("lightbox-content");
-      // Clear any previous content
-      content.innerHTML = "";
-      // Add each image to the lightbox content
-      images.forEach(src => {
+
+      content.innerHTML = ""; // Clear old images
+
+      // **CHANGE:** Identify calendars gallery
+      if (images[0].includes("calendars")) {
+        content.classList.add("calendars-gallery");
+        content.classList.remove("default-gallery");
+      } else {
+        content.classList.add("default-gallery");
+        content.classList.remove("calendars-gallery");
+      }
+
+      images.forEach((src, index) => {
         const img = document.createElement("img");
         img.src = src;
         img.classList.add("lightbox-img");
+
+        if (src.includes("calendars")) { 
+          img.classList.add("calendars"); /* **CHANGE:** Bigger size */
+          if (index === 0) img.style.marginTop = "50px"; /* **CHANGE:** Push first calendars image down */
+        }
+
         content.appendChild(img);
       });
-      // Show the lightbox
+
       lightbox.style.display = "flex";
+      document.body.style.overflow = "hidden"; // **CHANGE:** Freeze main page scrolling
     }
 
     function closeLightbox() {
       document.getElementById("lightbox").style.display = "none";
+      document.body.style.overflow = ""; // **CHANGE:** Re-enable scrolling
     }
 
-    // Close lightbox when clicking outside the images and close button
     document.getElementById("lightbox").addEventListener("click", function (event) {
       if (!event.target.classList.contains("lightbox-img") && !event.target.classList.contains("close-btn")) {
         closeLightbox();
       }
     });
 
-    // Disable right-click and image dragging
     document.addEventListener("contextmenu", function (event) {
       event.preventDefault();
     });
+
     document.addEventListener("dragstart", function (event) {
       if (event.target.tagName === "IMG") {
         event.preventDefault();
       }
     });
   </script>
+
 </body>
 </html>

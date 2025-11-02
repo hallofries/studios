@@ -160,6 +160,7 @@ body {
     z-index: 10;
     opacity: 1;
     transition: opacity 0.7s, transform 0.7s ease-in-out;
+    cursor: pointer;
 }
 
 .moon:hover {

@@ -34,7 +34,7 @@
     <div class="overlay"></div>
     <div class="land"></div>
     <div class="hill2"></div>
-    <div class="moon"></div>
+    <div class="moon" id="moon"></div> <!-- added id="moon" just to be sure -->
 
     <div class="menu-item" id="home">
         <a href="index.html">
@@ -116,6 +116,15 @@
                 volumeButton.src = 'image/musicnote.png'; // Regular musicnote image
             }
         });
+
+        // ✅ Add event listener to moon safely
+        if (moon) {
+            moon.addEventListener('click', e => {
+                e.stopPropagation();
+                window.location.href = 'moon.html';
+            });
+        }
+
     });
 
 </script>

@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>gio</title>
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+body {
+  background: url("image/interior.png") no-repeat center center fixed;
+  background-size: cover;
+  transition: background-color 0.8s ease;
+}
+
+/* Launch card */
+#launchCard {
+  position: fixed;
+  bottom: 8%;
+  right: 10%;
+  width: 20%;
+  height: auto;
+  cursor: pointer;
+  z-index: 200;
+  transition: transform 0.2s ease, opacity 0.5s ease;
+}
+#launchCard:hover {
+  transform: scale(1.05);
+}
+
+/* Fullscreen outro video */
+.outroVideo {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1000;
+  background-color: black;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+/* Volume button */
+#volumeButton {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  width: 100px;
+  height: auto;
+  cursor: pointer;
+  z-index: 3000;
+  transition: transform 0.3s;
+}
+#volumeButton:hover {
+  transform: rotate(20deg) scale(1.2);
+}
+
+/* Fade-in effect on load */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: black;
+  opacity: 1;
+  z-index: 9999;
+  pointer-events: none;
+  animation: fadeInScene 1.5s ease forwards;
+}
+@keyframes fadeInScene {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Quick black overlay to kill background */
+#blackFade {
+  position: fixed;
+  inset: 0;
+  background: black;
+  opacity: 0;
+  z-index: 500;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+#blackFade.active {
+  opacity: 1;
+}
+</style>
+</head>
+
+<body>
+<!-- 🎵 Volume Button -->
+<img src="image/musicnote-muted.png" alt="Volume Button" id="volumeButton" />
+
+<!-- 🔊 Background Music -->
+<audio id="backgroundMusic" src="image/ambiance.mp3" preload="auto" loop></audio>
+
+<!-- 🚀 Launch card -->
+<img id="launchCard" src="image/launch.png" alt="Launch Card">
+
+<!-- 🚀 Launch sound -->
+<audio id="launchSound" src="image/launchsound.mp3" preload="auto"></audio>
+
+<!-- 🖤 Black fade overlay -->
+<div id="blackFade"></div>
+
+<script>
+const launchCard = document.getElementById("launchCard");
+const launchSound = document.getElementById("launchSound");
+const backgroundMusic = document.getElementById("backgroundMusic");
+const volumeButton = document.getElementById("volumeButton");
+const blackFade = document.getElementById("blackFade");
+
+const gifDuration = 2400;
+let isMuted = true;
+
+// --- Music setup ---
+function startMusicOnce() {
+  backgroundMusic.muted = isMuted;
+  backgroundMusic.volume = 0.6;
+  backgroundMusic.loop = true;
+  backgroundMusic.play().catch(err => console.warn("Music blocked:", err));
+  document.removeEventListener("click", startMusicOnce);
+}
+document.addEventListener("click", startMusicOnce);
+
+// --- Volume toggle ---
+volumeButton.addEventListener("click", (e) => {
+  e.stopPropagation();
+  isMuted = !isMuted;
+  backgroundMusic.muted = isMuted;
+  volumeButton.src = isMuted
+    ? "image/musicnote-muted.png"
+    : "image/musicnote.png";
+  if (!isMuted) backgroundMusic.play().catch(err => console.warn("Play blocked:", err));
+});
+
+// --- Launch sequence ---
+launchCard.addEventListener("click", async () => {
+  try {
+    launchSound.currentTime = 0;
+    await launchSound.play();
+  } catch (err) {
+    console.warn("Launch sound play blocked:", err);
+  }
+
+  launchCard.src = "image/launch.gif";
+  launchCard.style.pointerEvents = "none";
+
+  setTimeout(() => {
+    launchCard.style.opacity = "0";
+    setTimeout(() => {
+      playOutroVideoThenRedirect();
+    }, 400);
+  }, gifDuration);
+});
+
+// --- Outro video and background fade ---
+async function playOutroVideoThenRedirect() {
+  const video = document.createElement("video");
+  video.className = "outroVideo";
+  video.autoplay = true;
+  video.playsInline = true;
+  video.preload = "auto";
+  video.controls = false;
+  video.muted = false;
+
+  const src = document.createElement("source");
+  src.src = "image/spaceship.mp4";
+  src.type = "video/mp4";
+  video.appendChild(src);
+  document.body.appendChild(video);
+
+  // Fade out the background immediately (quick, subtle)
+  blackFade.classList.add("active");
+  document.body.style.backgroundImage = "none";
+  document.body.style.backgroundColor = "black";
+
+  try {
+    await video.play();
+  } catch (err) {
+    console.warn("Video play blocked:", err);
+    try {
+      video.muted = true;
+      await video.play();
+      const unmute = () => {
+        video.muted = false;
+        window.removeEventListener("pointerdown", unmute);
+      };
+      window.addEventListener("pointerdown", unmute, { once: true });
+    } catch (err2) {
+      console.error("Muted fallback failed:", err2);
+    }
+  }
+
+  // Fade out video at the end, then redirect
+  video.addEventListener("ended", () => {
+    video.style.opacity = "0";
+    setTimeout(() => {
+      video.remove();
+      window.location.href = "space.html";
+    }, 800);
+  });
+
+  video.addEventListener("error", () => {
+    console.warn("Outro video error, redirecting anyway.");
+    setTimeout(() => window.location.href = "space.html", 1000);
+  });
+}
+</script>
+
+</body>
+</html>

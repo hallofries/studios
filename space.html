@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Space Journey</title>
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  cursor: default;
+}
+
+/* 🌌 Background layers */
+body {
+  background:
+    url("image/planet.png") no-repeat center center fixed,
+    url("image/starfield.gif") no-repeat center center fixed;
+  background-size: cover, 60%;
+  background-position: center, center;
+  transition: background 0.6s ease;
+}
+
+/* 🎵 Volume button */
+#volumeButton {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  width: 100px;
+  height: auto;
+  cursor: pointer;
+  z-index: 100;
+  transition: transform 0.3s;
+}
+#volumeButton:hover {
+  transform: rotate(20deg) scale(1.2);
+}
+
+/* ⬅️➡️ Arrows */
+.arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 80px;
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  z-index: 90;
+}
+.arrow:hover {
+  transform: translateY(-50%) scale(1.15);
+}
+#arrowLeft { left: 5%; }
+#arrowRight { right: 5%; }
+
+/* ☕ Coffee image */
+#coffee {
+  position: fixed;
+  bottom: 2%;
+  left: 52%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: auto;
+  z-index: 60;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  display: none;
+}
+#coffee:hover {
+  transform: translateX(-50%) scale(1.05);
+}
+
+/* 🖼️ Frame image */
+#frame {
+  position: fixed;
+  top: 31%;
+  left: 29%;
+  width: 220px;
+  height: auto;
+  z-index: 61;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  display: none;
+}
+#frame:hover {
+  transform: scale(1.05);
+}
+
+/* 💖 Love image (center of planet page) */
+#love {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 180px;
+  height: auto;
+  transform: translate(-50%, -50%);
+  z-index: 70;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  display: block;
+}
+#love:hover {
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+/* ☕ Coffee overlay + 🖼️ Frame overlay + 💖 Love overlay */
+#coffeeOverlay, #frameOverlay, #loveOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 200;
+}
+#coffeeOverlay.show, #frameOverlay.show, #loveOverlay.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.overlay-container {
+  position: relative;
+  width: 60%;
+  max-width: 700px;
+  perspective: 1000px;
+}
+
+.overlay-container img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  backface-visibility: hidden;
+  transition: transform 0.8s ease, opacity 1s ease;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+#framePhotoBack {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}
+.flipped #framePhoto {
+  transform: rotateY(180deg);
+}
+.flipped #framePhotoBack {
+  transform: rotateY(0deg);
+}
+
+#coffeeZoomFortune {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+#coffeeZoomFortune.show {
+  opacity: 1;
+}
+
+/* 💿 Record player */
+#record {
+  position: fixed;
+  top: 26%;
+  right: 15%;
+  width: 200px;
+  height: auto;
+  z-index: 65;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  display: none;
+}
+#recordHover {
+  position: fixed;
+  top: 26%;
+  right: 15%;
+  width: 200px;
+  height: auto;
+  z-index: 66;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+#recordHover.show {
+  opacity: 1;
+}
+
+#loveHi2 {
+  position: static;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+#loveHi3 {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+#loveHi3.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: black;
+  opacity: 1;
+  z-index: 9999;
+  pointer-events: none;
+  animation: fadeInScene 3s ease forwards;
+}
+
+@keyframes fadeInScene {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+</style>
+</head>
+<body>
+
+<img src="image/coffee.png" alt="Coffee" id="coffee" />
+<img src="image/frame.png" alt="Photo Frame" id="frame" />
+<img src="image/love.png" alt="Love" id="love" />
+
+<div id="coffeeOverlay">
+  <div class="overlay-container">
+    <img src="image/coffeezoom.png" alt="Coffee Zoom" id="coffeeZoomImg" />
+    <img src="image/coffeezoomfortune.png" alt="Coffee Fortune" id="coffeeZoomFortune" />
+  </div>
+</div>
+
+<div id="frameOverlay">
+  <div class="overlay-container" id="frameContainer">
+    <img src="image/framephoto.png" alt="Frame Photo" id="framePhoto" />
+    <img src="image/framephotoback.png" alt="Frame Photo Back" id="framePhotoBack" />
+  </div>
+</div>
+
+<div id="loveOverlay">
+  <div class="overlay-container">
+    <img src="image/hi2.png" alt="Hi 2" id="loveHi2" />
+    <img src="image/hi3.png" alt="Hi 3" id="loveHi3" />
+  </div>
+</div>
+
+<img src="image/record.png" alt="Record Player" id="record" />
+<img src="image/recordplay.png" alt="Record Playing" id="recordHover" />
+
+<img src="image/musicnote-muted.png" alt="Volume Button" id="volumeButton" />
+
+<img src="image/arrowleft.png" alt="Left Arrow" id="arrowLeft" class="arrow" />
+<img src="image/arrowright.png" alt="Right Arrow" id="arrowRight" class="arrow" />
+
+<audio id="backgroundMusic" src="image/ambiance.mp3" preload="auto" loop></audio>
+<audio id="scrollSound" src="image/scroll.mp3" preload="auto"></audio>
+<audio id="magicSound" src="image/magic.mp3" preload="auto"></audio>
+<audio id="recordMusic" src="image/musicspace.mp3" preload="auto"></audio>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const backgroundMusic = document.getElementById("backgroundMusic");
+  const scrollSound = document.getElementById("scrollSound");
+  const magicSound = document.getElementById("magicSound");
+  const recordMusic = document.getElementById("recordMusic");
+  const volumeButton = document.getElementById("volumeButton");
+  const arrowRight = document.getElementById("arrowRight");
+  const arrowLeft = document.getElementById("arrowLeft");
+  const coffee = document.getElementById("coffee");
+  const coffeeOverlay = document.getElementById("coffeeOverlay");
+  const coffeeZoomFortune = document.getElementById("coffeeZoomFortune");
+  const record = document.getElementById("record");
+  const recordHover = document.getElementById("recordHover");
+  const frame = document.getElementById("frame");
+  const frameOverlay = document.getElementById("frameOverlay");
+  const frameContainer = document.getElementById("frameContainer");
+  const love = document.getElementById("love");
+  const loveOverlay = document.getElementById("loveOverlay");
+  const loveHi2 = document.getElementById("loveHi2");
+  const loveHi3 = document.getElementById("loveHi3");
+
+  let isMuted = true;
+  let currentScene = "planet";
+  let fortuneTimer = null;
+  let loveStage = 0;
+  let isRecordPlaying = false;
+
+  backgroundMusic.volume = 0.6;
+  backgroundMusic.loop = true;
+  backgroundMusic.muted = isMuted;
+
+  recordMusic.volume = 1.0;
+  recordMusic.loop = true;
+  recordMusic.muted = isMuted;
+
+  // Play background music after first click
+  function startMusicOnce() {
+    backgroundMusic.play().catch(err => console.warn("Play blocked:", err));
+    document.removeEventListener("click", startMusicOnce);
+  }
+  document.addEventListener("click", startMusicOnce);
+
+  // 🔊 Toggle mute/unmute
+  volumeButton.addEventListener("click", (event) => {
+    event.stopPropagation();
+    isMuted = !isMuted;
+    backgroundMusic.muted = isMuted;
+    scrollSound.muted = isMuted;
+    magicSound.muted = isMuted;
+    recordMusic.muted = isMuted;
+    volumeButton.src = isMuted ? "image/musicnote-muted.png" : "image/musicnote.png";
+    if (!isMuted) backgroundMusic.play().catch(() => {});
+  });
+
+  // 🌍 Scene switching
+  function changeScene(scene) {
+    if (scene === "livingroom" && currentScene !== "livingroom") {
+      document.body.style.background = `
+        url("image/livingroom.png") no-repeat center center fixed,
+        url("image/starfield.gif") no-repeat center center fixed
+      `;
+      document.body.style.backgroundSize = "cover, 60%";
+      document.body.style.backgroundPosition = "center, center";
+      love.style.display = "none";
+      setTimeout(() => {
+        coffee.style.display = "block";
+        record.style.display = "block";
+        frame.style.display = "block";
+      }, 300);
+      currentScene = "livingroom";
+    } else if (scene === "planet" && currentScene !== "planet") {
+      document.body.style.background = `
+        url("image/planet.png") no-repeat center center fixed,
+        url("image/starfield.gif") no-repeat center center fixed
+      `;
+      document.body.style.backgroundSize = "cover, 60%";
+      coffee.style.display = "none";
+      record.style.display = "none";
+      frame.style.display = "none";
+      love.style.display = "block";
+      recordHover.classList.remove("show");
+      currentScene = "planet";
+    }
+  }
+
+  arrowRight.addEventListener("click", () => changeScene("livingroom"));
+  arrowLeft.addEventListener("click", () => changeScene("planet"));
+
+  // ☕ Coffee overlay
+  coffee.addEventListener("click", (e) => {
+    e.stopPropagation();
+    coffeeOverlay.classList.add("show");
+    coffeeZoomFortune.classList.remove("show");
+    clearTimeout(fortuneTimer);
+    if (!isMuted) {
+      magicSound.currentTime = 0;
+      magicSound.play().catch(err => console.warn("Magic sound blocked:", err));
+    }
+    fortuneTimer = setTimeout(() => {
+      coffeeZoomFortune.classList.add("show");
+    }, 1000);
+  });
+
+  // 🖼️ Frame overlay
+  frame.addEventListener("click", (e) => {
+    e.stopPropagation();
+    frameContainer.classList.remove("flipped");
+    frameOverlay.classList.add("show");
+  });
+  frameContainer.addEventListener("click", (e) => {
+    e.stopPropagation();
+    frameContainer.classList.toggle("flipped");
+  });
+
+  // 💖 Love overlay
+  love.addEventListener("click", (e) => {
+    e.stopPropagation();
+    loveOverlay.classList.add("show");
+    loveHi2.style.opacity = "1";
+    loveHi3.classList.remove("show");
+    loveHi3.style.opacity = "0";
+    loveStage = 1;
+  });
+
+  loveOverlay.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (loveStage === 1) {
+      loveHi3.classList.add("show");
+      loveStage = 2;
+    } else if (loveStage === 2) {
+      loveOverlay.classList.remove("show");
+      loveHi3.classList.remove("show");
+      loveHi3.style.opacity = "0";
+      loveStage = 0;
+    }
+  });
+
+  function closeOverlay() {
+    coffeeOverlay.classList.remove("show");
+    frameOverlay.classList.remove("show");
+    loveOverlay.classList.remove("show");
+    clearTimeout(fortuneTimer);
+    coffeeZoomFortune.classList.remove("show");
+    frameContainer.classList.remove("flipped");
+    loveHi3.classList.remove("show");
+    loveHi3.style.opacity = "0";
+    loveStage = 0;
+  }
+  coffeeOverlay.addEventListener("click", closeOverlay);
+  frameOverlay.addEventListener("click", closeOverlay);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeOverlay(); });
+
+  // 💿 Record hover + click
+  record.addEventListener("mouseenter", () => recordHover.classList.add("show"));
+  record.addEventListener("mouseleave", () => recordHover.classList.remove("show"));
+  recordHover.addEventListener("mouseenter", () => recordHover.classList.add("show"));
+  recordHover.addEventListener("mouseleave", () => recordHover.classList.remove("show"));
+
+  // 💿 Pause/resume logic
+  record.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (isRecordPlaying) {
+      recordMusic.pause();
+      recordHover.classList.remove("show");
+      isRecordPlaying = false;
+    } else {
+      recordMusic.play().catch(err => console.warn("Record play blocked:", err));
+      recordHover.classList.add("show");
+      isRecordPlaying = true;
+    }
+  });
+
+  recordHover.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (isRecordPlaying) {
+      recordMusic.pause();
+      recordHover.classList.remove("show");
+      isRecordPlaying = false;
+    } else {
+      recordMusic.play().catch(err => console.warn("Record play blocked:", err));
+      recordHover.classList.add("show");
+      isRecordPlaying = true;
+    }
+  });
+});
+</script>
+</body>
+</html>

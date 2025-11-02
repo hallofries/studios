@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>gio</title>
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
+}
+body {
+  background: url("image/moonsurface.png") no-repeat center center fixed;
+  background-size: cover;
+}
+#ship {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 480px;
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+#ship:hover {
+  transform: translate(-50%, -50%) scale(1.01);
+}
+#volumeButton {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  width: 100px;
+  height: auto;
+  cursor: pointer;
+  z-index: 100;
+  transition: transform 0.3s;
+}
+#volumeButton:hover {
+  transform: rotate(20deg) scale(1.2);
+}
+</style>
+</head>
+
+<body>
+
+<!-- clickable ship -->
+<a href="inside.html">
+  <img id="ship" src="image/ship.png" alt="Rocket Ship">
+</a>
+
+<!-- Volume / music note button -->
+<img src="image/musicnote-muted.png" alt="Volume Button" id="volumeButton" />
+
+<!-- Background music & scroll sound -->
+<audio id="backgroundMusic" src="image/ambiance.mp3" preload="auto" loop></audio>
+<audio id="scrollSound" src="image/scroll.mp3" preload="auto"></audio>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const backgroundMusic = document.getElementById("backgroundMusic");
+    const scrollSound = document.getElementById("scrollSound");
+    const volumeButton = document.getElementById("volumeButton");
+
+    let isMuted = true;
+    let hasPlayedScrollSound = false;
+
+    backgroundMusic.volume = 0.6;
+    backgroundMusic.loop = true;
+    backgroundMusic.muted = isMuted;
+
+    // ✅ Start music on first user interaction (anywhere)
+    function startMusicOnce() {
+        backgroundMusic.play().then(() => {
+            console.log("Music started after click");
+        }).catch(err => console.warn("Play blocked:", err));
+        document.removeEventListener("click", startMusicOnce);
+    }
+    document.addEventListener("click", startMusicOnce);
+
+    // Scroll sound
+    window.addEventListener("scroll", () => {
+        if (!isMuted && !hasPlayedScrollSound) {
+            scrollSound.currentTime = 0;
+            scrollSound.volume = 0.3;
+            scrollSound.play().catch(() => {});
+            hasPlayedScrollSound = true;
+            scrollSound.onended = () => hasPlayedScrollSound = false;
+        }
+    });
+
+    // Toggle mute/unmute
+    volumeButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        isMuted = !isMuted;
+        backgroundMusic.muted = isMuted;
+        scrollSound.muted = isMuted;
+
+        if (!isMuted) {
+            backgroundMusic.play().catch(() => {});
+            volumeButton.src = "image/musicnote.png";
+        } else {
+            volumeButton.src = "image/musicnote-muted.png";
+        }
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,6 +1,15 @@
 /* Reset & base */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0e2a; }
+html, body {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+  background: #0a0e2a;
+}
+
 body { font-family: Arial, sans-serif; }
 
 /* Stage fills viewport */
@@ -35,12 +44,9 @@ body { font-family: Arial, sans-serif; }
 }
 
 /* ================= MENU SYSTEM =================
-   Z-index tiers:
-   - Star toggle button: 200 (always on top)
-   - Menu overlay:       190
-   - Menu items:         195
-   - Floaters:           20
-   So menu is ALWAYS above the floating objects.
+   Z-index stack (back to front):
+   telescope (1) → bed (5) → floaters (50) → diary-overlay (100)
+   → menu overlay (190) → menu items (195) → toggle button (200)
 */
 
 #menu-toggle {
@@ -49,28 +55,26 @@ body { font-family: Arial, sans-serif; }
 
 .toggle-button {
   position: fixed;
-  top: 2%;
+  top: 20px;
   right: 2%;
-  width: 7.8vw;
-  height: 7.8vw;
-  max-width: 150px;
-  max-height: 150px;
-  min-width: 70px;
-  min-height: 70px;
+  width: 150px;
+  height: 150px;
   cursor: pointer;
   z-index: 200;
-  transition: transform 0.3s;
 }
+
 .toggle-button img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  transition: transform 0.3s;
 }
-.toggle-button:hover {
+
+.toggle-button img:hover {
   transform: rotate(40deg) scale(1.2);
 }
 
-.menu-overlay {
+.overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -78,50 +82,43 @@ body { font-family: Arial, sans-serif; }
   height: 100%;
   background-color: rgba(0, 0, 0, 0);
   z-index: 190;
-  transition: background-color 0.5s ease;
   pointer-events: none;
+  transition: background-color 0.5s ease;
 }
-#menu-toggle:checked ~ .menu-overlay {
+
+#menu-toggle:checked ~ .overlay {
   background-color: rgba(0, 0, 0, 0.5);
   pointer-events: all;
 }
 
-/* Menu items are center-anchored via translate(-50%, -50%),
-   so the top/left values below refer to the CENTER of each star.
-   This lets them cluster and overlap naturally.
-*/
 .menu-item {
   position: fixed;
+  transform: scale(0);
   opacity: 0;
-  transform: translate(-50%, -50%) scale(0);
   transition: transform 0.5s ease, opacity 0.5s ease;
   z-index: 195;
 }
+
 .menu-item img {
-  width: 19.8vw;
-  height: 19.8vw;
-  max-width: 380px;
-  max-height: 380px;
-  min-width: 160px;
-  min-height: 160px;
+  width: 380px;
+  height: 380px;
   cursor: pointer;
   transition: transform 0.3s;
-  object-fit: contain;
   display: block;
 }
+
 .menu-item img:hover {
   transform: rotate(10deg) scale(1.1);
 }
 
-/* Star centers (clustered like in screenshot) */
-#portfolio { top: 30%; left: 45%; }
-#about     { top: 50%; left: 30%; }
-#contact   { top: 45%; left: 65%; }
-#home      { top: 65%; left: 50%; }
+#home      { top: 50vh; left: 40vw; }
+#about     { top: 30vh; left: 15vw; }
+#portfolio { top: 5vh;  left: 35vw; }
+#contact   { top: 20vh; left: 55vw; }
 
 #menu-toggle:checked ~ .menu-item {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
+  transform: scale(1);
 }
 
 /* ================= TELESCOPE ================= */
@@ -130,8 +127,8 @@ body { font-family: Arial, sans-serif; }
   position: absolute;
   bottom: -8%;
   left: 4.17%;
-  width: 27.4%;          /* 526/1920 */
-  z-index: 15;
+  width: 27.4%;
+  z-index: 1;
   cursor: pointer;
   transition: transform 0.3s ease, filter 0.3s ease;
   transform-origin: bottom center;
@@ -142,11 +139,28 @@ body { font-family: Arial, sans-serif; }
   filter: drop-shadow(0 0 6px rgba(255, 220, 120, 0.2));
 }
 
+/* ================= BED =================
+   Hidden on desktop (the desktop bg already includes the bed).
+   Shown on mobile as a separate element so telescope can sit behind it.
+*/
+
+.bed {
+  display: none;
+  position: absolute;
+  bottom: -11%;
+  left: 28%;
+  transform: translateX(-50%);
+  z-index: 5;
+  pointer-events: none;
+  user-select: none;
+}
+
 /* ================= FLOATING ITEMS ================= */
 
 .floater {
   position: absolute;
-  z-index: 20;
+  z-index: 50;
+  isolation: isolate;
   cursor: grab;
   user-select: none;
   -webkit-user-drag: none;
@@ -163,14 +177,14 @@ body { font-family: Arial, sans-serif; }
   filter: drop-shadow(0 0 8px rgba(255, 220, 120, 0.28));
 }
 
-/* Sizes (desktop) — converted from Figma px at 1920px reference */
-.diary     { width: 14.06%; }   /* 270px  */
-.pillow    { width: 31.25%; }   /* 600px  */
+/* Sizes (desktop) */
+.diary     { width: 14.06%; }
+.pillow    { width: 31.25%; }
 .pencil-ps,
 .pencil-ai,
 .pencil-id,
 .pencil-pr,
-.pencil-fg { width: 11.46%; }   /* 220px  */
+.pencil-fg { width: 11.46%; }
 
 /* ================= DIARY OVERLAY ================= */
 
@@ -216,32 +230,62 @@ body { font-family: Arial, sans-serif; }
 @media (max-width: 768px) {
   .bg { background-image: url('image/about-bg-mobile.png'); }
 
-  .title           { top: 3%; left: 5%; width: 30%; }
-  .telescope-fixed { bottom: -5%; left: 4%; width: 55%; }
+  .pillow {
+    left: 69% !important;
+    top: 83% !important;
+  }
+
+  .title { top: 3%; left: 5%; width: 30%; }
+
+  /* BED: 640/390 = 164vw wide, 16:9 aspect, anchored to bottom, centered (extends off both sides) */
+  .bed {
+    display: block;
+    width: 164vw;
+    aspect-ratio: 16 / 9;
+    height: auto;
+  }
+
+  /* TELESCOPE: 241/390 = 62vw, lifted up so most of it sits above the bed line.
+     Behind the bed because telescope z-index (1) < bed z-index (5). */
+  .telescope-fixed {
+    bottom: 16vh;
+    left: -10%;
+    width: 69%;
+  }
 
   .toggle-button {
-    width: 18vw;
-    height: 18vw;
     top: 3%;
-    right: 5%;
+    right: 4%;
+    width: 20vw;
+    height: 20vw;
+    max-width: 120px;
+    max-height: 120px;
+    min-width: 70px;
+    min-height: 70px;
   }
-  .menu-item img {
-    width: 45vw;
-    height: 45vw;
-  }
-  /* Clustered mobile positions (center-anchored) */
-  #portfolio { top: 30%; left: 45%; }
-  #about     { top: 48%; left: 30%; }
-  #contact   { top: 45%; left: 65%; }
-  #home      { top: 65%; left: 50%; }
 
-  .diary     { width: 30%; }
-  .pillow    { width: 55%; }
+  .menu-item img {
+    width: 53vw;
+    aspect-ratio: 9 / 10;
+    height: auto;
+    max-width: 380px;
+    max-height: 422px;
+  }
+
+  /* Your menu positions — kept as-is */
+  #portfolio { top: 11vh; left: 40vw; }
+  #about     { top: 26vh; left: 4vw;  }
+  #contact   { top: 35vh; left: 43vw; }
+  #home      { top: 53vh; left: 22vw; }
+
+  /* Floaters at exact Figma proportions */
+  .diary     { width: 39%; }   /* 139.8 / 390 */
+  .pillow    { width: 68%; }   /* 267.1 / 390 */
   .pencil-ps,
   .pencil-ai,
   .pencil-id,
   .pencil-pr,
-  .pencil-fg { width: 22%; }
+  .pencil-fg { width: 32%; }
 
   .diary-overlay-close { width: 40px; height: 40px; }
 }

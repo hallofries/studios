@@ -141,4 +141,38 @@ html, body {
     #volumeButton:hover {
       transform: rotate(20deg) scale(1.2);
   }
-    
+    /* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+  .title { top: 3%; left: 5%; width: 30%; }
+
+ 
+
+  .toggle-button {
+    top: 3%;
+    right: 4%;
+    width: 20vw;
+    height: 20vw;
+    max-width: 120px;
+    max-height: 120px;
+    min-width: 70px;
+    min-height: 70px;
+  }
+
+  .menu-item img {
+    width: 53vw;
+    aspect-ratio: 9 / 10;
+    height: auto;
+    max-width: 380px;
+    max-height: 422px;
+  }
+
+  /* Your menu positions — kept as-is */
+  #portfolio { top: 11vh; left: 40vw; }
+  #about     { top: 26vh; left: 4vw;  }
+  #contact   { top: 35vh; left: 43vw; }
+  #home      { top: 53vh; left: 22vw; }
+
+
+}

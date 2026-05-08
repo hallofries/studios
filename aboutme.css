@@ -272,11 +272,11 @@ body { font-family: Arial, sans-serif; }
     max-height: 422px;
   }
 
-  /* Your menu positions — kept as-is */
-  #portfolio { top: 11vh; left: 40vw; }
+  /* Your menu positions — kept as-is edited done */ 
+  #portfolio { top: 10vh; left: 40vw; }
   #about     { top: 26vh; left: 4vw;  }
   #contact   { top: 35vh; left: 43vw; }
-  #home      { top: 53vh; left: 22vw; }
+  #home      { top: 53vh; left: 20vw; }
 
   /* Floaters at exact Figma proportions */
   .diary     { width: 39%; }   /* 139.8 / 390 */

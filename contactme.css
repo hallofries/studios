@@ -228,7 +228,7 @@ body {
   /* Letter — HUGE, bleeds off both sides, 469/390 = 120.26vw */
   .letter {
     bottom: 0;
-    left: 50%;
+    left: 53%;
     transform: translateX(-50%);
     width: 120.26vw;
     aspect-ratio: 107 / 94;
@@ -237,7 +237,7 @@ body {
 
   /* Social media — sitting ON the paper, below the email text */
   .social-media {
-    bottom: 18%;
+    bottom: 20%;
     left: 46%;
     right: auto;
     transform: translateX(-50%);

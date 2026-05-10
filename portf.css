@@ -3,7 +3,7 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #0f0f3d;
-  background: url('image/idk girl.png') no-repeat center top;
+  background: url("image/idk girl.png") no-repeat center top;
   background-size: cover;
   min-height: 5000px;
 }
@@ -55,7 +55,9 @@ body {
   position: fixed;
   transform: scale(0) rotate(0);
   opacity: 0;
-  transition: transform 0.5s ease, opacity 0.5s ease;
+  transition:
+    transform 0.5s ease,
+    opacity 0.5s ease;
   z-index: 10;
 }
 .menu-item img {
@@ -91,7 +93,9 @@ body {
 /* PORTFOLIO ITEMS */
 .portfolio-item {
   position: absolute;
-  transition: transform 0.3s, filter 0.3s;
+  transition:
+    transform 0.3s,
+    filter 0.3s;
 }
 .portfolio-item img {
   width: 300px;
@@ -99,7 +103,9 @@ body {
   display: block;
   border-radius: 10px;
   cursor: pointer;
-  transition: opacity 0.3s, filter 0.3s;
+  transition:
+    opacity 0.3s,
+    filter 0.3s;
 }
 .portfolio-item:hover img {
   opacity: 0.6;
@@ -122,31 +128,94 @@ body {
 }
 
 /* Specific Portfolio Item Positions */
-.item-1 { top: 88%; right: 28%; }
-.item-2 { top: 120%; left: 17%; }
-.item-3 { top: 175%; right: 17%; }
-.item-4 { top: 240%; left: 22%; }
-.item-5 { top: 290%; right: 25%; }
-.item-6 { top: 340%; left: 17%; }
-.item-7 { top: 375%; right: 3%; }
-.item-8 { top: 420%; left: 23%; }
-.item-9 { top: 485%; right: 17%; }
-.item-10 { top: 530%; left: 15%; }
-.item-11 { top: 200%; right: 15%; }
+.item-1 {
+  top: 88%;
+  right: 28%;
+}
+.item-2 {
+  top: 120%;
+  left: 17%;
+}
+.item-3 {
+  top: 175%;
+  right: 17%;
+}
+.item-4 {
+  top: 240%;
+  left: 22%;
+}
+.item-5 {
+  top: 290%;
+  right: 25%;
+}
+.item-6 {
+  top: 340%;
+  left: 17%;
+}
+.item-7 {
+  top: 375%;
+  right: 3%;
+}
+.item-8 {
+  top: 420%;
+  left: 23%;
+}
+.item-9 {
+  top: 485%;
+  right: 17%;
+}
+.item-10 {
+  top: 530%;
+  left: 15%;
+}
+.item-11 {
+  top: 200%;
+  right: 15%;
+}
 .item-11 {
   pointer-events: none;
 }
 
-.item-1 img { width: 350px !important; height: auto!important; }
-.item-2 img { width: 420px !important; height: auto!important; }
-.item-3 img { width: 420px!important; height: auto!important; }
-.item-4 img { width: 330px!important; height: auto!important; }
-.item-5 img { width: 430px!important; height: auto!important; }
-.item-6 img { width: 480px!important; height: auto!important; }
-.item-7 img { width: 490px!important; height: auto!important; }
-.item-8 img { width: 400px!important; height: auto!important; }
-.item-9 img { width: 500px!important; height: auto!important; }
-.item-10 img { width: 500px!important; height: auto!important; }
+.item-1 img {
+  width: 350px !important;
+  height: auto !important;
+}
+.item-2 img {
+  width: 420px !important;
+  height: auto !important;
+}
+.item-3 img {
+  width: 420px !important;
+  height: auto !important;
+}
+.item-4 img {
+  width: 330px !important;
+  height: auto !important;
+}
+.item-5 img {
+  width: 430px !important;
+  height: auto !important;
+}
+.item-6 img {
+  width: 480px !important;
+  height: auto !important;
+}
+.item-7 img {
+  width: 490px !important;
+  height: auto !important;
+}
+.item-8 img {
+  width: 400px !important;
+  height: auto !important;
+}
+.item-9 img {
+  width: 500px !important;
+  height: auto !important;
+}
+.item-10 img {
+  width: 500px !important;
+  height: auto !important;
+}
 
 /* VOLUME BUTTON */
 #volumeButton {
@@ -209,7 +278,9 @@ body {
   top: 20px;
   right: 20px;
   width: 40px;
-  transition: transform 0.3s ease, scale 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    scale 0.3s ease;
   cursor: pointer;
 }
 .close-btn:hover {
@@ -250,7 +321,7 @@ body {
   height: auto;
   display: block;
   margin: 0 auto; /* Center horizontally */
-  gap: 40px
+  gap: 40px;
 }
 
 /* Wrap and center bot images with spacing */
@@ -263,10 +334,11 @@ body {
 /* ================= MOBILE ================= */
 
 @media (max-width: 768px) {
-
-  .title { top: 3%; left: 5%; width: 30%; }
-
- 
+  .title {
+    top: 3%;
+    left: 5%;
+    width: 30%;
+  }
 
   .toggle-button {
     top: 3%;
@@ -288,10 +360,20 @@ body {
   }
 
   /* Your menu positions — kept as-is */
-  #portfolio { top: 11vh; left: 40vw; }
-  #about     { top: 26vh; left: 4vw;  }
-  #contact   { top: 35vh; left: 43vw; }
-  #home      { top: 53vh; left: 22vw; }
-
-
+  #portfolio {
+    top: 11vh;
+    left: 40vw;
+  }
+  #about {
+    top: 26vh;
+    left: 4vw;
+  }
+  #contact {
+    top: 35vh;
+    left: 43vw;
+  }
+  #home {
+    top: 53vh;
+    left: 22vw;
+  }
 }

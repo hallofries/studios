@@ -1,115 +1,154 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>contact</title>
-    <link rel="stylesheet" href="contactme.css">
-    <link rel="icon" type="image/png" sizes="16x16" href="image/favicon-16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="image/favicon-32x32.png">
-<link rel="icon" type="image/x-icon" href="image/favicon.ico">
-<link rel="apple-touch-icon" href="image/apple-touch-icon.png">
-<link rel="manifest" href="image/site.webmanifest">
+    <link rel="stylesheet" href="contactme.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="image/favicon-16.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="image/favicon-32x32.png"
+    />
+    <link rel="icon" type="image/x-icon" href="image/favicon.ico" />
+    <link rel="apple-touch-icon" href="image/apple-touch-icon.png" />
+    <link rel="manifest" href="image/site.webmanifest" />
 
-<!-- Open Graph meta tags -->
-<meta property="og:title" content="contact">
-<meta property="og:description" content="">
-<meta property="og:image" content="https://hallofries.github.io/studios/image/meteor.png">
-<meta property="og:url" content="https://hallofries.github.io/studios/contactme.html">
-<meta property="og:type" content="website">
-</head>
-<script data-goatcounter="https://hallofries.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
-<body>
-    <div class="moonmeteor"></div>
+    <meta property="og:title" content="contact" />
+    <meta property="og:description" content="" />
+    <meta
+      property="og:image"
+      content="https://hallofries.github.io/studios/image/meteor.png"
+    />
+    <meta
+      property="og:url"
+      content="https://hallofries.github.io/studios/contactme.html"
+    />
+    <meta property="og:type" content="website" />
+  </head>
+  <script
+    data-goatcounter="https://hallofries.goatcounter.com/count"
+    async
+    src="//gc.zgo.at/count.js"
+  ></script>
+  <body>
+    <div class="stage">
+      <!-- Background (clean starfield + moon surface only) -->
+      <div class="bg"></div>
 
-    <div class="social-media">
+      <!-- Moon -->
+      <div class="moonmeteor"></div>
+
+      <!-- Mailbox -->
+      <img class="mailbox" src="image/mailbox.png" alt="Mailbox" />
+
+      <!-- CONTACT title -->
+      <img class="title" src="image/contact-title.png" alt="Contact" />
+
+      <!-- Foreground letter -->
+      <img class="letter" src="image/letter.png" alt="hi! mail me" />
+
+      <!-- Social media icons (bottom-right) -->
+      <div class="social-media">
         <a href="https://www.instagram.com/cone01879/" target="_blank">
-            <img src="image/instagram.png" alt="Instagram">
+          <img src="image/instagram.png" alt="Instagram" />
         </a>
         <a href="https://www.behance.net/hallofries" target="_blank">
-            <img src="image/behance.png" alt="Behance">
+          <img src="image/behance.png" alt="Behance" />
         </a>
         <a href="https://www.tiktok.com/@hallofries" target="_blank">
-            <img src="image/tiktok.png" alt="TikTok">
+          <img src="image/tiktok.png" alt="TikTok" />
         </a>
+      </div>
+
+      <!-- ===== MENU ===== -->
+      <input type="checkbox" id="menu-toggle" />
+      <label for="menu-toggle" class="toggle-button">
+        <img src="image/menu2.png" alt="Menu" />
+      </label>
+
+      <div class="overlay"></div>
+
+      <div class="menu-item" id="home">
+        <a href="index.html"><img src="image/home.png" alt="Home" /></a>
+      </div>
+      <div class="menu-item" id="about">
+        <a href="aboutme.html"><img src="image/about.png" alt="About" /></a>
+      </div>
+      <div class="menu-item" id="portfolio">
+        <a href="portf.html"
+          ><img src="image/portfolio.png" alt="Portfolio"
+        /></a>
+      </div>
+      <div class="menu-item" id="contact">
+        <a href="contactme.html"
+          ><img src="image/contact.png" alt="Contact"
+        /></a>
+      </div>
     </div>
 
-    <!-- MENIUUUUUU  -->
-
-    <input type="checkbox" id="menu-toggle">
-    <label for="menu-toggle" class="toggle-button">
-        <img src="image/menu2.png" alt="Menu">
-    </label>
-
-    <div class="overlay"></div>
-
-    <div class="menu-item" id="home">
-        <a href="index.html">
-            <img src="image/home.png" alt="Home">
-        </a>
-    </div>
-    <div class="menu-item" id="about">
-        <a href="aboutme.html">
-            <img src="image/about.png" alt="About">
-        </a>
-    </div>
-    <div class="menu-item" id="portfolio">
-        <a href="portf.html">
-            <img src="image/portfolio.png" alt="Portfolio">
-        </a>
-    </div>
-    <div class="menu-item" id="contact">
-        <a href="contactme.html">
-            <img src="image/contact.png" alt="Contact">
-        </a>
+    <div class="social-media">
+      <a href="https://www.instagram.com/cone01879/" target="_blank">
+        <img src="image/instagram.png" alt="Instagram" width="42" height="42" />
+      </a>
+      <a href="https://www.behance.net/hallofries" target="_blank">
+        <img src="image/behance.png" alt="Behance" width="42" height="42" />
+      </a>
+      <a href="https://www.tiktok.com/@hallofries" target="_blank">
+        <img src="image/tiktok.png" alt="TikTok" width="42" height="42" />
+      </a>
     </div>
 
-     <!-- Background music (planet.mp3) -->
-     <audio id="backgroundMusic" loop>
-        <source src="image/planet.mp3" type="audio/mpeg">
+    <!-- Background music -->
+    <audio id="backgroundMusic" loop>
+      <source src="image/planet.mp3" type="audio/mpeg" />
     </audio>
-
-    <!-- Volume button with custom PNG -->
     <img src="image/musicnote.png" alt="Volume Button" id="volumeButton" />
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const backgroundMusic = document.getElementById("backgroundMusic");
-            const volumeButton = document.getElementById("volumeButton");
-            let isMuted = false;
+      document.addEventListener("DOMContentLoaded", function () {
+        const backgroundMusic = document.getElementById("backgroundMusic");
+        const volumeButton = document.getElementById("volumeButton");
+        let isMuted = false;
 
-            // Function to start background music
-            function startMusic() {
-                backgroundMusic.volume = 0.3;  // Set the volume of background music
-                backgroundMusic.loop = true;   // Loop the background music
-                backgroundMusic.play().then(() => {
-                    console.log("Background music playing");
-                }).catch(err => {
-                    console.warn("Autoplay blocked or failed:", err);
-                    alert("Please click on the page to play the background music.");
-                });
-            }
-
-            // Play background music after the first user click
-            document.body.addEventListener("click", () => {
-                startMusic();
-            }, { once: true });
-
-            // Toggle volume (mute/unmute) when clicking the volume button
-            volumeButton.addEventListener("click", () => {
-                isMuted = !isMuted;
-                backgroundMusic.muted = isMuted;
-                
-                // Change the image based on the mute status
-                if (isMuted) {
-                    volumeButton.src = 'image/musicnote-muted.png'; // Muted image
-                } else {
-                    volumeButton.src = 'image/musicnote.png'; // Unmuted image
-                }
+        function startMusic() {
+          backgroundMusic.volume = 0.3;
+          backgroundMusic.loop = true;
+          backgroundMusic
+            .play()
+            .then(() => {
+              console.log("Background music playing");
+            })
+            .catch((err) => {
+              console.warn("Autoplay blocked or failed:", err);
             });
+        }
+
+        document.body.addEventListener(
+          "click",
+          () => {
+            startMusic();
+          },
+          { once: true },
+        );
+
+        volumeButton.addEventListener("click", () => {
+          isMuted = !isMuted;
+          backgroundMusic.muted = isMuted;
+          if (isMuted) {
+            volumeButton.src = "image/musicnote-muted.png";
+          } else {
+            volumeButton.src = "image/musicnote.png";
+          }
         });
+      });
     </script>
-    
-</body>
+  </body>
 </html>

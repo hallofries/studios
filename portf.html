@@ -1,221 +1,312 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>portfolio</title>
-  <link rel="stylesheet" href="portf.css">
-  <link rel="icon" type="image/png" sizes="16x16" href="image/favicon-16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="image/favicon-32x32.png">
-<link rel="icon" type="image/x-icon" href="image/favicon.ico">
-<link rel="apple-touch-icon" href="image/apple-touch-icon.png">
-<link rel="manifest" href="image/site.webmanifest">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>portfolio</title>
+    <link rel="stylesheet" href="portf.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="image/favicon-16.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="image/favicon-32x32.png"
+    />
+    <link rel="icon" type="image/x-icon" href="image/favicon.ico" />
+    <link rel="apple-touch-icon" href="image/apple-touch-icon.png" />
+    <link rel="manifest" href="image/site.webmanifest" />
 
-<meta property="og:title" content="portfolio">
-<meta property="og:description" content="explore my design space">
-<meta property="og:image" content="https://hallofries.github.io/studios/image/portfolio.png">
-<meta property="og:url" content="https://hallofries.github.io/studios/portf.html">
-<meta property="og:type" content="website">
-<script data-goatcounter="https://hallofries.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+    <meta property="og:title" content="portfolio" />
+    <meta property="og:description" content="explore my design space" />
+    <meta
+      property="og:image"
+      content="https://hallofries.github.io/studios/image/portfolio.png"
+    />
+    <meta
+      property="og:url"
+      content="https://hallofries.github.io/studios/portf.html"
+    />
+    <meta property="og:type" content="website" />
+    <script
+      data-goatcounter="https://hallofries.goatcounter.com/count"
+      async
+      src="//gc.zgo.at/count.js"
+    ></script>
+  </head>
+  <body>
+    <!-- MENU -->
+    <input type="checkbox" id="menu-toggle" />
+    <label for="menu-toggle" class="toggle-button">
+      <img src="image/menu2.png" alt="Menu" />
+    </label>
+    <div class="overlay"></div>
+    <div class="menu-item" id="home">
+      <a href="index.html">
+        <img src="image/home.png" alt="Home" />
+      </a>
+    </div>
+    <div class="menu-item" id="about">
+      <a href="aboutme.html">
+        <img src="image/about.png" alt="About" />
+      </a>
+    </div>
+    <div class="menu-item" id="portfolio">
+      <a href="portf.html">
+        <img src="image/portfolio.png" alt="Portfolio" />
+      </a>
+    </div>
+    <div class="menu-item" id="contact">
+      <a href="contactme.html">
+        <img src="image/contact.png" alt="Contact" />
+      </a>
+    </div>
 
-</head>
-<body>
-
-  <!-- MENU -->
-  <input type="checkbox" id="menu-toggle">
-  <label for="menu-toggle" class="toggle-button">
-    <img src="image/menu2.png" alt="Menu">
-  </label>
-  <div class="overlay"></div>
-  <div class="menu-item" id="home">
-    <a href="index.html">
-      <img src="image/home.png" alt="Home">
-    </a>
-  </div>
-  <div class="menu-item" id="about">
-    <a href="aboutme.html">
-      <img src="image/about.png" alt="About">
-    </a>
-  </div>
-  <div class="menu-item" id="portfolio">
-    <a href="portf.html">
-      <img src="image/portfolio.png" alt="Portfolio">
-    </a>
-  </div>
-  <div class="menu-item" id="contact">
-    <a href="contactme.html">
-      <img src="image/contact.png" alt="Contact">
-    </a>
-  </div>
-
-  <!-- PORTFOLIO ITEMS -->
-  <div class="portfolio-item item-1" onclick="openLightbox(['image/bot1.jpg', 'image/bot2.jpg', 'image/bot3.jpg'])">
-    <img src="image/bot.png" alt="Bot">
-    <div class="description">futuristic poster series for The Bot, a glimpse into the future</div>
-  </div>
-  <div class="portfolio-item item-2" onclick="openLightbox(['image/calendars.png', 'image/calendars2.png'])">
-    <img src="image/calendar.png" alt="Calendar">
-    <div class="description">illustrated calendar, an exploration of wonder and joy</div>
-  </div>
-  <div class="portfolio-item item-3">
-    <a href="tv.html" target="_blank">
-      <img src="image/TV.png" alt="TV">
+    <!-- PORTFOLIO ITEMS -->
+    <div
+      class="portfolio-item item-1"
+      onclick="
+        openLightbox(['image/bot1.jpg', 'image/bot2.jpg', 'image/bot3.jpg'])
+      "
+    >
+      <img src="image/bot.png" alt="Bot" />
       <div class="description">
-        stormbound - an animated short film!<br>
-        <p>click to watch!</p>
+        futuristic poster series for The Bot, a glimpse into the future
       </div>
-    </a>
-  </div>
-  <div class="portfolio-item item-4">
-    <img src="image/toy.png" alt="Toy">
-    <div class="description">anomaly #597, a handmade DIY sock toy</div>
-  </div>
-  <div class="portfolio-item item-5">
-    <img src="image/magazine.png" alt="Magazine">
-    <div class="description">phillipe starck - a magazine</div>
-  </div>
-  <div class="portfolio-item item-6">
-    <img src="image/fox.png" alt="Fox">
-    <div class="description">fantastic mr. fox poster series</div>
-  </div>
-  <div class="portfolio-item item-7">
-    <img src="image/citadel.png" alt="Citadel">
-    <div class="description">citadel lamp - a tale of perseverance</div>
-  </div>
-  <div class="portfolio-item item-8">
-    <img src="image/post.png" alt="Post">
-    <div class="description">georgian post redesign</div>
-  </div>
-  <div class="portfolio-item item-9">
-    <img src="image/moomins.png" alt="Moomins">
-    <div class="description">moomins poster series in memory of tove jansson</div>
-  </div>
-  <div class="portfolio-item item-10">
-    <img src="image/celestron.png" alt="Celestron">
-    <div class="description">celestron promotional black friday posters</div>
-  </div>
-  <div class="portfolio-item item-11">
-    <img src="image/popcorn.png" alt="Popcorn">
-  </div>
+    </div>
+    <div
+      class="portfolio-item item-2"
+      onclick="openLightbox(['image/calendars.png', 'image/calendars2.png'])"
+    >
+      <img src="image/calendar.png" alt="Calendar" />
+      <div class="description">
+        illustrated calendar, an exploration of wonder and joy
+      </div>
+    </div>
+    <div class="portfolio-item item-3">
+      <a href="tv.html" target="_blank">
+        <img src="image/TV.png" alt="TV" />
+        <div class="description">
+          stormbound - an animated short film!<br />
+          <p>click to watch!</p>
+        </div>
+      </a>
+    </div>
+    <div class="portfolio-item item-4">
+      <img src="image/toy.png" alt="Toy" />
+      <div class="description">anomaly #597, a handmade DIY sock toy</div>
+    </div>
+    <div class="portfolio-item item-5">
+      <img src="image/magazine.png" alt="Magazine" />
+      <div class="description">phillipe starck - a magazine</div>
+    </div>
+    <div class="portfolio-item item-6">
+      <img src="image/fox.png" alt="Fox" />
+      <div class="description">fantastic mr. fox poster series</div>
+    </div>
+    <div class="portfolio-item item-7">
+      <img src="image/citadel.png" alt="Citadel" />
+      <div class="description">citadel lamp - a tale of perseverance</div>
+    </div>
+    <div class="portfolio-item item-8">
+      <img src="image/post.png" alt="Post" />
+      <div class="description">georgian post redesign</div>
+    </div>
+    <div class="portfolio-item item-9">
+      <img src="image/moomins.png" alt="Moomins" />
+      <div class="description">
+        moomins poster series in memory of tove jansson
+      </div>
+    </div>
+    <div class="portfolio-item item-10">
+      <img src="image/celestron.png" alt="Celestron" />
+      <div class="description">celestron promotional black friday posters</div>
+    </div>
+    <div class="portfolio-item item-11">
+      <img src="image/popcorn.png" alt="Popcorn" />
+    </div>
 
-  <!-- AUDIO & VOLUME BUTTON -->
-  <audio id="backgroundMusic" loop>
-    <source src="image/space.mp3" type="audio/mpeg">
-  </audio>
-  <audio id="scrollSound">
-    <source src="image/beeping.mp3" type="audio/mpeg">
-  </audio>
-  <img src="image/musicnote.png" alt="Volume Button" id="volumeButton">
+    <!-- AUDIO & VOLUME BUTTON -->
+    <audio id="backgroundMusic" loop>
+      <source src="image/space.mp3" type="audio/mpeg" />
+    </audio>
+    <audio id="scrollSound">
+      <source src="image/beeping.mp3" type="audio/mpeg" />
+    </audio>
+    <img src="image/musicnote.png" alt="Volume Button" id="volumeButton" />
 
-  <!-- LIGHTBOX -->
-  <div class="lightbox" id="lightbox">
-    <div class="lightbox-content" id="lightbox-content"></div>
-    <img src="image/close.png" alt="Close" class="close-btn" onclick="closeLightbox()">
-  </div>
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+      <div class="lightbox-content" id="lightbox-content"></div>
+      <img
+        src="image/close.png"
+        alt="Close"
+        class="close-btn"
+        onclick="closeLightbox()"
+      />
+    </div>
 
-  <!-- SCRIPTS -->
-  <script>
-    // Background music, scroll sound, and volume button functionality
-    document.addEventListener("DOMContentLoaded", function () {
-      const backgroundMusic = document.getElementById("backgroundMusic");
-      const scrollSound = document.getElementById("scrollSound");
-      const volumeButton = document.getElementById("volumeButton");
-      let isMuted = false;
-      let hasPlayedScrollSound = false;
+    <!-- SCRIPTS -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const backgroundMusic = document.getElementById("backgroundMusic");
+        const scrollSound = document.getElementById("scrollSound");
+        const volumeButton = document.getElementById("volumeButton");
+        let isMuted = false;
+        let hasPlayedScrollSound = false;
 
-      function startMusic() {
-        backgroundMusic.volume = 0.4;
-        backgroundMusic.loop = true;
-        backgroundMusic.play().catch(err => {
-          console.warn("Autoplay blocked:", err);
-          alert("Please click on the page to play the background music.");
+        function startMusic() {
+          backgroundMusic.volume = 0.4;
+          backgroundMusic.loop = true;
+          backgroundMusic.play().catch((err) => {
+            console.warn("Autoplay blocked:", err);
+          });
+        }
+
+        document.body.addEventListener(
+          "click",
+          () => {
+            startMusic();
+          },
+          { once: true },
+        );
+
+        window.addEventListener("scroll", () => {
+          const scrollY = window.scrollY || window.pageYOffset;
+          const scrollThreshold = 4000;
+          if (!isMuted && !hasPlayedScrollSound && scrollY > scrollThreshold) {
+            scrollSound.currentTime = 0;
+            scrollSound.volume = 0.1;
+            scrollSound
+              .play()
+              .catch((err) => console.warn("Scroll sound blocked:", err));
+            hasPlayedScrollSound = true;
+            scrollSound.onended = () => {
+              hasPlayedScrollSound = false;
+            };
+          }
         });
-      }
 
-      // Start music on first click
-      document.body.addEventListener("click", () => {
-        startMusic();
-      }, { once: true });
+        volumeButton.addEventListener("click", () => {
+          isMuted = !isMuted;
+          backgroundMusic.muted = isMuted;
+          scrollSound.muted = isMuted;
+          volumeButton.src = isMuted
+            ? "image/musicnote-muted.png"
+            : "image/musicnote.png";
 
-      // Scroll event for scroll sound
-      window.addEventListener("scroll", () => {
-        const scrollY = window.scrollY || window.pageYOffset;
-        const scrollThreshold = 4000;
-        if (!isMuted && !hasPlayedScrollSound && scrollY > scrollThreshold) {
-          scrollSound.currentTime = 0;
-          scrollSound.volume = 0.1;
-          scrollSound.play().catch(err => console.warn("Scroll sound blocked:", err));
-          hasPlayedScrollSound = true;
-          scrollSound.onended = () => {
-            hasPlayedScrollSound = false;
-          };
+          // Rotation feedback on tap
+          volumeButton.classList.add("clicked");
+          setTimeout(() => volumeButton.classList.remove("clicked"), 700);
+        });
+
+        // Touch behavior for portfolio items.
+        // Bot (item-1) and calendar (item-2): tap toggles description only — lightbox is disabled on mobile.
+        // Other items: first tap shows description, second tap fires action (e.g. link).
+        const isTouch = window.matchMedia("(hover: none)").matches;
+        if (isTouch) {
+          document.querySelectorAll(".portfolio-item").forEach((item) => {
+            item.addEventListener(
+              "click",
+              (e) => {
+                const isBotOrCalendar =
+                  item.classList.contains("item-1") ||
+                  item.classList.contains("item-2");
+
+                if (isBotOrCalendar) {
+                  // Toggle description, never open lightbox
+                  if (item.classList.contains("active")) {
+                    item.classList.remove("active");
+                  } else {
+                    document
+                      .querySelectorAll(".portfolio-item.active")
+                      .forEach((o) => o.classList.remove("active"));
+                    item.classList.add("active");
+                  }
+                  return;
+                }
+
+                // Other items: first tap shows description, second tap fires native action
+                if (!item.classList.contains("active")) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  document
+                    .querySelectorAll(".portfolio-item.active")
+                    .forEach((o) => o.classList.remove("active"));
+                  item.classList.add("active");
+                }
+              },
+              { capture: true },
+            );
+          });
         }
       });
 
-      // Volume button toggle with hover rotation effect handled in CSS
-      volumeButton.addEventListener("click", () => {
-        isMuted = !isMuted;
-        backgroundMusic.muted = isMuted;
-        scrollSound.muted = isMuted;
-        volumeButton.src = isMuted ? 'image/musicnote-muted.png' : 'image/musicnote.png';
-      });
-    });
-
- // **CHANGE:** OPEN LIGHTBOX FUNCTION
- function openLightbox(images) {
-      const lightbox = document.getElementById("lightbox");
-      const content = document.getElementById("lightbox-content");
-
-      content.innerHTML = ""; // Clear old images
-
-      // **CHANGE:** Identify calendars gallery
-      if (images[0].includes("calendars")) {
-        content.classList.add("calendars-gallery");
-        content.classList.remove("default-gallery");
-      } else {
-        content.classList.add("default-gallery");
-        content.classList.remove("calendars-gallery");
-      }
-
-      images.forEach((src, index) => {
-        const img = document.createElement("img");
-        img.src = src;
-        img.classList.add("lightbox-img");
-
-        if (src.includes("calendars")) { 
-          img.classList.add("calendars"); /* **CHANGE:** Bigger size */
-          if (index === 0) img.style.marginTop = "50px"; /* **CHANGE:** Push first calendars image down */
+      function openLightbox(images) {
+        // No lightbox on mobile (bot/calendar items are inert on touch)
+        if (window.matchMedia("(hover: none)").matches) {
+          return;
         }
 
-        content.appendChild(img);
-      });
+        const lightbox = document.getElementById("lightbox");
+        const content = document.getElementById("lightbox-content");
 
-      lightbox.style.display = "flex";
-      document.body.style.overflow = "hidden"; // **CHANGE:** Freeze main page scrolling
-    }
+        content.innerHTML = "";
 
-    function closeLightbox() {
-      document.getElementById("lightbox").style.display = "none";
-      document.body.style.overflow = ""; // **CHANGE:** Re-enable scrolling
-    }
+        if (images[0].includes("calendars")) {
+          content.classList.add("calendars-gallery");
+          content.classList.remove("default-gallery");
+        } else {
+          content.classList.add("default-gallery");
+          content.classList.remove("calendars-gallery");
+        }
 
-    document.getElementById("lightbox").addEventListener("click", function (event) {
-      if (!event.target.classList.contains("lightbox-img") && !event.target.classList.contains("close-btn")) {
-        closeLightbox();
+        images.forEach((src, index) => {
+          const img = document.createElement("img");
+          img.src = src;
+          img.classList.add("lightbox-img");
+
+          if (src.includes("calendars")) {
+            img.classList.add("calendars");
+            if (index === 0) img.style.marginTop = "50px";
+          }
+
+          content.appendChild(img);
+        });
+
+        lightbox.style.display = "flex";
+        document.body.style.overflow = "hidden";
       }
-    });
 
-    document.addEventListener("contextmenu", function (event) {
-      event.preventDefault();
-    });
+      function closeLightbox() {
+        document.getElementById("lightbox").style.display = "none";
+        document.body.style.overflow = "";
+      }
 
-    document.addEventListener("dragstart", function (event) {
-      if (event.target.tagName === "IMG") {
+      document
+        .getElementById("lightbox")
+        .addEventListener("click", function (event) {
+          if (
+            !event.target.classList.contains("lightbox-img") &&
+            !event.target.classList.contains("close-btn")
+          ) {
+            closeLightbox();
+          }
+        });
+
+      document.addEventListener("contextmenu", function (event) {
         event.preventDefault();
-      }
-    });
-  </script>
+      });
 
-</body>
+      document.addEventListener("dragstart", function (event) {
+        if (event.target.tagName === "IMG") {
+          event.preventDefault();
+        }
+      });
+    </script>
+  </body>
 </html>

@@ -1,194 +1,382 @@
 body {
-    margin: 0;
-    height: 200vh;
-    font-family: Arial, sans-serif;
-    background-color: #0f0f3d;
-    background: url('image/background.png') no-repeat center top;
-    background-size: cover;
-    transition: background-color 1s;
+  margin: 0;
+  height: 200vh;
+  font-family: Arial, sans-serif;
+  background-color: #0f0f3d;
+  background: url("image/background2.png") no-repeat center top;
+  background-size: cover;
+  transition: background-color 1s;
+  --scroll-position: 0;
+  overflow-x: hidden;
 }
 
-
 .toggle-button {
-    position: fixed;
-    top: 20px;
-    right: 2%;
-    width: 150px;
-    height: 150px;
-    cursor: pointer;
-    z-index: 11;
+  position: fixed;
+  top: 20px;
+  right: 2%;
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
+  z-index: 11;
 }
 
 .toggle-button img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    transition: transform 0.3s;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s;
 }
-
-.toggle-button img:hover {
-    transform: rotate(40deg) scale(1.2);
-}
-
 
 #menu-toggle {
-    display: none;
+  display: none;
 }
 
-
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0);
-    z-index: 9;
-    pointer-events: none;
-    transition: background-color 0.5s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  z-index: 9;
+  pointer-events: none;
+  transition: background-color 0.5s ease;
 }
 
 #menu-toggle:checked ~ .overlay {
-    background-color: rgba(0, 0, 0, 0.5);
-    pointer-events: all;
+  background-color: rgba(0, 0, 0, 0.5);
+  pointer-events: all;
 }
 
-
 .menu-item {
-    position: fixed;
-    transform: scale(0);
-    opacity: 0;
-    transition: transform 0.5s ease, opacity 0.5s ease;
-    z-index: 10;
+  position: fixed;
+  transform: scale(0);
+  opacity: 0;
+  transition:
+    transform 0.5s ease,
+    opacity 0.5s ease;
+  z-index: 10;
 }
 
 .menu-item img {
-    width: 380px;
-    height: 380px;
-    cursor: pointer;
-    transition: transform 0.3s;
-}
-
-.menu-item img:hover {
-    transform: rotate(10deg) scale(1.1);
+  width: 380px;
+  height: 380px;
+  cursor: pointer;
+  transition: transform 0.3s;
 }
 
 #home {
-    top: 50vh;
-    left: 40vw;
+  top: 50vh;
+  left: 40vw;
 }
-
 #about {
-    top: 30vh;
-    left: 15vw;
+  top: 30vh;
+  left: 15vw;
 }
-
 #portfolio {
-    top: 5vh;
-    left: 35vw;
+  top: 5vh;
+  left: 35vw;
 }
-
 #contact {
-    top: 20vh;
-    left: 55vw;
+  top: 20vh;
+  left: 55vw;
 }
 
 #menu-toggle:checked ~ .menu-item {
-    opacity: 1;
-    transform: scale(1);
+  opacity: 1;
+  transform: scale(1);
 }
 
+/* ================= DESKTOP HILLS — slide-out parallax ================= */
 
 .land {
-    position: fixed;
-    top: 55%;
-    left: -8%;
-    width: 70%;
-    height: 70%;
-    background: url(image/hills.png) no-repeat center center;
-    background-size: cover;
-    z-index: -1;
-    opacity: 1;
-    transition: opacity 0.7s, transform 0.7s;
+  position: fixed;
+  top: 55%;
+  left: -8%;
+  width: 70%;
+  height: 70%;
+  background: url(image/hills.png) no-repeat center center;
+  background-size: cover;
+  z-index: -1;
+  transition: transform 0.7s;
+  transform: translateX(calc(var(--scroll-position) * -300%));
 }
 
 .hill2 {
-    position: fixed;
-    top: 48%;
-    left: 39%;
-    width: 80%;
-    height: 100%;
-    background: url(image/hills2.png) no-repeat center center;
-    background-size: cover;
-    z-index: -2;
-    opacity: 1;
-    transition: opacity 0.7s, transform 0.7s;
+  position: fixed;
+  top: 48%;
+  left: 39%;
+  width: 80%;
+  height: 100%;
+  background: url(image/hills2.png) no-repeat center center;
+  background-size: cover;
+  z-index: -2;
+  transition: transform 0.7s;
+  transform: translateX(calc(var(--scroll-position) * 300%));
 }
 
-body {
-    --scroll-position: 0%;
-
-} body::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0);
-    pointer-events: none;
-    z-index: 999;
-    opacity: var(--scroll-position);
-    transition: opacity 0.3s ease-out;
+/* Repurposed as the UFO abduction flash overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0);
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0;
 }
-
-
- .land,
-.hill2 {
-    opacity: calc(1 - var(--scroll-position) * 5); 
-}
-
 
 .moon {
-    position: fixed;
-    top: 15%;
-    left: 23%;
-    width: 35%;
-    height: 35%;
-    background: url('image/moon.png') no-repeat center center;
-    background-size: contain;
-    z-index: 10;
-    opacity: 1;
-    transition: opacity 0.7s, transform 0.7s ease-in-out;
-    cursor: pointer;
+  position: fixed;
+  top: 15%;
+  left: 23%;
+  width: 35%;
+  height: 35%;
+  background: url("image/moon.png") no-repeat center center;
+  background-size: contain;
+  z-index: 10;
+  opacity: 1;
+  transition:
+    opacity 0.7s,
+    transform 0.7s ease-in-out;
+  cursor: pointer;
 }
 
-.moon:hover {
-    transform: rotate(360deg);
-    transition: transform 0.7s ease-in-out;
+/* Mobile-only fields — hidden on desktop */
+.big-field,
+.field-left,
+.field-right {
+  display: none;
 }
 
 #volumeButton {
-    position: fixed;
-    top: 30px; /* Adjust this for positioning */
-    left: 30px; /* Adjust this for positioning */
-    width: 100px; /* Size of the button */
-    height: auto; /* Size of the button */
-    cursor: pointer;
-    z-index: 100; /* Ensures it stays on top */
-    transition: transform 0.3s;
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  width: 100px;
+  height: auto;
+  cursor: pointer;
+  z-index: 100;
+  transition: transform 0.3s;
 }
-#volumeButton:hover {
-  transform: rotate(20deg) scale(1.2);
+
+/* ================= CLICKABLE UFO TRIGGER ================= */
+
+.ufo-trigger {
+  position: absolute;
+  bottom: -70%;
+  left: 25%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: auto;
+  cursor: pointer;
+  z-index: 5;
+  transition:
+    opacity 1s ease,
+    transform 0.3s ease;
 }
+
+.ufo-trigger.fading {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+/* ================= UFO ABDUCTION (desktop + mobile) ================= */
+
+.ufo {
+  display: block;
+  position: fixed;
+  top: -30vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30vw;
+  max-width: 350px;
+  z-index: 200;
+  pointer-events: none;
+}
+
+.ufo-beam {
+  display: block;
+  position: fixed;
+  top: 24vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 270vw;
+  height: 100vh;
+  clip-path: polygon(49% 0%, 51% 0%, 51% 100%, 49% 100%);
+  background-color: rgba(136, 199, 107, 1);
+  z-index: 199;
+  pointer-events: none;
+  opacity: 0;
+  filter: blur(2px);
+}
+
+body.ufo-launch {
+  overflow: hidden;
+}
+
+body.ufo-launch .toggle-button,
+body.ufo-launch #volumeButton,
+body.ufo-launch .menu-item,
+body.ufo-launch .ufo-trigger {
+  pointer-events: none;
+}
+
+body.ufo-launch .ufo {
+  animation: ufo-descend 1.5s ease-out forwards;
+}
+
+body.ufo-launch .ufo-beam {
+  animation: beam-cover 4s ease-in 1.5s forwards;
+}
+
+body.ufo-launch .moon {
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.ufo-launch::after {
+  background-color: rgba(136, 199, 107, 1);
+  animation: flash-fadein 1.5s ease-in 4s forwards;
+}
+
+/* ================= HOVER (desktop / mouse-only) ================= */
+
+@media (hover: hover) {
+  .toggle-button img:hover {
+    transform: rotate(40deg) scale(1.2);
+  }
+  .menu-item img:hover {
+    transform: rotate(10deg) scale(1.1);
+  }
+  .moon:hover {
+    transform: rotate(360deg);
+    transition: transform 0.7s ease-in-out;
+  }
+  #volumeButton:hover {
+    transform: rotate(20deg) scale(1.2);
+  }
+  .ufo-trigger:hover {
+    transform: translateX(-50%) scale(1.1);
+  }
+}
+
+/* ================= TOUCH (no hover) — persistent state-driven rotation ================= */
+
+@media (hover: none) {
+  #menu-toggle:checked ~ .toggle-button img {
+    transform: rotate(40deg) scale(1.2);
+  }
+  #volumeButton.clicked {
+    transform: rotate(20deg) scale(1.2);
+  }
+}
+
 /* ================= MOBILE ================= */
 
 @media (max-width: 768px) {
+  body {
+    background-color: #0f0f3d;
+    background-image: url("image/homepage-bg-mobile2.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 200vh;
+  }
 
-  .title { top: 3%; left: 5%; width: 30%; }
+  .land,
+  .hill2 {
+    display: none;
+  }
 
- 
+  /* Moon — fixed title at top */
+  .moon {
+    position: fixed;
+    top: 5%;
+    left: 5%;
+    width: 90%;
+    height: 25%;
+    background-image: url("image/hallofries-moon.png");
+    pointer-events: none;
+    cursor: default;
+    transition: opacity 0.8s ease;
+  }
+  .moon:hover {
+    transform: none;
+  }
 
+  /* UFO and beam — sized for mobile */
+  .ufo {
+    width: 45vw;
+    max-width: 250px;
+  }
+
+  .ufo-beam {
+    top: 18vh;
+  }
+
+  /* Clickable UFO trigger — fixed to viewport (no scroll drift),
+     hidden by default, fades in via .visible class when scrolled to bottom. */
+  .ufo-trigger {
+    position: fixed;
+    bottom: 16%;
+    left: 26%;
+    width: 20vw;
+    max-width: 200px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .ufo-trigger.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Mobile fields — slide out fully to reveal the bg with telescope */
+  .big-field {
+    display: block;
+    position: fixed;
+    top: -59%;
+    left: -156%;
+    width: 290%;
+    height: 290%;
+    background: url("image/big-field.png") no-repeat center;
+    background-size: contain;
+    z-index: 1;
+    transition: transform 0.7s;
+    transform: translateX(calc(var(--scroll-position) * -300%));
+  }
+
+  .field-right {
+    display: block;
+    position: fixed;
+    top: -24%;
+    right: -80%;
+    width: 150%;
+    height: 150%;
+    background: url("image/field-right.png") no-repeat right center;
+    background-size: contain;
+    z-index: 2;
+    transition: transform 0.7s;
+    transform: translateX(calc(var(--scroll-position) * 300%));
+  }
+
+  .field-left {
+    display: block;
+    position: fixed;
+    top: -15%;
+    left: -80%;
+    width: 150%;
+    height: 150%;
+    background: url("image/field-left.png") no-repeat left center;
+    background-size: contain;
+    z-index: 3;
+    transition: transform 0.7s;
+    transform: translateX(calc(var(--scroll-position) * -300%));
+  }
+
+  /* Menu — matched to your other mobile pages */
   .toggle-button {
     top: 3%;
     right: 4%;
@@ -208,11 +396,63 @@ body {
     max-height: 422px;
   }
 
-  /* Your menu positions — kept as-is */
-  #portfolio { top: 11vh; left: 40vw; }
-  #about     { top: 26vh; left: 4vw;  }
-  #contact   { top: 35vh; left: 43vw; }
-  #home      { top: 53vh; left: 22vw; }
+  #portfolio {
+    top: 11vh;
+    left: 40vw;
+  }
+  #about {
+    top: 26vh;
+    left: 4vw;
+  }
+  #contact {
+    top: 35vh;
+    left: 43vw;
+  }
+  #home {
+    top: 53vh;
+    left: 22vw;
+  }
 
+  /* Volume button — bottom-left, shrunk for mobile */
+  #volumeButton {
+    top: auto;
+    bottom: 4%;
+    left: 4%;
+    width: 50px;
+  }
+}
 
+/* ================= UFO ANIMATION KEYFRAMES ================= */
+
+@keyframes ufo-descend {
+  0% {
+    top: -30vh;
+  }
+  100% {
+    top: 8vh;
+  }
+}
+
+@keyframes beam-cover {
+  0% {
+    opacity: 0;
+    clip-path: polygon(49% 0%, 51% 0%, 51% 100%, 49% 100%);
+  }
+  10% {
+    opacity: 1;
+    clip-path: polygon(49% 0%, 51% 0%, 53% 100%, 47% 100%);
+  }
+  100% {
+    opacity: 1;
+    clip-path: polygon(49% 0%, 51% 0%, 100% 100%, 0% 100%);
+  }
+}
+
+@keyframes flash-fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

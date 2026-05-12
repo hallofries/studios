@@ -1,134 +1,202 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>hallofries studios</title>
-    <link rel="stylesheet" href="index.css">
-    <link rel="icon" type="image/png" sizes="16x16" href="image/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="image/favicon-32x32.png">
-<link rel="icon" type="image/x-icon" href="image/favicon.ico">
-<link rel="apple-touch-icon" href="image/apple-touch-icon.png">
-<link rel="manifest" href="image/site.webmanifest">
-<link rel="preload" href="image/favicon.ico" as="image">
-<!-- Open Graph meta tags -->
-<meta property="og:title" content="hallofries studios">
-<meta property="og:description" content="moo!">
-<meta property="og:image" content="https://hallofries.github.io/studios/image/home.png">
-<meta property="og:url" content="https://hallofries.github.io/studios/index.html">
-<meta property="og:type" content="website">
-</head>
-<script data-goatcounter="https://hallofries.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
-<body>
+    <link rel="stylesheet" href="index.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="image/favicon-16x16.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="image/favicon-32x32.png"
+    />
+    <link rel="icon" type="image/x-icon" href="image/favicon.ico" />
+    <link rel="apple-touch-icon" href="image/apple-touch-icon.png" />
+    <link rel="manifest" href="image/site.webmanifest" />
+    <link rel="preload" href="image/favicon.ico" as="image" />
 
-    <body onscroll="document.body.style.setProperty('--scroll-position', window.scrollY / document.documentElement.scrollHeight)">
-        <input type="checkbox" id="menu-toggle">
-
-    <input type="checkbox" id="menu-toggle">
+    <meta property="og:title" content="hallofries studios" />
+    <meta property="og:description" content="moo!" />
+    <meta
+      property="og:image"
+      content="https://hallofries.github.io/studios/image/home.png"
+    />
+    <meta
+      property="og:url"
+      content="https://hallofries.github.io/studios/index.html"
+    />
+    <meta property="og:type" content="website" />
+  </head>
+  <script
+    data-goatcounter="https://hallofries.goatcounter.com/count"
+    async
+    src="//gc.zgo.at/count.js"
+  ></script>
+  <body>
+    <input type="checkbox" id="menu-toggle" />
     <label class="toggle-button" for="menu-toggle">
-        <img src="image/menu2.png" alt="Menu">
+      <img src="image/menu2.png" alt="Menu" />
     </label>
 
     <div class="overlay"></div>
+
+    <!-- Desktop layers -->
     <div class="land"></div>
     <div class="hill2"></div>
-    <div class="moon" id="moon"></div> <!-- added id="moon" just to be sure -->
+    <div class="moon" id="moon"></div>
 
+    <!-- Mobile-only layers -->
+    <div class="big-field"></div>
+    <div class="field-left"></div>
+    <div class="field-right"></div>
+
+    <!-- Clickable UFO sitting at the bottom of the page (triggers the abduction sequence) -->
+    <img
+      class="ufo-trigger"
+      id="ufoTrigger"
+      src="image/ufo-2.png"
+      alt="Click the UFO"
+    />
+
+    <!-- UFO abduction (descending UFO + beam) -->
+    <img class="ufo" src="image/ufo-new.png" alt="UFO" />
+    <div class="ufo-beam"></div>
+
+    <!-- Menu items -->
     <div class="menu-item" id="home">
-        <a href="index.html">
-            <img src="image/home.png" alt="Home">
-        </a>
+      <a href="index.html"><img src="image/home.png" alt="Home" /></a>
     </div>
     <div class="menu-item" id="about">
-        <a href="aboutme.html">
-            <img src="image/about.png" alt="About">
-        </a>
+      <a href="aboutme.html"><img src="image/about.png" alt="About" /></a>
     </div>
     <div class="menu-item" id="portfolio">
-        <a href="portf.html">
-            <img src="image/portfolio.png" alt="Portfolio">
-        </a>
+      <a href="portf.html"><img src="image/portfolio.png" alt="Portfolio" /></a>
     </div>
     <div class="menu-item" id="contact">
-        <a href="contactme.html">
-            <img src="image/contact.png" alt="Contact">
-        </a>
+      <a href="contactme.html"><img src="image/contact.png" alt="Contact" /></a>
     </div>
 
     <audio id="backgroundMusic" loop>
-        <source src="image/night ambiance.mp3" type="audio/mpeg">
+      <source src="image/night ambiance.mp3" type="audio/mpeg" />
     </audio>
-    
+
     <audio id="scrollSound">
-        <source src="image/spooky theremin.mp3" type="audio/mpeg">
+      <source src="image/spooky theremin.mp3" type="audio/mpeg" />
     </audio>
-    
-    <!-- Volume button with custom PNG -->
+
     <img src="image/musicnote.png" alt="Volume Button" id="volumeButton" />
-    
+
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
+      document.addEventListener("DOMContentLoaded", function () {
         const backgroundMusic = document.getElementById("backgroundMusic");
         const scrollSound = document.getElementById("scrollSound");
         const volumeButton = document.getElementById("volumeButton");
+        const moon = document.getElementById("moon");
+        const ufoTrigger = document.getElementById("ufoTrigger");
         let isMuted = false;
         let hasPlayedScrollSound = false;
-    
+        let ufoTriggered = false;
+
         function startMusic() {
-            backgroundMusic.volume = 0.4;
-            backgroundMusic.loop = true;
-            backgroundMusic.play().then(() => {
-                console.log("Background music playing");
-            }).catch(err => console.warn("Autoplay blocked:", err));
+          backgroundMusic.volume = 0.4;
+          backgroundMusic.loop = true;
+          backgroundMusic
+            .play()
+            .then(() => {
+              console.log("Background music playing");
+            })
+            .catch((err) => console.warn("Autoplay blocked:", err));
         }
-    
-        // Play music on first user interaction
-        document.body.addEventListener("click", () => {
+
+        document.body.addEventListener(
+          "click",
+          () => {
             startMusic();
-        }, { once: true });
-    
-        // Play scroll sound once per scroll
+          },
+          { once: true },
+        );
+
+        // Scroll listener — parallax variable + scroll sound + UFO trigger visibility.
         window.addEventListener("scroll", () => {
-            if (!isMuted && !hasPlayedScrollSound) {
-                scrollSound.currentTime = 0;
-                scrollSound.volume = 0.2; 
-                scrollSound.play().catch(err => console.warn("Play blocked:", err));
-                hasPlayedScrollSound = true;
-    
-                scrollSound.onended = () => {
-                    hasPlayedScrollSound = false;
-                };
-            }
-        });
-    
-        // Toggle volume (mute/unmute) when clicking the volume button
-        volumeButton.addEventListener("click", () => {
-            isMuted = !isMuted;
-            backgroundMusic.muted = isMuted;
-            scrollSound.muted = isMuted;
-            
-            // Change the image based on the mute status
-            if (isMuted) {
-                volumeButton.src = 'image/musicnote-muted.png'; // Replace with your muted version image
+          const scrollPos =
+            window.scrollY / document.documentElement.scrollHeight;
+          document.body.style.setProperty("--scroll-position", scrollPos);
+
+          if (!isMuted && !hasPlayedScrollSound) {
+            scrollSound.currentTime = 0;
+            scrollSound.volume = 0.2;
+            scrollSound
+              .play()
+              .catch((err) => console.warn("Play blocked:", err));
+            hasPlayedScrollSound = true;
+            scrollSound.onended = () => {
+              hasPlayedScrollSound = false;
+            };
+          }
+
+          // Show UFO trigger when within 50px of max scroll (mobile uses this
+          // to fade in the fixed-position UFO at the very end of the page).
+          if (ufoTrigger && !ufoTriggered) {
+            const maxScroll =
+              document.documentElement.scrollHeight - window.innerHeight;
+            if (window.scrollY >= maxScroll - 50) {
+              ufoTrigger.classList.add("visible");
             } else {
-                volumeButton.src = 'image/musicnote.png'; // Regular musicnote image
+              ufoTrigger.classList.remove("visible");
             }
+          }
         });
 
-        // ✅ Add event listener to moon safely
-        if (moon) {
-            moon.addEventListener('click', e => {
-                e.stopPropagation();
-                window.location.href = 'moon.html';
-            });
+        // UFO trigger click handler:
+        // 1. fade out the trigger image (1s)
+        // 2. start the UFO descent + beam + flash animation
+        // 3. navigate to aboutme.html when the full sequence ends
+        if (ufoTrigger) {
+          ufoTrigger.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (ufoTriggered) return;
+            ufoTriggered = true;
+
+            ufoTrigger.classList.add("fading");
+
+            setTimeout(() => {
+              document.body.classList.add("ufo-launch");
+              setTimeout(() => {
+                window.location.href = "aboutme.html";
+              }, 7000);
+            }, 1000);
+          });
         }
 
-    });
+        volumeButton.addEventListener("click", () => {
+          isMuted = !isMuted;
+          backgroundMusic.muted = isMuted;
+          scrollSound.muted = isMuted;
 
-</script>
-    
+          if (isMuted) {
+            volumeButton.src = "image/musicnote-muted.png";
+          } else {
+            volumeButton.src = "image/musicnote.png";
+          }
 
-</body>
+          volumeButton.classList.add("clicked");
+          setTimeout(() => volumeButton.classList.remove("clicked"), 700);
+        });
+
+        if (moon) {
+          moon.addEventListener("click", (e) => {
+            e.stopPropagation();
+            window.location.href = "moon.html";
+          });
+        }
+      });
+    </script>
+  </body>
 </html>

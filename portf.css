@@ -17,18 +17,14 @@ body {
   height: 150px;
   cursor: pointer;
   z-index: 11;
-  transition: transform 0.3s;
 }
 .toggle-button img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-}
-.toggle-button:hover {
-  transform: rotate(40deg) scale(1.2);
+  transition: transform 0.3s;
 }
 
-/* MENU TOGGLE CHECKBOX */
 #menu-toggle {
   display: none;
 }
@@ -66,9 +62,6 @@ body {
   cursor: pointer;
   transition: transform 0.3s;
 }
-.menu-item img:hover {
-  transform: rotate(10deg) scale(1.1);
-}
 #home {
   top: 50vh;
   left: 40vw;
@@ -85,6 +78,7 @@ body {
   top: 20vh;
   left: 55vw;
 }
+
 #menu-toggle:checked ~ .menu-item {
   opacity: 1;
   transform: scale(1);
@@ -107,10 +101,6 @@ body {
     opacity 0.3s,
     filter 0.3s;
 }
-.portfolio-item:hover img {
-  opacity: 0.6;
-  filter: brightness(40%);
-}
 .description {
   position: absolute;
   top: 50%;
@@ -122,12 +112,18 @@ body {
   opacity: 0;
   transition: opacity 0.3s;
   pointer-events: none;
+  max-width: 90%;
 }
-.portfolio-item:hover .description {
+
+.portfolio-item.active img {
+  opacity: 0.6;
+  filter: brightness(40%);
+}
+.portfolio-item.active .description {
   opacity: 1;
 }
 
-/* Specific Portfolio Item Positions */
+/* Desktop positions */
 .item-1 {
   top: 88%;
   right: 28%;
@@ -171,8 +167,6 @@ body {
 .item-11 {
   top: 200%;
   right: 15%;
-}
-.item-11 {
   pointer-events: none;
 }
 
@@ -228,9 +222,6 @@ body {
   z-index: 100;
   transition: transform 0.3s;
 }
-#volumeButton:hover {
-  transform: rotate(40deg) scale(1.2);
-}
 
 /* LIGHTBOX */
 .lightbox {
@@ -245,20 +236,19 @@ body {
   align-items: center;
   flex-direction: column;
   z-index: 1000;
-  overflow-y: auto; /* Allows scrolling when content is too large */
-  scrollbar-width: none; /* Hide scrollbar in Firefox */
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 .lightbox::-webkit-scrollbar {
-  display: none; /* Hide scrollbar in Chrome/Safari/Opera */
+  display: none;
 }
 
-/* LIGHTBOX CONTENT */
 .lightbox-content {
   display: flex;
   flex-direction: row;
   gap: 40px;
   max-width: 100vw;
-  max-height: none; /* Allow full expansion */
+  max-height: none;
 }
 
 .lightbox-img {
@@ -267,12 +257,6 @@ body {
   transition: transform 0.3s ease;
 }
 
-/* Hover effect to slightly enlarge lightbox images */
-.lightbox-img:hover {
-  transform: scale(1.05);
-}
-
-/* CLOSE BUTTON */
 .close-btn {
   position: absolute;
   top: 20px;
@@ -283,72 +267,160 @@ body {
     scale 0.3s ease;
   cursor: pointer;
 }
-.close-btn:hover {
-  transform: rotate(90deg) scale(1.2);
-}
 
-/* CALENDARS GALLERY */
 .calendars-gallery {
   flex-direction: column;
-  overflow-y: auto; /* Allow scrolling when needed */
+  overflow-y: auto;
   align-items: center;
-  max-height: none; /* Prevent cut-off */
+  max-height: none;
+  scrollbar-width: none;
+}
+.calendars-gallery::-webkit-scrollbar {
+  display: none;
 }
 
 .calendars:first-child {
   margin-top: 50px;
 }
 
-/* Make calendars images bigger */
 .calendars {
   max-width: 70%;
 }
 
-/* Hide scrollbar for cleaner look */
-.calendars-gallery::-webkit-scrollbar {
-  display: none;
-}
-
-.calendars-gallery {
-  scrollbar-width: none;
-}
-
-/* Make bot1.jpg, bot2.jpg, and bot3.jpg smaller */
 .lightbox-img[src*="bot1.jpg"],
 .lightbox-img[src*="bot2.jpg"],
 .lightbox-img[src*="bot3.jpg"] {
-  max-width: 20%; /* Adjust size */
+  max-width: 20%;
   height: auto;
   display: block;
-  margin: 0 auto; /* Center horizontally */
-  gap: 40px;
+  margin: 0 auto;
 }
 
-/* Wrap and center bot images with spacing */
 .bot-gallery {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 40px; /* Space between images */
+  gap: 40px;
 }
+
+/* ================= HOVER (desktop / mouse-only) ================= */
+
+@media (hover: hover) {
+  .toggle-button img:hover {
+    transform: rotate(40deg) scale(1.2);
+  }
+  .menu-item img:hover {
+    transform: rotate(10deg) scale(1.1);
+  }
+  .portfolio-item:hover img {
+    opacity: 0.6;
+    filter: brightness(40%);
+  }
+  .portfolio-item:hover .description {
+    opacity: 1;
+  }
+  #volumeButton:hover {
+    transform: rotate(20deg) scale(1.2);
+  }
+  .lightbox-img:hover {
+    transform: scale(1.05);
+  }
+  .close-btn:hover {
+    transform: rotate(90deg) scale(1.2);
+  }
+}
+
+/* ================= TOUCH (no hover) — persistent state ================= */
+
+@media (hover: none) {
+  #menu-toggle:checked ~ .toggle-button img {
+    transform: rotate(40deg) scale(1.2);
+  }
+  #volumeButton.clicked {
+    transform: rotate(20deg) scale(1.2);
+  }
+}
+
 /* ================= MOBILE ================= */
 
 @media (max-width: 768px) {
-  .title {
-    top: 3%;
-    left: 5%;
-    width: 30%;
+  html,
+  body {
+    overflow-x: hidden;
   }
 
+  body {
+    min-height: auto;
+    padding: 0 0 12vh;
+    background-color: #0f0f3d;
+    background-image: url("image/portfolio-bg-mobile.png");
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: 100% auto;
+  }
+
+  /* Portfolio items become a stacked vertical feed, centered */
+  .portfolio-item {
+    position: relative;
+    width: 80vw;
+    max-width: 450px;
+    margin: 0 auto 50px;
+    display: block;
+  }
+
+  /* Reset desktop inset values so items don't shift off-center */
+  .item-1,
+  .item-2,
+  .item-3,
+  .item-4,
+  .item-5,
+  .item-6,
+  .item-7,
+  .item-8,
+  .item-9,
+  .item-10,
+  .item-11 {
+    inset: auto;
+  }
+
+  /* First item carries the top spacing */
+  .item-1 {
+    margin-top: 22vh;
+  }
+
+  .portfolio-item img {
+    width: 100%;
+    height: auto;
+  }
+
+  .item-1 img,
+  .item-2 img,
+  .item-3 img,
+  .item-4 img,
+  .item-5 img,
+  .item-6 img,
+  .item-7 img,
+  .item-8 img,
+  .item-9 img,
+  .item-10 img {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .item-11 {
+    display: none;
+  }
+
+  /* Menu toggle — Figma sized, inset from corner */
   .toggle-button {
     top: 3%;
-    right: 4%;
-    width: 20vw;
-    height: 20vw;
-    max-width: 120px;
-    max-height: 120px;
-    min-width: 70px;
-    min-height: 70px;
+    right: 7%;
+    width: 16vw;
+    height: 16vw;
+    max-width: 70px;
+    max-height: 70px;
+    min-width: 50px;
+    min-height: 50px;
   }
 
   .menu-item img {
@@ -359,7 +431,6 @@ body {
     max-height: 422px;
   }
 
-  /* Your menu positions — kept as-is */
   #portfolio {
     top: 11vh;
     left: 40vw;
@@ -375,5 +446,38 @@ body {
   #home {
     top: 53vh;
     left: 22vw;
+  }
+
+  #volumeButton {
+    top: auto;
+    bottom: 4%;
+    left: 4%;
+    width: 50px;
+  }
+
+  .lightbox-content {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .lightbox-img {
+    max-width: 90vw;
+  }
+
+  .lightbox-img[src*="bot1.jpg"],
+  .lightbox-img[src*="bot2.jpg"],
+  .lightbox-img[src*="bot3.jpg"] {
+    max-width: 90vw;
+  }
+
+  .calendars {
+    max-width: 90vw;
+  }
+
+  .close-btn {
+    top: 15px;
+    right: 15px;
+    width: 35px;
   }
 }

@@ -2,12 +2,24 @@ body {
   margin: 0;
   height: 200vh;
   font-family: Arial, sans-serif;
-  background-color: #0f0f3d;
-  background: url("image/background2.png") no-repeat center top;
+  background-color: #3d5a2a;
+  background-image: url("image/background2.png");
+  background-repeat: no-repeat;
+  background-position: center top;
   background-size: cover;
   transition: background-color 1s;
   --scroll-position: 0;
   overflow-x: hidden;
+}
+
+/* Image protection — no long-press save on iOS, no drag, no select */
+img {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  user-drag: none;
 }
 
 .toggle-button {
@@ -99,7 +111,8 @@ body {
   background-size: cover;
   z-index: -1;
   transition: transform 0.7s;
-  transform: translateX(calc(var(--scroll-position) * -300%));
+  transform: translate3d(calc(var(--scroll-position) * -300%), 0, 0);
+  will-change: transform;
 }
 
 .hill2 {
@@ -112,7 +125,8 @@ body {
   background-size: cover;
   z-index: -2;
   transition: transform 0.7s;
-  transform: translateX(calc(var(--scroll-position) * 300%));
+  transform: translate3d(calc(var(--scroll-position) * 300%), 0, 0);
+  will-change: transform;
 }
 
 /* Repurposed as the UFO abduction flash overlay */
@@ -134,7 +148,7 @@ body::after {
   height: 35%;
   background: url("image/moon.png") no-repeat center center;
   background-size: contain;
-  z-index: 10;
+  z-index: 5; /* lowered from 10 so the menu overlay covers it when menu is open */
   opacity: 1;
   transition:
     opacity 0.7s,
@@ -276,12 +290,12 @@ body.ufo-launch::after {
 
 @media (max-width: 768px) {
   body {
-    background-color: #0f0f3d;
+    background-color: #3d5a2a;
     background-image: url("image/homepage-bg-mobile2.png");
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: center top;
     background-size: cover;
-    background-attachment: fixed;
+    /* background-attachment: fixed REMOVED — causes iOS zoom/blur bug */
     height: 200vh;
   }
 
@@ -316,8 +330,7 @@ body.ufo-launch::after {
     top: 18vh;
   }
 
-  /* Clickable UFO trigger — fixed to viewport (no scroll drift),
-     hidden by default, fades in via .visible class when scrolled to bottom. */
+  /* Clickable UFO trigger — fixed to viewport, hidden until scrolled to bottom */
   .ufo-trigger {
     position: fixed;
     bottom: 16%;
@@ -333,7 +346,8 @@ body.ufo-launch::after {
     pointer-events: auto;
   }
 
-  /* Mobile fields — slide out fully to reveal the bg with telescope */
+  /* Mobile fields — slide out fully to reveal the bg with telescope.
+     Shorter transition + translate3d + will-change for smoother mobile perf. */
   .big-field {
     display: block;
     position: fixed;
@@ -344,8 +358,9 @@ body.ufo-launch::after {
     background: url("image/big-field.png") no-repeat center;
     background-size: contain;
     z-index: 1;
-    transition: transform 0.7s;
-    transform: translateX(calc(var(--scroll-position) * -300%));
+    transition: transform 0.3s ease-out;
+    transform: translate3d(calc(var(--scroll-position) * -300%), 0, 0);
+    will-change: transform;
   }
 
   .field-right {
@@ -358,8 +373,9 @@ body.ufo-launch::after {
     background: url("image/field-right.png") no-repeat right center;
     background-size: contain;
     z-index: 2;
-    transition: transform 0.7s;
-    transform: translateX(calc(var(--scroll-position) * 300%));
+    transition: transform 0.3s ease-out;
+    transform: translate3d(calc(var(--scroll-position) * 300%), 0, 0);
+    will-change: transform;
   }
 
   .field-left {
@@ -372,8 +388,9 @@ body.ufo-launch::after {
     background: url("image/field-left.png") no-repeat left center;
     background-size: contain;
     z-index: 3;
-    transition: transform 0.7s;
-    transform: translateX(calc(var(--scroll-position) * -300%));
+    transition: transform 0.3s ease-out;
+    transform: translate3d(calc(var(--scroll-position) * -300%), 0, 0);
+    will-change: transform;
   }
 
   /* Menu — matched to your other mobile pages */

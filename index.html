@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#3d5a2a" />
+    <meta name="theme-color" content="#000000" />
     <title>hallofries studios</title>
     <link rel="stylesheet" href="index.css" />
     <link
@@ -41,6 +41,9 @@
     src="//gc.zgo.at/count.js"
   ></script>
   <body>
+    <!-- Fixed bg image (viewport-sized, no body-height upscaling) -->
+    <div class="bg-image"></div>
+
     <input type="checkbox" id="menu-toggle" />
     <label class="toggle-button" for="menu-toggle">
       <img src="image/menu2.png" alt="Menu" />
@@ -84,10 +87,21 @@
       <a href="contactme.html"><img src="image/contact.png" alt="Contact" /></a>
     </div>
 
+    <!-- Audio (HTML5 audio elements — reliable playback) -->
+    <audio id="backgroundMusic" loop preload="auto">
+      <source src="image/night ambiance.mp3" type="audio/mpeg" />
+    </audio>
+
+    <audio id="scrollSound" preload="auto">
+      <source src="image/spooky theremin.mp3" type="audio/mpeg" />
+    </audio>
+
     <img src="image/musicnote.png" alt="Volume Button" id="volumeButton" />
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        const backgroundMusic = document.getElementById("backgroundMusic");
+        const scrollSound = document.getElementById("scrollSound");
         const volumeButton = document.getElementById("volumeButton");
         const moon = document.getElementById("moon");
         const ufoTrigger = document.getElementById("ufoTrigger");
@@ -95,98 +109,60 @@
         let hasPlayedScrollSound = false;
         let ufoTriggered = false;
 
-        // ============ AUDIO (Web Audio API — no lock screen indicator) ============
-        let audioContext = null;
-        let bgMusicBuffer = null;
-        let scrollSoundBuffer = null;
-        let bgMusicSource = null;
-        let bgGainNode = null;
-        let scrollGainNode = null;
-        let bgPlaying = false;
-
-        async function initAudio() {
+        // ============ MEDIA SESSION SUPPRESSION ============
+        // Best-effort attempt to hide audio from iOS lock screen.
+        function suppressMediaSession() {
+          if (!("mediaSession" in navigator)) return;
           try {
-            audioContext = new (
-              window.AudioContext || window.webkitAudioContext
-            )();
-
-            bgGainNode = audioContext.createGain();
-            bgGainNode.gain.value = 0.4;
-            bgGainNode.connect(audioContext.destination);
-
-            scrollGainNode = audioContext.createGain();
-            scrollGainNode.gain.value = 0.2;
-            scrollGainNode.connect(audioContext.destination);
-
-            const [bgRes, scrollRes] = await Promise.all([
-              fetch("image/night ambiance.mp3"),
-              fetch("image/spooky theremin.mp3"),
-            ]);
-
-            const [bgArr, scrollArr] = await Promise.all([
-              bgRes.arrayBuffer(),
-              scrollRes.arrayBuffer(),
-            ]);
-
-            [bgMusicBuffer, scrollSoundBuffer] = await Promise.all([
-              audioContext.decodeAudioData(bgArr),
-              audioContext.decodeAudioData(scrollArr),
-            ]);
-          } catch (err) {
-            console.warn("Audio init failed:", err);
-          }
+            navigator.mediaSession.metadata = null;
+            navigator.mediaSession.playbackState = "none";
+            [
+              "play",
+              "pause",
+              "previoustrack",
+              "nexttrack",
+              "seekbackward",
+              "seekforward",
+              "seekto",
+              "stop",
+            ].forEach((action) => {
+              try {
+                navigator.mediaSession.setActionHandler(action, null);
+              } catch (e) {}
+            });
+          } catch (e) {}
         }
 
-        async function startBgMusic() {
-          if (!audioContext || bgPlaying || !bgMusicBuffer) return;
-          try {
-            if (audioContext.state === "suspended") {
-              await audioContext.resume();
-            }
-            bgMusicSource = audioContext.createBufferSource();
-            bgMusicSource.buffer = bgMusicBuffer;
-            bgMusicSource.loop = true;
-            bgMusicSource.connect(bgGainNode);
-            bgMusicSource.start();
-            bgPlaying = true;
-          } catch (err) {
-            console.warn("BG music failed:", err);
-          }
+        // Optionally try to disable remote playback (AirPlay etc.)
+        try {
+          backgroundMusic.disableRemotePlayback = true;
+          scrollSound.disableRemotePlayback = true;
+        } catch (e) {}
+
+        // ============ START BG MUSIC ON FIRST INTERACTION ============
+        function startMusic() {
+          backgroundMusic.volume = 0.4;
+          backgroundMusic.loop = true;
+          backgroundMusic
+            .play()
+            .then(() => {
+              suppressMediaSession();
+            })
+            .catch((err) => console.warn("Autoplay blocked:", err));
         }
 
-        function playScrollSound() {
-          if (!audioContext || !scrollSoundBuffer) return;
-          try {
-            const source = audioContext.createBufferSource();
-            source.buffer = scrollSoundBuffer;
-            source.connect(scrollGainNode);
-            source.onended = () => {
-              hasPlayedScrollSound = false;
-            };
-            source.start();
-            hasPlayedScrollSound = true;
-          } catch (err) {
-            console.warn("Scroll sound failed:", err);
-          }
-        }
+        // Use capture phase + both click AND touchstart so the handler fires
+        // even if a child element calls stopPropagation, and on the first touch
+        // (since iOS unlocks audio on touchstart, not just click).
+        const tryStartMusic = () => {
+          startMusic();
+          document.removeEventListener("click", tryStartMusic, true);
+          document.removeEventListener("touchstart", tryStartMusic, true);
+        };
+        document.addEventListener("click", tryStartMusic, true);
+        document.addEventListener("touchstart", tryStartMusic, true);
 
-        function toggleMute() {
-          isMuted = !isMuted;
-          if (bgGainNode) bgGainNode.gain.value = isMuted ? 0 : 0.4;
-          if (scrollGainNode) scrollGainNode.gain.value = isMuted ? 0 : 0.2;
-        }
-
-        initAudio();
-
-        document.body.addEventListener(
-          "click",
-          () => {
-            startBgMusic();
-          },
-          { once: true },
-        );
-
-        // ============ SCROLL (rAF-throttled for smoother mobile parallax) ============
+        // ============ SCROLL (rAF-throttled + scroll sound + UFO visibility) ============
         let scrollScheduled = false;
 
         window.addEventListener("scroll", () => {
@@ -197,10 +173,21 @@
               window.scrollY / document.documentElement.scrollHeight;
             document.body.style.setProperty("--scroll-position", scrollPos);
 
+            // Scroll sound: plays once when user starts scrolling
             if (!isMuted && !hasPlayedScrollSound) {
-              playScrollSound();
+              scrollSound.currentTime = 0;
+              scrollSound.volume = 0.2;
+              scrollSound
+                .play()
+                .then(() => suppressMediaSession())
+                .catch((err) => console.warn("Scroll sound blocked:", err));
+              hasPlayedScrollSound = true;
+              scrollSound.onended = () => {
+                hasPlayedScrollSound = false;
+              };
             }
 
+            // UFO trigger fade-in when near bottom of scroll
             if (ufoTrigger && !ufoTriggered) {
               const maxScroll =
                 document.documentElement.scrollHeight - window.innerHeight;
@@ -235,7 +222,9 @@
 
         // ============ VOLUME BUTTON ============
         volumeButton.addEventListener("click", () => {
-          toggleMute();
+          isMuted = !isMuted;
+          backgroundMusic.muted = isMuted;
+          scrollSound.muted = isMuted;
           volumeButton.src = isMuted
             ? "image/musicnote-muted.png"
             : "image/musicnote.png";
@@ -252,7 +241,7 @@
           });
         }
 
-        // ============ IMAGE PROTECTION (no right-click, no drag, no long-press save) ============
+        // ============ IMAGE PROTECTION ============
         document.addEventListener("contextmenu", (e) => e.preventDefault());
         document.addEventListener("dragstart", (e) => {
           if (e.target.tagName === "IMG") e.preventDefault();

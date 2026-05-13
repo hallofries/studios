@@ -2,14 +2,23 @@ body {
   margin: 0;
   height: 200vh;
   font-family: Arial, sans-serif;
-  background-color: #3d5a2a;
-  background-image: url("image/background2.png");
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: cover;
-  transition: background-color 1s;
+  background-color: #000;
   --scroll-position: 0;
   overflow-x: hidden;
+}
+
+/* Fixed bg image — sized to viewport (100vh × 100vw), NOT body height.
+   This avoids the iOS Safari bug where bg images on tall bodies get
+   massively upscaled to fit the document height. */
+.bg-image {
+  position: fixed;
+  inset: 0;
+  background-image: url("image/background2.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  z-index: -10;
+  pointer-events: none;
 }
 
 /* Image protection — no long-press save on iOS, no drag, no select */
@@ -148,7 +157,7 @@ body::after {
   height: 35%;
   background: url("image/moon.png") no-repeat center center;
   background-size: contain;
-  z-index: 5; /* lowered from 10 so the menu overlay covers it when menu is open */
+  z-index: 5; /* lowered so menu overlay covers it when menu is open */
   opacity: 1;
   transition:
     opacity 0.7s,
@@ -290,13 +299,13 @@ body.ufo-launch::after {
 
 @media (max-width: 768px) {
   body {
-    background-color: #3d5a2a;
-    background-image: url("image/homepage-bg-mobile2.png");
-    background-repeat: no-repeat;
-    background-position: center top;
-    background-size: cover;
-    /* background-attachment: fixed REMOVED — causes iOS zoom/blur bug */
+    background-color: #000;
     height: 200vh;
+  }
+
+  /* Swap to mobile bg image (still rendered in the fixed viewport-sized div) */
+  .bg-image {
+    background-image: url("image/homepage-bg-mobile2.png");
   }
 
   .land,
@@ -346,8 +355,7 @@ body.ufo-launch::after {
     pointer-events: auto;
   }
 
-  /* Mobile fields — slide out fully to reveal the bg with telescope.
-     Shorter transition + translate3d + will-change for smoother mobile perf. */
+  /* Mobile fields — translate3d + will-change + shorter transition for smoother mobile perf */
   .big-field {
     display: block;
     position: fixed;

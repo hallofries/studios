@@ -390,7 +390,7 @@ body.ufo-launch::after {
     display: block;
     position: fixed;
     top: -15%;
-    left: -80%;
+    left: -73%;
     width: 150%;
     height: 150%;
     background: url("image/field-left.png") no-repeat left center;

@@ -109,8 +109,9 @@
         let hasPlayedScrollSound = false;
         let ufoTriggered = false;
 
+        const isMobile = () => window.matchMedia("(max-width: 768px)").matches;
+
         // ============ MEDIA SESSION SUPPRESSION ============
-        // Best-effort attempt to hide audio from iOS lock screen.
         function suppressMediaSession() {
           if (!("mediaSession" in navigator)) return;
           try {
@@ -133,11 +134,25 @@
           } catch (e) {}
         }
 
-        // Optionally try to disable remote playback (AirPlay etc.)
         try {
           backgroundMusic.disableRemotePlayback = true;
           scrollSound.disableRemotePlayback = true;
         } catch (e) {}
+
+        // ============ SCROLL SOUND HELPER ============
+        function playScrollSoundOnce() {
+          if (isMuted || hasPlayedScrollSound) return;
+          scrollSound.currentTime = 0;
+          scrollSound.volume = 0.2;
+          scrollSound
+            .play()
+            .then(() => suppressMediaSession())
+            .catch((err) => console.warn("Scroll sound blocked:", err));
+          hasPlayedScrollSound = true;
+          scrollSound.onended = () => {
+            hasPlayedScrollSound = false;
+          };
+        }
 
         // ============ START BG MUSIC ON FIRST INTERACTION ============
         function startMusic() {
@@ -151,9 +166,6 @@
             .catch((err) => console.warn("Autoplay blocked:", err));
         }
 
-        // Use capture phase + both click AND touchstart so the handler fires
-        // even if a child element calls stopPropagation, and on the first touch
-        // (since iOS unlocks audio on touchstart, not just click).
         const tryStartMusic = () => {
           startMusic();
           document.removeEventListener("click", tryStartMusic, true);
@@ -162,7 +174,7 @@
         document.addEventListener("click", tryStartMusic, true);
         document.addEventListener("touchstart", tryStartMusic, true);
 
-        // ============ SCROLL (rAF-throttled + scroll sound + UFO visibility) ============
+        // ============ SCROLL (rAF-throttled + scroll sound on desktop + UFO visibility) ============
         let scrollScheduled = false;
 
         window.addEventListener("scroll", () => {
@@ -173,18 +185,10 @@
               window.scrollY / document.documentElement.scrollHeight;
             document.body.style.setProperty("--scroll-position", scrollPos);
 
-            // Scroll sound: plays once when user starts scrolling
-            if (!isMuted && !hasPlayedScrollSound) {
-              scrollSound.currentTime = 0;
-              scrollSound.volume = 0.2;
-              scrollSound
-                .play()
-                .then(() => suppressMediaSession())
-                .catch((err) => console.warn("Scroll sound blocked:", err));
-              hasPlayedScrollSound = true;
-              scrollSound.onended = () => {
-                hasPlayedScrollSound = false;
-              };
+            // Scroll sound on scroll — DESKTOP ONLY.
+            // Mobile triggers it from the UFO click handler instead.
+            if (!isMobile()) {
+              playScrollSoundOnce();
             }
 
             // UFO trigger fade-in when near bottom of scroll
@@ -208,6 +212,12 @@
             e.stopPropagation();
             if (ufoTriggered) return;
             ufoTriggered = true;
+
+            // On mobile, the spooky theremin plays here (when UFO is tapped)
+            // instead of on scroll.
+            if (isMobile()) {
+              playScrollSoundOnce();
+            }
 
             ufoTrigger.classList.add("fading");
 

@@ -3,22 +3,17 @@ body {
   height: 200vh;
   font-family: Arial, sans-serif;
   background-color: #000;
+  background-image: url("image/background2.png");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
   --scroll-position: 0;
   overflow-x: hidden;
 }
 
-/* Fixed bg image — sized to viewport (100vh × 100vw), NOT body height.
-   This avoids the iOS Safari bug where bg images on tall bodies get
-   massively upscaled to fit the document height. */
+/* .bg-image is mobile-only — hidden on desktop where body bg handles it */
 .bg-image {
-  position: fixed;
-  inset: 0;
-  background-image: url("image/background2.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  z-index: -10;
-  pointer-events: none;
+  display: none;
 }
 
 /* Image protection — no long-press save on iOS, no drag, no select */
@@ -157,7 +152,7 @@ body::after {
   height: 35%;
   background: url("image/moon.png") no-repeat center center;
   background-size: contain;
-  z-index: 5; /* lowered so menu overlay covers it when menu is open */
+  z-index: 5;
   opacity: 1;
   transition:
     opacity 0.7s,
@@ -300,12 +295,21 @@ body.ufo-launch::after {
 @media (max-width: 768px) {
   body {
     background-color: #000;
+    background-image: none; /* remove body bg on mobile, .bg-image takes over */
     height: 200vh;
   }
 
-  /* Swap to mobile bg image (still rendered in the fixed viewport-sized div) */
+  /* .bg-image becomes visible on mobile — fixed to viewport to avoid iOS upscale bug */
   .bg-image {
+    display: block;
+    position: fixed;
+    inset: 0;
     background-image: url("image/homepage-bg-mobile2.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    z-index: -10;
+    pointer-events: none;
   }
 
   .land,

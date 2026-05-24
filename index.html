@@ -35,11 +35,13 @@
     />
     <meta property="og:type" content="website" />
   </head>
+
   <script
     data-goatcounter="https://hallofries.goatcounter.com/count"
     async
     src="//gc.zgo.at/count.js"
   ></script>
+
   <body>
     <!-- Fixed bg image (viewport-sized, no body-height upscaling) -->
     <div class="bg-image"></div>
@@ -105,18 +107,22 @@
         const volumeButton = document.getElementById("volumeButton");
         const moon = document.getElementById("moon");
         const ufoTrigger = document.getElementById("ufoTrigger");
+
         let isMuted = false;
         let hasPlayedScrollSound = false;
         let ufoTriggered = false;
+        let shouldResumeMusic = false;
 
         const isMobile = () => window.matchMedia("(max-width: 768px)").matches;
 
         // ============ MEDIA SESSION SUPPRESSION ============
         function suppressMediaSession() {
           if (!("mediaSession" in navigator)) return;
+
           try {
             navigator.mediaSession.metadata = null;
             navigator.mediaSession.playbackState = "none";
+
             [
               "play",
               "pause",
@@ -142,13 +148,17 @@
         // ============ SCROLL SOUND HELPER ============
         function playScrollSoundOnce() {
           if (isMuted || hasPlayedScrollSound) return;
+
           scrollSound.currentTime = 0;
           scrollSound.volume = 0.2;
+
           scrollSound
             .play()
             .then(() => suppressMediaSession())
             .catch((err) => console.warn("Scroll sound blocked:", err));
+
           hasPlayedScrollSound = true;
+
           scrollSound.onended = () => {
             hasPlayedScrollSound = false;
           };
@@ -158,6 +168,7 @@
         function startMusic() {
           backgroundMusic.volume = 0.4;
           backgroundMusic.loop = true;
+
           backgroundMusic
             .play()
             .then(() => {
@@ -171,18 +182,69 @@
           document.removeEventListener("click", tryStartMusic, true);
           document.removeEventListener("touchstart", tryStartMusic, true);
         };
+
         document.addEventListener("click", tryStartMusic, true);
         document.addEventListener("touchstart", tryStartMusic, true);
+
+        // ============ PAUSE AUDIO WHEN USER LEAVES / LOCKS PAGE ============
+        function pausePageAudio() {
+          // Remember if the background ambience was playing before pausing.
+          shouldResumeMusic = !backgroundMusic.paused && !isMuted;
+
+          backgroundMusic.pause();
+
+          // Stop one-shot sounds too, so they do not continue after leaving/locking.
+          scrollSound.pause();
+          scrollSound.currentTime = 0;
+          hasPlayedScrollSound = false;
+
+          suppressMediaSession();
+        }
+
+        function resumePageAudio() {
+          // Only resume if it had already been playing before the page was hidden.
+          if (!shouldResumeMusic || isMuted) return;
+
+          backgroundMusic
+            .play()
+            .then(() => suppressMediaSession())
+            .catch((err) => console.warn("Resume blocked:", err));
+
+          shouldResumeMusic = false;
+        }
+
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden) {
+            pausePageAudio();
+          } else {
+            resumePageAudio();
+          }
+        });
+
+        // Extra safety for iOS Safari / app switching / locking behavior.
+        window.addEventListener("pagehide", pausePageAudio);
+        window.addEventListener("blur", pausePageAudio);
+
+        window.addEventListener("pageshow", () => {
+          if (!document.hidden) resumePageAudio();
+        });
+
+        window.addEventListener("focus", () => {
+          if (!document.hidden) resumePageAudio();
+        });
 
         // ============ SCROLL (rAF-throttled + scroll sound on desktop + UFO visibility) ============
         let scrollScheduled = false;
 
         window.addEventListener("scroll", () => {
           if (scrollScheduled) return;
+
           scrollScheduled = true;
+
           requestAnimationFrame(() => {
             const scrollPos =
               window.scrollY / document.documentElement.scrollHeight;
+
             document.body.style.setProperty("--scroll-position", scrollPos);
 
             // Scroll sound on scroll — DESKTOP ONLY.
@@ -195,6 +257,7 @@
             if (ufoTrigger && !ufoTriggered) {
               const maxScroll =
                 document.documentElement.scrollHeight - window.innerHeight;
+
               if (window.scrollY >= maxScroll - 50) {
                 ufoTrigger.classList.add("visible");
               } else {
@@ -210,7 +273,9 @@
         if (ufoTrigger) {
           ufoTrigger.addEventListener("click", (e) => {
             e.stopPropagation();
+
             if (ufoTriggered) return;
+
             ufoTriggered = true;
 
             // On mobile, the spooky theremin plays here (when UFO is tapped)
@@ -223,6 +288,7 @@
 
             setTimeout(() => {
               document.body.classList.add("ufo-launch");
+
               setTimeout(() => {
                 window.location.href = "aboutme.html";
               }, 7000);
@@ -233,13 +299,16 @@
         // ============ VOLUME BUTTON ============
         volumeButton.addEventListener("click", () => {
           isMuted = !isMuted;
+
           backgroundMusic.muted = isMuted;
           scrollSound.muted = isMuted;
+
           volumeButton.src = isMuted
             ? "image/musicnote-muted.png"
             : "image/musicnote.png";
 
           volumeButton.classList.add("clicked");
+
           setTimeout(() => volumeButton.classList.remove("clicked"), 700);
         });
 
@@ -253,6 +322,7 @@
 
         // ============ IMAGE PROTECTION ============
         document.addEventListener("contextmenu", (e) => e.preventDefault());
+
         document.addEventListener("dragstart", (e) => {
           if (e.target.tagName === "IMG") e.preventDefault();
         });

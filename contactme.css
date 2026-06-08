@@ -29,7 +29,7 @@ body {
 .bg {
   position: absolute;
   inset: 0;
-  background-image: url("image/contact-bg.png");
+  background-image: url("image/contact-bg.jpg");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;

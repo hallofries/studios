@@ -19,8 +19,7 @@
 .preloader-meteor {
   width: 100px;
   height: 100px;
-  background: url("image/meteor.png") no-repeat center center;
-  background-size: contain;
+  object-fit: contain;
   animation: meteor-spin 1.5s linear infinite;
 }
 

@@ -44,9 +44,9 @@
   ></script>
 
   <body>
-    <!-- PRELOADER — meteor spins on dark blue while all site images cache -->
+    <!-- PRELOADER — meteor spins on dark blue while index assets cache -->
     <div class="preloader" id="preloader">
-      <div class="preloader-meteor"></div>
+      <img class="preloader-meteor" src="image/meteor.png" alt="" />
     </div>
 
     <!-- Fixed bg image (viewport-sized, no body-height upscaling) -->
@@ -106,10 +106,10 @@
 
     <img src="image/musicnote.png" alt="Volume Button" id="volumeButton" />
 
-    <!-- ============ PRELOAD ALL SITE IMAGES, THEN FADE PRELOADER ============ -->
+    <!-- ============ PRELOAD INDEX ASSETS, THEN FADE — THEN BG-PREFETCH OTHER PAGES ============ -->
     <script>
-      const SITE_IMAGES = [
-        // index.html
+      // Phase 1: assets the homepage itself needs (small, fast)
+      const INDEX_CRITICAL = [
         "image/background2.jpg",
         "image/hills.png",
         "image/hills2.png",
@@ -121,6 +121,16 @@
         "image/field-right.png",
         "image/ufo-2.png",
         "image/ufo-new.png",
+        "image/menu2.png",
+        "image/home.png",
+        "image/about.png",
+        "image/portfolio.png",
+        "image/contact.png",
+        "image/musicnote.png",
+      ];
+
+      // Phase 2: everything else, prefetched silently after preloader fades
+      const REST_OF_SITE = [
         // aboutme.html
         "image/about-bg.jpg",
         "image/about-bg-mobile.png",
@@ -177,36 +187,35 @@
         // tv.html
         "image/tele.png",
         // shared
-        "image/menu2.png",
-        "image/home.png",
-        "image/about.png",
-        "image/portfolio.png",
-        "image/contact.png",
-        "image/musicnote.png",
         "image/musicnote-muted.png",
       ];
 
-      const preloadPromise = Promise.all(
-        SITE_IMAGES.map(
-          (src) =>
-            new Promise((resolve) => {
-              const img = new Image();
-              img.onload = resolve;
-              img.onerror = resolve;
-              img.src = src;
-            }),
-        ),
-      );
+      function preloadImages(urls) {
+        return Promise.all(
+          urls.map(
+            (src) =>
+              new Promise((resolve) => {
+                const img = new Image();
+                img.onload = resolve;
+                img.onerror = resolve;
+                img.src = src;
+              }),
+          ),
+        );
+      }
 
-      // Safety timeout — if anything stalls, hide preloader after 8s anyway
-      const maxWait = new Promise((resolve) => setTimeout(resolve, 8000));
+      // Safety cap so the preloader never hangs forever
+      const maxWait = new Promise((resolve) => setTimeout(resolve, 4000));
 
-      Promise.race([preloadPromise, maxWait]).then(() => {
+      Promise.race([preloadImages(INDEX_CRITICAL), maxWait]).then(() => {
         const preloader = document.getElementById("preloader");
         if (preloader) {
           preloader.classList.add("done");
           setTimeout(() => preloader.remove(), 500);
         }
+
+        // Quietly prefetch other pages while user is on the homepage
+        setTimeout(() => preloadImages(REST_OF_SITE), 600);
       });
     </script>
 

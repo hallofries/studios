@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <title>map - hallofries studios</title>
+    <link rel="stylesheet" href="map.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="image/favicon-16x16.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="image/favicon-32x32.png"
+    />
+    <link rel="icon" type="image/x-icon" href="image/favicon.ico" />
+    <link rel="apple-touch-icon" href="image/apple-touch-icon.png" />
+    <link rel="manifest" href="image/site.webmanifest" />
+
+    <meta property="og:title" content="map - hallofries studios" />
+    <meta property="og:description" content="explore the observatory" />
+    <meta
+      property="og:image"
+      content="https://hallofries.github.io/studios/image/home.png"
+    />
+    <meta
+      property="og:url"
+      content="https://hallofries.github.io/studios/map.html"
+    />
+    <meta property="og:type" content="website" />
+  </head>
+  <script
+    data-goatcounter="https://hallofries.goatcounter.com/count"
+    async
+    src="//gc.zgo.at/count.js"
+  ></script>
+  <body>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="toggle-button" for="menu-toggle">
+      <img src="image/menu2.png" alt="Menu" />
+    </label>
+
+    <div class="overlay"></div>
+
+    <div class="menu-item" id="home">
+      <a href="index.html"><img src="image/home.png" alt="Home" /></a>
+    </div>
+    <div class="menu-item" id="about">
+      <a href="aboutme.html"><img src="image/about.png" alt="About" /></a>
+    </div>
+    <div class="menu-item" id="portfolio">
+      <a href="portf.html"><img src="image/portfolio.png" alt="Portfolio" /></a>
+    </div>
+    <div class="menu-item" id="contact">
+      <a href="contactme.html"><img src="image/contact.png" alt="Contact" /></a>
+    </div>
+
+    <div class="map-frame">
+      <div class="map-bg"></div>
+
+      <div class="object-area">
+        <a class="map-object observatory-link" href="aboutme.html">
+          <img src="image/observatory.png" alt="Observatory" />
+        </a>
+        <a class="map-object rocket-link" href="portf.html">
+          <img src="image/rocket3.png" alt="Rocket" />
+        </a>
+        <a class="map-object earth-link" href="index.html">
+          <img src="image/earth.png" alt="Earth" />
+        </a>
+        <a class="map-object mailbox-link" href="contactme.html">
+          <img src="image/mailbox2.png" alt="Mailbox" />
+        </a>
+
+        <a class="map-icon map-home-icon" href="index.html">
+          <img src="image/home.png" alt="Home" />
+        </a>
+        <a class="map-icon map-about-icon" href="aboutme.html">
+          <img src="image/about.png" alt="About" />
+        </a>
+        <a class="map-icon map-portfolio-icon" href="portf.html">
+          <img src="image/portfolio.png" alt="Portfolio" />
+        </a>
+        <a class="map-icon map-contact-icon" href="contactme.html">
+          <img src="image/contact.png" alt="Contact" />
+        </a>
+
+        <img class="wall" src="image/wall.png" alt="" />
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("contextmenu", (e) => e.preventDefault());
+      document.addEventListener("dragstart", (e) => {
+        if (e.target.tagName === "IMG") e.preventDefault();
+      });
+    </script>
+  </body>
+</html>

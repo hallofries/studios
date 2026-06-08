@@ -1,0 +1,379 @@
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #000;
+  overflow: hidden;
+}
+
+img {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+/* ============ MAP FRAME — now matches new image aspect 4493:2160 ============ */
+
+.map-frame {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: max(100vw, calc(100vh * 4493 / 2160));
+  height: max(100vh, calc(100vw * 2160 / 4493));
+  overflow: hidden;
+}
+
+.map-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url("image/map.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  z-index: -10;
+  pointer-events: none;
+}
+
+/* ============ OBJECT AREA — inner 16:9 region where the actual scene sits ============
+   Centered horizontally in the wider frame. All objects/icons/wall are positioned
+   relative to THIS, not the full frame, so their %s match the original composition.
+   85.47% = 3840 / 4493 (assumes ~326px side padding on each side of the image). */
+
+.object-area {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85.47%;
+  height: 100%;
+}
+
+/* ============ MENU TOGGLE ============ */
+
+.toggle-button {
+  position: fixed;
+  top: 20px;
+  right: 2%;
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
+  z-index: 11;
+}
+
+.toggle-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s;
+}
+
+#menu-toggle {
+  display: none;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0);
+  z-index: 9;
+  pointer-events: none;
+  transition: background-color 0.5s ease;
+}
+
+#menu-toggle:checked ~ .overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  pointer-events: all;
+}
+
+.menu-item {
+  position: fixed;
+  transform: scale(0);
+  opacity: 0;
+  transition:
+    transform 0.5s ease,
+    opacity 0.5s ease;
+  z-index: 10;
+}
+
+.menu-item img {
+  width: 380px;
+  height: 380px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+#home {
+  top: 50vh;
+  left: 40vw;
+}
+#about {
+  top: 30vh;
+  left: 15vw;
+}
+#portfolio {
+  top: 5vh;
+  left: 35vw;
+}
+#contact {
+  top: 20vh;
+  left: 55vw;
+}
+
+#menu-toggle:checked ~ .menu-item {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ============ MAP OBJECTS (positions are % of .object-area, unchanged) ============ */
+
+.map-object {
+  position: absolute;
+  display: block;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.map-object img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.observatory-link {
+  width: 40.25%;
+  left: 1.79%;
+  top: 3%;
+}
+
+.rocket-link {
+  width: 16.87%;
+  right: 11.28%;
+  bottom: 5.85%;
+}
+
+.earth-link {
+  width: 11.28%;
+  right: 28.3%;
+  top: 17.98%;
+}
+
+.mailbox-link {
+  width: 5.16%;
+  right: 45.89%;
+  top: 62.52%;
+}
+
+/* ============ MAP MENU ICONS ============ */
+
+.map-icon {
+  position: absolute;
+  display: block;
+  width: 11.93%;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.map-icon img {
+  width: 90%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.map-home-icon {
+  top: 8.74%;
+  right: 22.38%;
+  transform: rotate(-14.68deg);
+}
+
+.map-about-icon {
+  top: 50.02%;
+  left: 21.71%;
+  transform: rotate(-21.34deg);
+}
+
+.map-portfolio-icon {
+  right: 6.8%;
+  bottom: 24.69%;
+  transform: rotate(18.05deg);
+}
+
+.map-contact-icon {
+  top: 44.76%;
+  left: 43.82%;
+  transform: rotate(15.65deg);
+}
+
+/* ============ FOREGROUND WALL ============ */
+
+.wall {
+  position: absolute;
+  width: 42.79%;
+  height: auto;
+  left: -9.05%;
+  top: 67.09%;
+  z-index: 5;
+  pointer-events: none;
+  display: block;
+}
+
+/* ============ HOVER ============ */
+
+@media (hover: hover) {
+  .toggle-button img:hover {
+    transform: rotate(40deg) scale(1.2);
+  }
+
+  .menu-item img:hover {
+    transform: rotate(10deg) scale(1.1);
+  }
+
+  .map-icon:hover img {
+    transform: rotate(10deg) scale(1.1);
+  }
+}
+
+@media (hover: none) {
+  #menu-toggle:checked ~ .toggle-button img {
+    transform: rotate(40deg) scale(1.2);
+  }
+}
+
+/* ============================================================
+   MOBILE — frame and object-area both match mobile aspect 390:844.
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .map-frame {
+    width: max(100vw, calc(100vh * 390 / 844));
+    height: max(100vh, calc(100vw * 844 / 390));
+  }
+
+  .map-bg {
+    background-image: url("image/mapmobile.png");
+  }
+
+  /* On mobile, the bg already matches the composition aspect,
+     so the object-area fills the whole frame (no inner letterbox). */
+  .object-area {
+    width: 100%;
+    left: 0;
+    transform: none;
+  }
+
+  /* ----- Toggle button ----- */
+  .toggle-button {
+    top: 3%;
+    right: 4%;
+    width: 20vw;
+    height: 20vw;
+    max-width: 120px;
+    max-height: 120px;
+    min-width: 70px;
+    min-height: 70px;
+  }
+
+  /* ----- Slide-out menu items ----- */
+  .menu-item img {
+    width: 53vw;
+    aspect-ratio: 9 / 10;
+    height: auto;
+    max-width: 380px;
+    max-height: 422px;
+  }
+
+  #portfolio {
+    top: 11vh;
+    left: 40vw;
+  }
+  #about {
+    top: 26vh;
+    left: 4vw;
+  }
+  #contact {
+    top: 35vh;
+    left: 43vw;
+  }
+  #home {
+    top: 53vh;
+    left: 22vw;
+  }
+
+  /* ----- Scene objects ----- */
+  .observatory-link {
+    width: 83.59%;
+    left: -10.26%;
+    right: auto;
+    top: 49.17%;
+    bottom: auto;
+  }
+
+  .rocket-link {
+    width: 34.1%;
+    right: 10.77%;
+    left: auto;
+    top: 32.94%;
+    bottom: auto;
+  }
+
+  .earth-link {
+    width: 25.9%;
+    left: 28.46%;
+    right: auto;
+    top: 8.71%;
+    bottom: auto;
+  }
+
+  .mailbox-link {
+    width: 8.46%;
+    left: 36.92%;
+    right: auto;
+    top: 36.49%;
+    bottom: auto;
+  }
+
+  /* ----- Map menu icons ----- */
+  .map-icon {
+    width: 23.08%;
+  }
+
+  .map-home-icon {
+    top: 4.5%;
+    right: 32.31%;
+    left: auto;
+    bottom: auto;
+  }
+
+  .map-about-icon {
+    top: 75.12%;
+    left: 30.51%;
+    right: auto;
+    bottom: auto;
+  }
+
+  .map-portfolio-icon {
+    top: 37.8%;
+    right: 0.77%;
+    left: auto;
+    bottom: auto;
+  }
+
+  .map-contact-icon {
+    top: 26.07%;
+    left: 14.62%;
+    right: auto;
+    bottom: auto;
+  }
+
+  /* ----- Wall (mirrored, mapmobile.png-sized) ----- */
+  .wall {
+    width: 110.26%;
+    left: -7.95%;
+    top: 79.03%;
+    transform: scaleX(-1);
+  }
+}

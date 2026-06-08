@@ -30,7 +30,7 @@ img {
 .map-bg {
   position: absolute;
   inset: 0;
-  background-image: url("image/map.png");
+  background-image: url("image/map.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -254,7 +254,7 @@ img {
   }
 
   .map-bg {
-    background-image: url("image/mapmobile.png");
+    background-image: url("image/mapmobile.jpg");
   }
 
   /* On mobile, the bg already matches the composition aspect,

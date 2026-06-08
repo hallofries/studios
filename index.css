@@ -1,3 +1,37 @@
+/* ================= PRELOADER (index page only) ================= */
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  background: #0a0e2a;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease;
+}
+
+.preloader.done {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.preloader-meteor {
+  width: 100px;
+  height: 100px;
+  background: url("image/meteor.png") no-repeat center center;
+  background-size: contain;
+  animation: meteor-spin 1.5s linear infinite;
+}
+
+@keyframes meteor-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ================= BASE ================= */
+
 body {
   margin: 0;
   height: 200vh;

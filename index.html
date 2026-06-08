@@ -22,6 +22,7 @@
     <link rel="apple-touch-icon" href="image/apple-touch-icon.png" />
     <link rel="manifest" href="image/site.webmanifest" />
     <link rel="preload" href="image/favicon.ico" as="image" />
+    <link rel="preload" href="image/meteor.png" as="image" />
 
     <meta property="og:title" content="hallofries studios" />
     <meta property="og:description" content="moo!" />
@@ -43,6 +44,11 @@
   ></script>
 
   <body>
+    <!-- PRELOADER — meteor spins on dark blue while all site images cache -->
+    <div class="preloader" id="preloader">
+      <div class="preloader-meteor"></div>
+    </div>
+
     <!-- Fixed bg image (viewport-sized, no body-height upscaling) -->
     <div class="bg-image"></div>
 
@@ -99,6 +105,110 @@
     </audio>
 
     <img src="image/musicnote.png" alt="Volume Button" id="volumeButton" />
+
+    <!-- ============ PRELOAD ALL SITE IMAGES, THEN FADE PRELOADER ============ -->
+    <script>
+      const SITE_IMAGES = [
+        // index.html
+        "image/background2.jpg",
+        "image/hills.png",
+        "image/hills2.png",
+        "image/moon.png",
+        "image/homepage-bg-mobile2.png",
+        "image/hallofries-moon.png",
+        "image/big-field.png",
+        "image/field-left.png",
+        "image/field-right.png",
+        "image/ufo-2.png",
+        "image/ufo-new.png",
+        // aboutme.html
+        "image/about-bg.jpg",
+        "image/about-bg-mobile.png",
+        "image/about-title.png",
+        "image/telescope-about.png",
+        "image/bed.png",
+        "image/diary.png",
+        "image/pillow.png",
+        "image/pencil-photoshop.png",
+        "image/pencil-illustrator.png",
+        "image/pencil-indesign.png",
+        "image/pencil-procreate.png",
+        "image/pencil-figma.png",
+        "image/diary-open.png",
+        "image/diary-open-mobile.png",
+        // contactme.html
+        "image/contact-bg.png",
+        "image/contact-bg-mobile.png",
+        "image/contact-title.png",
+        "image/meteor.png",
+        "image/mailbox.png",
+        "image/letter.png",
+        "image/instagram.png",
+        "image/behance.png",
+        "image/tiktok.png",
+        // portf.html
+        "image/idkgirl.jpg",
+        "image/portfolio-bg-mobile.jpg",
+        "image/bot.png",
+        "image/calendar.png",
+        "image/TV.png",
+        "image/toy.png",
+        "image/magazine.png",
+        "image/fox.png",
+        "image/citadel.png",
+        "image/post.png",
+        "image/moomins.png",
+        "image/celestron.png",
+        "image/popcorn.png",
+        "image/close.png",
+        "image/bot1.jpg",
+        "image/bot2.jpg",
+        "image/bot3.jpg",
+        "image/calendars.png",
+        "image/calendars2.png",
+        // map.html
+        "image/map.jpg",
+        "image/mapmobile.jpg",
+        "image/observatory.png",
+        "image/rocket3.png",
+        "image/earth.png",
+        "image/mailbox2.png",
+        "image/wall.png",
+        // tv.html
+        "image/tele.png",
+        // shared
+        "image/menu2.png",
+        "image/home.png",
+        "image/about.png",
+        "image/portfolio.png",
+        "image/contact.png",
+        "image/musicnote.png",
+        "image/musicnote-muted.png",
+      ];
+
+      const preloadPromise = Promise.all(
+        SITE_IMAGES.map(
+          (src) =>
+            new Promise((resolve) => {
+              const img = new Image();
+              img.onload = resolve;
+              img.onerror = resolve;
+              img.src = src;
+            }),
+        ),
+      );
+
+      // Safety timeout — if anything stalls, hide preloader after 8s anyway
+      const maxWait = new Promise((resolve) => setTimeout(resolve, 8000));
+
+      Promise.race([preloadPromise, maxWait]).then(() => {
+        const preloader = document.getElementById("preloader");
+        if (preloader) {
+          preloader.classList.add("done");
+          setTimeout(() => preloader.remove(), 500);
+        }
+      });
+    </script>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
@@ -188,12 +298,10 @@
 
         // ============ PAUSE AUDIO WHEN USER LEAVES / LOCKS PAGE ============
         function pausePageAudio() {
-          // Remember if the background ambience was playing before pausing.
           shouldResumeMusic = !backgroundMusic.paused && !isMuted;
 
           backgroundMusic.pause();
 
-          // Stop one-shot sounds too, so they do not continue after leaving/locking.
           scrollSound.pause();
           scrollSound.currentTime = 0;
           hasPlayedScrollSound = false;
@@ -202,7 +310,6 @@
         }
 
         function resumePageAudio() {
-          // Only resume if it had already been playing before the page was hidden.
           if (!shouldResumeMusic || isMuted) return;
 
           backgroundMusic
@@ -221,7 +328,6 @@
           }
         });
 
-        // Extra safety for iOS Safari / app switching / locking behavior.
         window.addEventListener("pagehide", pausePageAudio);
         window.addEventListener("blur", pausePageAudio);
 
@@ -233,7 +339,7 @@
           if (!document.hidden) resumePageAudio();
         });
 
-        // ============ SCROLL (rAF-throttled + scroll sound on desktop + UFO visibility) ============
+        // ============ SCROLL ============
         let scrollScheduled = false;
 
         window.addEventListener("scroll", () => {
@@ -247,13 +353,10 @@
 
             document.body.style.setProperty("--scroll-position", scrollPos);
 
-            // Scroll sound on scroll — DESKTOP ONLY.
-            // Mobile triggers it from the UFO click handler instead.
             if (!isMobile()) {
               playScrollSoundOnce();
             }
 
-            // UFO trigger fade-in when near bottom of scroll
             if (ufoTrigger && !ufoTriggered) {
               const maxScroll =
                 document.documentElement.scrollHeight - window.innerHeight;
@@ -278,8 +381,6 @@
 
             ufoTriggered = true;
 
-            // On mobile, the spooky theremin plays here (when UFO is tapped)
-            // instead of on scroll.
             if (isMobile()) {
               playScrollSoundOnce();
             }

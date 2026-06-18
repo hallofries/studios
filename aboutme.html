@@ -1,253 +1,312 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Me</title>
-  <link rel="stylesheet" href="aboutme.css" />
-</head>
-<body>
+  <head>
+    <link rel="stylesheet" href="cursor.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Me</title>
+    <link rel="stylesheet" href="aboutme.css" />
+  </head>
+  <body>
+    <div class="stage">
+      <!-- Background -->
+      <div class="bg"></div>
 
-  <div class="stage">
+      <!-- Title (top-left) -->
+      <img class="title" src="image/about-title.png" alt="About Me" />
 
-    <!-- Background -->
-    <div class="bg"></div>
+      <!-- ===== MENU (identical to other pages) ===== -->
+      <input type="checkbox" id="menu-toggle" />
+      <label for="menu-toggle" class="toggle-button">
+        <img src="image/menu2.png" alt="Menu" />
+      </label>
 
-    <!-- Title (top-left) -->
-    <img class="title" src="image/about-title.png" alt="About Me" />
+      <div class="overlay"></div>
 
-    <!-- ===== MENU (identical to other pages) ===== -->
-    <input type="checkbox" id="menu-toggle" />
-    <label for="menu-toggle" class="toggle-button">
-      <img src="image/menu2.png" alt="Menu" />
-    </label>
+      <div class="menu-item" id="home">
+        <a href="index.html"><img src="image/home.png" alt="Home" /></a>
+      </div>
+      <div class="menu-item" id="about">
+        <a href="aboutme.html"><img src="image/about.png" alt="About" /></a>
+      </div>
+      <div class="menu-item" id="portfolio">
+        <a href="portf.html"
+          ><img src="image/portfolio.png" alt="Portfolio"
+        /></a>
+      </div>
+      <div class="menu-item" id="contact">
+        <a href="contactme.html"
+          ><img src="image/contact.png" alt="Contact"
+        /></a>
+      </div>
+      <!-- ===== END MENU ===== -->
 
-    <div class="overlay"></div>
+      <!-- Telescope — FIXED, clickable, only bottom edge stems out of viewport -->
+      <a
+        href="telescope.html"
+        class="telescope-fixed"
+        aria-label="Look through telescope"
+      >
+        <img src="image/telescope-about.png" alt="Telescope" />
+      </a>
 
-    <div class="menu-item" id="home">
-      <a href="index.html"><img src="image/home.png" alt="Home" /></a>
+      <!-- Bed — sits between telescope and floaters in the z-stack -->
+      <img class="bed" src="image/bed.png" alt="" />
+
+      <!-- Floating draggable items -->
+      <img
+        class="floater diary"
+        src="image/diary.png"
+        alt="Diary"
+        data-x="38"
+        data-y="28"
+        data-open="diary"
+      />
+      <img
+        class="floater pillow"
+        src="image/pillow.png"
+        alt="Pillow"
+        data-x="83"
+        data-y="78"
+        data-static="true"
+      />
+      <img
+        class="floater pencil-ps"
+        src="image/pencil-photoshop.png"
+        alt="Photoshop"
+        data-x="58"
+        data-y="10"
+      />
+      <img
+        class="floater pencil-ai"
+        src="image/pencil-illustrator.png"
+        alt="Illustrator"
+        data-x="70"
+        data-y="17"
+      />
+      <img
+        class="floater pencil-id"
+        src="image/pencil-indesign.png"
+        alt="InDesign"
+        data-x="84"
+        data-y="52"
+      />
+      <img
+        class="floater pencil-pr"
+        src="image/pencil-procreate.png"
+        alt="Procreate"
+        data-x="34"
+        data-y="75"
+      />
+      <img
+        class="floater pencil-fg"
+        src="image/pencil-figma.png"
+        alt="Figma"
+        data-x="24"
+        data-y="86"
+      />
     </div>
-    <div class="menu-item" id="about">
-      <a href="aboutme.html"><img src="image/about.png" alt="About" /></a>
+
+    <!-- Diary overlay -->
+    <div class="diary-overlay" id="diary-overlay" hidden>
+      <button class="diary-overlay-close" aria-label="Close">
+        <img src="image/close.png" alt="Close" />
+      </button>
+      <picture class="diary-overlay-img">
+        <source
+          media="(max-width: 768px)"
+          srcset="image/diary-open-mobile.png"
+        />
+        <img src="image/diary-open.png" alt="Open diary" />
+      </picture>
     </div>
-    <div class="menu-item" id="portfolio">
-      <a href="portf.html"><img src="image/portfolio.png" alt="Portfolio" /></a>
-    </div>
-    <div class="menu-item" id="contact">
-      <a href="contactme.html"><img src="image/contact.png" alt="Contact" /></a>
-    </div>
-    <!-- ===== END MENU ===== -->
 
-    <!-- Telescope — FIXED, clickable, only bottom edge stems out of viewport -->
-    <a href="telescope.html" class="telescope-fixed" aria-label="Look through telescope">
-      <img src="image/telescope-about.png" alt="Telescope" />
-    </a>
+    <script>
+      (() => {
+        const stage = document.querySelector(".stage");
+        const floaters = document.querySelectorAll(".floater");
+        const diaryOverlay = document.getElementById("diary-overlay");
+        const closeBtn = diaryOverlay.querySelector(".diary-overlay-close");
 
-    <!-- Bed — sits between telescope and floaters in the z-stack -->
-    <img class="bed" src="image/bed.png" alt="" />
+        const items = [];
 
-    <!-- Floating draggable items -->
-    <img class="floater diary"      src="image/diary.png"               alt="Diary"       data-x="38" data-y="28" data-open="diary" />
-    <img class="floater pillow"     src="image/pillow.png"              alt="Pillow"      data-x="83" data-y="78" data-static="true" />
-    <img class="floater pencil-ps"  src="image/pencil-photoshop.png"    alt="Photoshop"   data-x="58" data-y="10" />
-    <img class="floater pencil-ai"  src="image/pencil-illustrator.png"  alt="Illustrator" data-x="70" data-y="17" />
-    <img class="floater pencil-id"  src="image/pencil-indesign.png"     alt="InDesign"    data-x="84" data-y="52" />
-    <img class="floater pencil-pr"  src="image/pencil-procreate.png"    alt="Procreate"   data-x="34" data-y="75" />
-    <img class="floater pencil-fg"  src="image/pencil-figma.png"        alt="Figma"       data-x="24" data-y="86" />
+        floaters.forEach((el) => {
+          const startX = parseFloat(el.dataset.x);
+          const startY = parseFloat(el.dataset.y);
+          const isStatic = el.dataset.static === "true";
 
-  </div>
+          const item = {
+            el,
+            x: 0,
+            y: 0,
+            vx: 0,
+            vy: 0,
+            rotation: isStatic ? 0 : Math.random() * 360,
+            rotationSpeed: isStatic ? 0 : (Math.random() - 0.5) * 0.08,
+            driftPhase: Math.random() * Math.PI * 2,
+            dragging: false,
+            released: !isStatic,
+            lastX: 0,
+            lastY: 0,
+            pointerOffsetX: 0,
+            pointerOffsetY: 0,
+            didDrag: false,
+          };
 
-  <!-- Diary overlay -->
-  <div class="diary-overlay" id="diary-overlay" hidden>
-    <button class="diary-overlay-close" aria-label="Close">
-      <img src="image/close.png" alt="Close" />
-    </button>
-    <picture class="diary-overlay-img">
-      <source media="(max-width: 768px)" srcset="image/diary-open-mobile.png" />
-      <img src="image/diary-open.png" alt="Open diary" />
-    </picture>
-  </div>
+          el.style.left = startX + "%";
+          el.style.top = startY + "%";
+          el.style.transform = `translate(-50%, -50%) rotate(${item.rotation}deg)`;
+          items.push(item);
 
-  <script>
-    (() => {
-      const stage = document.querySelector('.stage');
-      const floaters = document.querySelectorAll('.floater');
-      const diaryOverlay = document.getElementById('diary-overlay');
-      const closeBtn = diaryOverlay.querySelector('.diary-overlay-close');
+          el.addEventListener("pointerdown", (e) => {
+            e.preventDefault();
+            item.dragging = true;
+            item.didDrag = false;
+            item.vx = 0;
+            item.vy = 0;
+            item.pointerOffsetX = e.clientX - item.x;
+            item.pointerOffsetY = e.clientY - item.y;
+            item.lastX = e.clientX;
+            item.lastY = e.clientY;
+            el.setPointerCapture(e.pointerId);
+            el.classList.add("dragging");
+          });
 
-      const items = [];
+          el.addEventListener("pointermove", (e) => {
+            if (!item.dragging) return;
+            const newX = e.clientX - item.pointerOffsetX;
+            const newY = e.clientY - item.pointerOffsetY;
+            item.vx = (e.clientX - item.lastX) * 0.5;
+            item.vy = (e.clientY - item.lastY) * 0.5;
+            item.lastX = e.clientX;
+            item.lastY = e.clientY;
+            if (Math.abs(newX - item.x) > 3 || Math.abs(newY - item.y) > 3) {
+              item.didDrag = true;
+            }
+            item.x = newX;
+            item.y = newY;
+          });
 
-      floaters.forEach((el) => {
-        const startX = parseFloat(el.dataset.x);
-        const startY = parseFloat(el.dataset.y);
-        const isStatic = el.dataset.static === 'true';
+          el.addEventListener("pointerup", (e) => {
+            if (!item.dragging) return;
+            item.dragging = false;
+            el.releasePointerCapture(e.pointerId);
+            el.classList.remove("dragging");
 
-        const item = {
-          el,
-          x: 0, y: 0,
-          vx: 0, vy: 0,
-          rotation: isStatic ? 0 : Math.random() * 360,
-          rotationSpeed: isStatic ? 0 : (Math.random() - 0.5) * 0.08,
-          driftPhase: Math.random() * Math.PI * 2,
-          dragging: false,
-          released: !isStatic,
-          lastX: 0, lastY: 0,
-          pointerOffsetX: 0, pointerOffsetY: 0,
-          didDrag: false,
-        };
+            if (!item.released) {
+              item.released = true;
+              item.rotationSpeed = (Math.random() - 0.5) * 0.08;
+            }
 
-        el.style.left = startX + '%';
-        el.style.top = startY + '%';
-        el.style.transform = `translate(-50%, -50%) rotate(${item.rotation}deg)`;
-        items.push(item);
-
-        el.addEventListener('pointerdown', (e) => {
-          e.preventDefault();
-          item.dragging = true;
-          item.didDrag = false;
-          item.vx = 0;
-          item.vy = 0;
-          item.pointerOffsetX = e.clientX - item.x;
-          item.pointerOffsetY = e.clientY - item.y;
-          item.lastX = e.clientX;
-          item.lastY = e.clientY;
-          el.setPointerCapture(e.pointerId);
-          el.classList.add('dragging');
+            if (!item.didDrag) {
+              if (el.dataset.open === "diary") openOverlay();
+              else if (el.dataset.nav) window.location.href = el.dataset.nav;
+            }
+          });
         });
 
-        el.addEventListener('pointermove', (e) => {
-          if (!item.dragging) return;
-          const newX = e.clientX - item.pointerOffsetX;
-          const newY = e.clientY - item.pointerOffsetY;
-          item.vx = (e.clientX - item.lastX) * 0.5;
-          item.vy = (e.clientY - item.lastY) * 0.5;
-          item.lastX = e.clientX;
-          item.lastY = e.clientY;
-          if (Math.abs(newX - item.x) > 3 || Math.abs(newY - item.y) > 3) {
-            item.didDrag = true;
-          }
-          item.x = newX;
-          item.y = newY;
-        });
+        function handleCollisions() {
+          for (let i = 0; i < items.length; i++) {
+            for (let j = i + 1; j < items.length; j++) {
+              const a = items[i];
+              const b = items[j];
+              if (a.dragging || b.dragging) continue;
+              if (!a.released || !b.released) continue;
 
-        el.addEventListener('pointerup', (e) => {
-          if (!item.dragging) return;
-          item.dragging = false;
-          el.releasePointerCapture(e.pointerId);
-          el.classList.remove('dragging');
+              const rectA = a.el.getBoundingClientRect();
+              const rectB = b.el.getBoundingClientRect();
+              const ax = rectA.left + rectA.width / 2;
+              const ay = rectA.top + rectA.height / 2;
+              const bx = rectB.left + rectB.width / 2;
+              const by = rectB.top + rectB.height / 2;
 
-          if (!item.released) {
-            item.released = true;
-            item.rotationSpeed = (Math.random() - 0.5) * 0.08;
-          }
+              const ra = Math.min(rectA.width, rectA.height) * 0.35;
+              const rb = Math.min(rectB.width, rectB.height) * 0.35;
 
-          if (!item.didDrag) {
-            if (el.dataset.open === 'diary') openOverlay();
-            else if (el.dataset.nav) window.location.href = el.dataset.nav;
-          }
-        });
-      });
+              const dx = bx - ax;
+              const dy = by - ay;
+              const dist = Math.hypot(dx, dy);
+              const minDist = ra + rb;
 
-      function handleCollisions() {
-        for (let i = 0; i < items.length; i++) {
-          for (let j = i + 1; j < items.length; j++) {
-            const a = items[i];
-            const b = items[j];
-            if (a.dragging || b.dragging) continue;
-            if (!a.released || !b.released) continue;
+              if (dist < minDist && dist > 0) {
+                const nx = dx / dist;
+                const ny = dy / dist;
 
-            const rectA = a.el.getBoundingClientRect();
-            const rectB = b.el.getBoundingClientRect();
-            const ax = rectA.left + rectA.width / 2;
-            const ay = rectA.top + rectA.height / 2;
-            const bx = rectB.left + rectB.width / 2;
-            const by = rectB.top + rectB.height / 2;
+                const overlap = (minDist - dist) / 2;
+                a.x -= nx * overlap;
+                a.y -= ny * overlap;
+                b.x += nx * overlap;
+                b.y += ny * overlap;
 
-            const ra = Math.min(rectA.width, rectA.height) * 0.35;
-            const rb = Math.min(rectB.width, rectB.height) * 0.35;
+                const rvx = b.vx - a.vx;
+                const rvy = b.vy - a.vy;
+                const velAlongNormal = rvx * nx + rvy * ny;
 
-            const dx = bx - ax;
-            const dy = by - ay;
-            const dist = Math.hypot(dx, dy);
-            const minDist = ra + rb;
+                if (velAlongNormal > 0) continue;
 
-            if (dist < minDist && dist > 0) {
-              const nx = dx / dist;
-              const ny = dy / dist;
-
-              const overlap = (minDist - dist) / 2;
-              a.x -= nx * overlap;
-              a.y -= ny * overlap;
-              b.x += nx * overlap;
-              b.y += ny * overlap;
-
-              const rvx = b.vx - a.vx;
-              const rvy = b.vy - a.vy;
-              const velAlongNormal = rvx * nx + rvy * ny;
-
-              if (velAlongNormal > 0) continue;
-
-              const restitution = 0.9;
-              const impulse = -(1 + restitution) * velAlongNormal / 2;
-              a.vx -= impulse * nx;
-              a.vy -= impulse * ny;
-              b.vx += impulse * nx;
-              b.vy += impulse * ny;
+                const restitution = 0.9;
+                const impulse = (-(1 + restitution) * velAlongNormal) / 2;
+                a.vx -= impulse * nx;
+                a.vy -= impulse * ny;
+                b.vx += impulse * nx;
+                b.vy += impulse * ny;
+              }
             }
           }
         }
-      }
 
-      function tick() {
-        const stageW = stage.clientWidth;
-        const stageH = stage.clientHeight;
+        function tick() {
+          const stageW = stage.clientWidth;
+          const stageH = stage.clientHeight;
 
-        items.forEach((item) => {
-          if (!item.released) {
-            item.el.style.transform =
-              `translate(-50%, -50%) translate(${item.x}px, ${item.y}px) rotate(${item.rotation}deg)`;
-            return;
-          }
+          items.forEach((item) => {
+            if (!item.released) {
+              item.el.style.transform = `translate(-50%, -50%) translate(${item.x}px, ${item.y}px) rotate(${item.rotation}deg)`;
+              return;
+            }
 
-          if (!item.dragging) {
-            item.x += item.vx;
-            item.y += item.vy;
-            item.vx *= 0.97;
-            item.vy *= 0.97;
+            if (!item.dragging) {
+              item.x += item.vx;
+              item.y += item.vy;
+              item.vx *= 0.97;
+              item.vy *= 0.97;
 
-            const t = performance.now() * 0.0005;
-            item.x += Math.sin(t + item.driftPhase) * 0.15;
-            item.y += Math.cos(t + item.driftPhase) * 0.15;
+              const t = performance.now() * 0.0005;
+              item.x += Math.sin(t + item.driftPhase) * 0.15;
+              item.y += Math.cos(t + item.driftPhase) * 0.15;
 
-            const rect = item.el.getBoundingClientRect();
-            const margin = 50;
-            if (rect.left < -margin) item.vx += 0.3;
-            if (rect.right > stageW + margin) item.vx -= 0.3;
-            if (rect.top < -margin) item.vy += 0.3;
-            if (rect.bottom > stageH + margin) item.vy -= 0.3;
-          }
+              const rect = item.el.getBoundingClientRect();
+              const margin = 50;
+              if (rect.left < -margin) item.vx += 0.3;
+              if (rect.right > stageW + margin) item.vx -= 0.3;
+              if (rect.top < -margin) item.vy += 0.3;
+              if (rect.bottom > stageH + margin) item.vy -= 0.3;
+            }
 
-          item.rotation += item.rotationSpeed;
+            item.rotation += item.rotationSpeed;
 
-          item.el.style.transform =
-            `translate(-50%, -50%) translate(${item.x}px, ${item.y}px) rotate(${item.rotation}deg)`;
-        });
+            item.el.style.transform = `translate(-50%, -50%) translate(${item.x}px, ${item.y}px) rotate(${item.rotation}deg)`;
+          });
 
-        handleCollisions();
+          handleCollisions();
+          requestAnimationFrame(tick);
+        }
         requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
 
-      function openOverlay() { diaryOverlay.hidden = false; }
-      function closeOverlay() { diaryOverlay.hidden = true; }
-      closeBtn.addEventListener('click', closeOverlay);
-      diaryOverlay.addEventListener('click', (e) => {
-        if (e.target === diaryOverlay) closeOverlay();
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !diaryOverlay.hidden) closeOverlay();
-      });
-    })();
-  </script>
-</body>
+        function openOverlay() {
+          diaryOverlay.hidden = false;
+        }
+        function closeOverlay() {
+          diaryOverlay.hidden = true;
+        }
+        closeBtn.addEventListener("click", closeOverlay);
+        diaryOverlay.addEventListener("click", (e) => {
+          if (e.target === diaryOverlay) closeOverlay();
+        });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && !diaryOverlay.hidden) closeOverlay();
+        });
+      })();
+    </script>
+  </body>
 </html>

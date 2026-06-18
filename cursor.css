@@ -1,0 +1,49 @@
+* {
+  cursor:
+    url("image/cursor.png") 0 0,
+    auto !important;
+}
+
+a,
+a *,
+button,
+button *,
+label,
+label *,
+input,
+select,
+textarea,
+[role="button"],
+.toggle-button,
+.menu-item,
+.menu-item *,
+.portfolio-item,
+.portfolio-item *,
+#volumeButton,
+.project-video-play,
+.project-video-play *,
+.pvc-btn,
+.pvc-btn *,
+.pvc-progress {
+  cursor:
+    url("image/cursor-active.png") 0 0,
+    pointer !important;
+}
+
+/* grabbable: built-in .floater (aboutme) + reusable .grabbable class */
+.grabbable,
+.grabbable *,
+.floater {
+  cursor:
+    url("image/cursor-grab.png") 0 0,
+    grab !important;
+}
+.grabbable:active,
+.grabbable:active *,
+.grabbing,
+.grabbing *,
+.floater.dragging {
+  cursor:
+    url("image/cursor-grabbed.png") 0 0,
+    grabbing !important;
+}

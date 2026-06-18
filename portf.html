@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <link rel="stylesheet" href="cursor.css" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>portfolio</title>
+    <title>portfolio - hallofries studios</title>
     <link rel="stylesheet" href="portf.css" />
     <link
       rel="icon"
@@ -20,8 +21,7 @@
     <link rel="icon" type="image/x-icon" href="image/favicon.ico" />
     <link rel="apple-touch-icon" href="image/apple-touch-icon.png" />
     <link rel="manifest" href="image/site.webmanifest" />
-
-    <meta property="og:title" content="portfolio" />
+    <meta property="og:title" content="portfolio - hallofries studios" />
     <meta property="og:description" content="explore my design space" />
     <meta
       property="og:image"
@@ -39,54 +39,132 @@
     ></script>
   </head>
   <body>
-    <!-- MENU -->
     <input type="checkbox" id="menu-toggle" />
     <label for="menu-toggle" class="toggle-button">
       <img src="image/menu2.png" alt="Menu" />
     </label>
     <div class="overlay"></div>
     <div class="menu-item" id="home">
-      <a href="index.html">
-        <img src="image/home.png" alt="Home" />
-      </a>
+      <a href="index.html"><img src="image/home.png" alt="Home" /></a>
     </div>
     <div class="menu-item" id="about">
-      <a href="aboutme.html">
-        <img src="image/about.png" alt="About" />
-      </a>
+      <a href="aboutme.html"><img src="image/about.png" alt="About" /></a>
     </div>
     <div class="menu-item" id="portfolio">
-      <a href="portf.html">
-        <img src="image/portfolio.png" alt="Portfolio" />
-      </a>
+      <a href="portf.html"><img src="image/portfolio.png" alt="Portfolio" /></a>
     </div>
     <div class="menu-item" id="contact">
-      <a href="contactme.html">
-        <img src="image/contact.png" alt="Contact" />
-      </a>
+      <a href="contactme.html"><img src="image/contact.png" alt="Contact" /></a>
     </div>
 
-    <!-- PORTFOLIO ITEMS -->
-    <div
-      class="portfolio-item item-1"
-      onclick="
-        openLightbox(['image/bot1.jpg', 'image/bot2.jpg', 'image/bot3.jpg'])
-      "
-    >
-      <img src="image/bot.png" alt="Bot" />
-      <div class="description">
-        futuristic poster series for The Bot, a glimpse into the future
-      </div>
+    <img
+      class="portfolio-title"
+      src="image/portfolio-title.png"
+      alt="Portfolio"
+    />
+    <img class="intro-text" src="image/intro.png" alt="" />
+
+    <div class="portfolio-item item-1 project" data-project="io">
+      <img
+        class="thumb-default"
+        src="image/io-grocery/thumb.png"
+        alt="io grocery store"
+      />
+      <img
+        class="thumb-label"
+        src="image/io-grocery/label.png"
+        alt="io grocery store"
+      />
+      <img
+        class="asset asset-pb"
+        src="image/io-grocery/peanut-butter.png"
+        alt=""
+      />
+      <img
+        class="asset asset-popcorn"
+        src="image/io-grocery/popcorn.png"
+        alt=""
+      />
+      <img class="asset asset-bag" src="image/io-grocery/bag.png" alt="" />
+      <img
+        class="asset asset-phones"
+        src="image/io-grocery/phones.png"
+        alt=""
+      />
+      <img
+        class="asset asset-chocs"
+        src="image/io-grocery/chocolates.png"
+        alt=""
+      />
+      <img
+        class="asset asset-star asset-star-1"
+        src="image/io-grocery/star.png"
+        alt=""
+      />
+      <img
+        class="asset asset-star asset-star-2"
+        src="image/io-grocery/star.png"
+        alt=""
+      />
+      <img
+        class="asset asset-star asset-star-3"
+        src="image/io-grocery/star.png"
+        alt=""
+      />
+      <img
+        class="asset asset-star asset-star-4"
+        src="image/io-grocery/star.png"
+        alt=""
+      />
     </div>
-    <div
-      class="portfolio-item item-2"
-      onclick="openLightbox(['image/calendars.png', 'image/calendars2.png'])"
-    >
-      <img src="image/calendar.png" alt="Calendar" />
-      <div class="description">
-        illustrated calendar, an exploration of wonder and joy
-      </div>
+
+    <div class="portfolio-item item-oblor project" data-project="oblor">
+      <img
+        class="thumb-default"
+        src="image/oblor/thumb.png"
+        alt="oblor a video game"
+      />
+      <img
+        class="thumb-label"
+        src="image/oblor/label.png"
+        alt="oblor a video game"
+      />
+      <img class="asset asset-open-cd" src="image/oblor/open-cd.png" alt="" />
+      <img class="asset asset-cd-disk" src="image/oblor/cd-disk.png" alt="" />
+      <img class="asset asset-spark-1" src="image/oblor/spark-1.png" alt="" />
+      <img class="asset asset-spark-2" src="image/oblor/spark-2.png" alt="" />
+      <img
+        class="asset asset-sparks-many"
+        src="image/oblor/sparks-many.png"
+        alt=""
+      />
+      <img class="asset asset-title" src="image/oblor/title.png" alt="" />
     </div>
+
+    <div class="portfolio-item item-usipb project" data-project="usipb">
+      <img
+        class="thumb-default"
+        src="image/usipb/thumb.png"
+        alt="usipb project"
+      />
+      <img
+        class="thumb-label"
+        src="image/usipb/label.png"
+        alt="usipb project"
+      />
+      <img class="asset asset-stars" src="image/usipb/stars.png" alt="" />
+      <img
+        class="asset asset-usipb-sm"
+        src="image/usipb/usipb-small.png"
+        alt=""
+      />
+      <img
+        class="asset asset-usipb-lg"
+        src="image/usipb/usipb-big.png"
+        alt=""
+      />
+    </div>
+
     <div class="portfolio-item item-3">
       <a href="tv.html" target="_blank">
         <img src="image/TV.png" alt="TV" />
@@ -130,7 +208,6 @@
       <img src="image/popcorn.png" alt="Popcorn" />
     </div>
 
-    <!-- AUDIO & VOLUME BUTTON -->
     <audio id="backgroundMusic" loop preload="metadata">
       <source src="image/space.mp3" type="audio/mpeg" />
     </audio>
@@ -139,19 +216,70 @@
     </audio>
     <img src="image/musicnote.png" alt="Volume Button" id="volumeButton" />
 
-    <!-- LIGHTBOX -->
-    <div class="lightbox" id="lightbox">
-      <div class="lightbox-content" id="lightbox-content"></div>
-      <img
-        src="image/close.png"
-        alt="Close"
-        class="close-btn"
-        onclick="closeLightbox()"
-      />
+    <div class="project-overlay" id="projectOverlay">
+      <button
+        class="project-overlay-close"
+        id="projectOverlayClose"
+        aria-label="Close"
+      >
+        <img src="image/close.png" alt="" />
+      </button>
+      <div class="project-overlay-scroll">
+        <div class="project-overlay-content" id="projectOverlayContent"></div>
+      </div>
     </div>
 
-    <!-- SCRIPTS -->
     <script>
+      const PROJECTS = {
+        io: {
+          name: "io grocery store",
+          folder: "image/io-grocery",
+          caseCount: 15,
+          transition: "blob",
+          mask: "image/io-grocery/blob.svg",
+        },
+        oblor: {
+          name: "oblor a video game",
+          folder: "image/oblor",
+          caseCount: 18,
+          transition: "fade",
+          videoAfter: 2,
+          videoHtml: `
+            <div class="project-video">
+              <video preload="none" poster="image/oblor/video-poster.png" playsinline>
+                <source src="image/oblor/oblor-playthrough.mp4" type="video/mp4" />
+              </video>
+              <button class="project-video-play" type="button" aria-label="Play video">
+                <img src="image/oblor/play-button.png" alt="" />
+              </button>
+              <div class="project-video-controls">
+                <button class="pvc-btn pvc-playpause" type="button" aria-label="Play / pause">
+                  <img class="pvc-icon-play" src="image/oblor/ctrl-play.png" alt="" />
+                  <img class="pvc-icon-pause" src="image/oblor/ctrl-pause.png" alt="" />
+                </button>
+                <div class="pvc-progress">
+                  <div class="pvc-progress-fill"></div>
+                </div>
+                <span class="pvc-time">0:00 / 0:00</span>
+                <button class="pvc-btn pvc-mute" type="button" aria-label="Mute / unmute">
+                  <img class="pvc-icon-volume" src="image/oblor/ctrl-volume.png" alt="" />
+                  <img class="pvc-icon-muted" src="image/oblor/ctrl-muted.png" alt="" />
+                </button>
+                <button class="pvc-btn pvc-fullscreen" type="button" aria-label="Fullscreen">
+                  <img src="image/oblor/ctrl-fullscreen.png" alt="" />
+                </button>
+              </div>
+            </div>`,
+        },
+        usipb: {
+          name: "usipb project",
+          folder: "image/usipb",
+          caseCount: 4,
+          transition: "fade",
+          ext: "jpg",
+        },
+      };
+
       document.addEventListener("DOMContentLoaded", function () {
         const backgroundMusic = document.getElementById("backgroundMusic");
         const scrollSound = document.getElementById("scrollSound");
@@ -162,32 +290,20 @@
         function startMusic() {
           backgroundMusic.volume = 0.4;
           backgroundMusic.loop = true;
-          backgroundMusic.play().catch((err) => {
-            console.warn("Autoplay blocked:", err);
-          });
+          backgroundMusic
+            .play()
+            .catch((err) => console.warn("Autoplay blocked:", err));
         }
-
-        document.body.addEventListener(
-          "click",
-          () => {
-            startMusic();
-          },
-          { once: true },
-        );
+        document.body.addEventListener("click", startMusic, { once: true });
 
         window.addEventListener("scroll", () => {
           const scrollY = window.scrollY || window.pageYOffset;
-          const scrollThreshold = 4000;
-          if (!isMuted && !hasPlayedScrollSound && scrollY > scrollThreshold) {
+          if (!isMuted && !hasPlayedScrollSound && scrollY > 4000) {
             scrollSound.currentTime = 0;
             scrollSound.volume = 0.1;
-            scrollSound
-              .play()
-              .catch((err) => console.warn("Scroll sound blocked:", err));
+            scrollSound.play().catch(() => {});
             hasPlayedScrollSound = true;
-            scrollSound.onended = () => {
-              hasPlayedScrollSound = false;
-            };
+            scrollSound.onended = () => (hasPlayedScrollSound = false);
           }
         });
 
@@ -195,117 +311,324 @@
           isMuted = !isMuted;
           backgroundMusic.muted = isMuted;
           scrollSound.muted = isMuted;
+          const ov = overlayContent.querySelector("video");
+          if (ov) ov.muted = isMuted;
           volumeButton.src = isMuted
             ? "image/musicnote-muted.png"
             : "image/musicnote.png";
-
-          // Rotation feedback on tap
           volumeButton.classList.add("clicked");
           setTimeout(() => volumeButton.classList.remove("clicked"), 700);
         });
 
-        // Touch behavior for portfolio items.
-        // Bot (item-1) and calendar (item-2): tap toggles description only — lightbox is disabled on mobile.
-        // Other items: first tap shows description, second tap fires action (e.g. link).
+        // Background-music ducking while a project video plays
+        let musicFadeRAF = null;
+        function fadeMusicTo(target, duration, onDone) {
+          if (musicFadeRAF) cancelAnimationFrame(musicFadeRAF);
+          const startVol = backgroundMusic.volume;
+          const startTime = performance.now();
+          function step(now) {
+            const t =
+              duration > 0 ? Math.min((now - startTime) / duration, 1) : 1;
+            backgroundMusic.volume = startVol + (target - startVol) * t;
+            if (t < 1) {
+              musicFadeRAF = requestAnimationFrame(step);
+            } else {
+              musicFadeRAF = null;
+              if (onDone) onDone();
+            }
+          }
+          musicFadeRAF = requestAnimationFrame(step);
+        }
+        function duckMusic() {
+          fadeMusicTo(0, 400, () => backgroundMusic.pause());
+        }
+        function restoreMusic() {
+          backgroundMusic.muted = isMuted;
+          backgroundMusic.play().catch(() => {});
+          fadeMusicTo(0.4, 600);
+        }
+
+        const overlay = document.getElementById("projectOverlay");
+        const overlayContent = document.getElementById("projectOverlayContent");
+        const overlayClose = document.getElementById("projectOverlayClose");
+        const overlayScroll = overlay.querySelector(".project-overlay-scroll");
+
+        let closeTimeout = null;
+
+        function openProject(projectId) {
+          if (closeTimeout) {
+            clearTimeout(closeTimeout);
+            closeTimeout = null;
+          }
+
+          const project = PROJECTS[projectId];
+          if (!project) return;
+
+          overlayContent.innerHTML = "";
+          for (let i = 1; i <= project.caseCount; i++) {
+            const num = String(i).padStart(2, "0");
+            const img = document.createElement("img");
+            img.src = `${project.folder}/case-${num}.${project.ext || "webp"}`;
+            img.alt = `${project.name} — image ${i}`;
+            img.loading = "lazy";
+            overlayContent.appendChild(img);
+
+            if (project.videoAfter === i && project.videoHtml) {
+              const tmp = document.createElement("div");
+              tmp.innerHTML = project.videoHtml.trim();
+              const node = tmp.firstElementChild;
+              if (node) overlayContent.appendChild(node);
+            }
+          }
+
+          const projectVideo = overlayContent.querySelector("video");
+          if (projectVideo) {
+            projectVideo.muted = isMuted;
+            projectVideo.addEventListener("play", duckMusic);
+            projectVideo.addEventListener("pause", restoreMusic);
+            projectVideo.addEventListener("ended", restoreMusic);
+
+            const videoWrap = projectVideo.closest(".project-video");
+            if (videoWrap) {
+              const playBtn = videoWrap.querySelector(".project-video-play");
+              const controls = videoWrap.querySelector(
+                ".project-video-controls",
+              );
+
+              videoWrap.classList.toggle("is-muted", projectVideo.muted);
+
+              if (playBtn) {
+                playBtn.addEventListener("click", () => projectVideo.play());
+              }
+
+              projectVideo.addEventListener("play", () => {
+                videoWrap.classList.add("is-playing");
+                videoWrap.classList.remove("is-paused");
+              });
+              projectVideo.addEventListener("pause", () => {
+                videoWrap.classList.add("is-paused");
+              });
+              projectVideo.addEventListener("ended", () => {
+                projectVideo.load();
+                videoWrap.classList.remove("is-playing", "is-paused");
+              });
+              projectVideo.addEventListener("volumechange", () => {
+                videoWrap.classList.toggle("is-muted", projectVideo.muted);
+              });
+              projectVideo.addEventListener("click", () => {
+                if (!videoWrap.classList.contains("is-playing")) return;
+                if (projectVideo.paused) projectVideo.play();
+                else projectVideo.pause();
+              });
+
+              if (controls) {
+                const playpause = controls.querySelector(".pvc-playpause");
+                const progress = controls.querySelector(".pvc-progress");
+                const progressFill =
+                  controls.querySelector(".pvc-progress-fill");
+                const timeLabel = controls.querySelector(".pvc-time");
+                const muteBtn = controls.querySelector(".pvc-mute");
+                const fsBtn = controls.querySelector(".pvc-fullscreen");
+
+                const fmt = (s) => {
+                  if (!isFinite(s) || s < 0) s = 0;
+                  const m = Math.floor(s / 60);
+                  const sec = Math.floor(s % 60)
+                    .toString()
+                    .padStart(2, "0");
+                  return `${m}:${sec}`;
+                };
+                function updateTime() {
+                  const cur = projectVideo.currentTime || 0;
+                  const dur = projectVideo.duration || 0;
+                  if (timeLabel)
+                    timeLabel.textContent = `${fmt(cur)} / ${fmt(dur)}`;
+                  if (progressFill)
+                    progressFill.style.width = dur
+                      ? `${(cur / dur) * 100}%`
+                      : "0%";
+                }
+                projectVideo.addEventListener("loadedmetadata", updateTime);
+                projectVideo.addEventListener("timeupdate", updateTime);
+
+                if (playpause) {
+                  playpause.addEventListener("click", () => {
+                    if (projectVideo.paused) projectVideo.play();
+                    else projectVideo.pause();
+                  });
+                }
+
+                if (progress) {
+                  let scrubbing = false;
+                  const seek = (e) => {
+                    const rect = progress.getBoundingClientRect();
+                    let ratio = (e.clientX - rect.left) / rect.width;
+                    ratio = Math.max(0, Math.min(1, ratio));
+                    if (projectVideo.duration) {
+                      projectVideo.currentTime = ratio * projectVideo.duration;
+                      updateTime();
+                    }
+                  };
+                  progress.addEventListener("pointerdown", (e) => {
+                    scrubbing = true;
+                    progress.setPointerCapture(e.pointerId);
+                    seek(e);
+                  });
+                  progress.addEventListener("pointermove", (e) => {
+                    if (scrubbing) seek(e);
+                  });
+                  progress.addEventListener("pointerup", (e) => {
+                    scrubbing = false;
+                    try {
+                      progress.releasePointerCapture(e.pointerId);
+                    } catch (_) {}
+                  });
+                }
+
+                if (muteBtn) {
+                  muteBtn.addEventListener("click", () => {
+                    projectVideo.muted = !projectVideo.muted;
+                  });
+                }
+
+                if (fsBtn) {
+                  fsBtn.addEventListener("click", () => {
+                    const fsEl =
+                      document.fullscreenElement ||
+                      document.webkitFullscreenElement;
+                    if (!fsEl) {
+                      if (videoWrap.requestFullscreen)
+                        videoWrap.requestFullscreen();
+                      else if (videoWrap.webkitRequestFullscreen)
+                        videoWrap.webkitRequestFullscreen();
+                      else if (projectVideo.webkitEnterFullscreen)
+                        projectVideo.webkitEnterFullscreen();
+                    } else {
+                      if (document.exitFullscreen) document.exitFullscreen();
+                      else if (document.webkitExitFullscreen)
+                        document.webkitExitFullscreen();
+                    }
+                  });
+                }
+              }
+            }
+          }
+
+          overlay.classList.add("is-open");
+          document.body.style.overflow = "hidden";
+          requestAnimationFrame(() => {
+            overlayScroll.scrollTop = 0;
+          });
+        }
+
+        function closeProject() {
+          const playingVideo = overlayContent.querySelector("video");
+          if (playingVideo) playingVideo.pause();
+          overlay.classList.remove("is-open");
+          document.body.style.overflow = "";
+          if (closeTimeout) clearTimeout(closeTimeout);
+          closeTimeout = setTimeout(() => {
+            if (!overlay.classList.contains("is-open")) {
+              overlayContent.innerHTML = "";
+            }
+            closeTimeout = null;
+          }, 800);
+        }
+
+        overlayClose.addEventListener("click", closeProject);
+        overlay.addEventListener("click", (e) => {
+          if (e.target === overlay || e.target === overlayScroll)
+            closeProject();
+        });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && overlay.classList.contains("is-open"))
+            closeProject();
+        });
+
+        document.querySelectorAll(".portfolio-item.project").forEach((item) => {
+          item.addEventListener("click", () => {
+            const projectId = item.dataset.project;
+            const project = PROJECTS[projectId];
+            if (!project) return;
+
+            overlay.classList.remove("style-blob", "style-fade");
+            overlay.classList.add(`style-${project.transition}`);
+
+            if (project.transition === "blob") {
+              if (project.mask) {
+                overlay.style.maskImage = `url("${project.mask}")`;
+                overlay.style.webkitMaskImage = `url("${project.mask}")`;
+              }
+              const thumb = item.querySelector(".thumb-default, .thumb-label");
+              const rect = (thumb || item).getBoundingClientRect();
+              overlay.style.transition = "none";
+              overlay.style.setProperty("--thumb-x", `${rect.left}px`);
+              overlay.style.setProperty("--thumb-y", `${rect.top}px`);
+              overlay.style.setProperty("--thumb-w", `${rect.width}px`);
+              overlay.style.setProperty("--thumb-h", `${rect.height}px`);
+              void overlay.offsetWidth;
+              overlay.style.transition = "";
+              void overlay.offsetWidth;
+            } else {
+              overlay.style.transition = "";
+              overlay.style.maskImage = "";
+              overlay.style.webkitMaskImage = "";
+              overlay.style.removeProperty("--thumb-x");
+              overlay.style.removeProperty("--thumb-y");
+              overlay.style.removeProperty("--thumb-w");
+              overlay.style.removeProperty("--thumb-h");
+
+              const scrollEl = overlay.querySelector(".project-overlay-scroll");
+              const closeEl = overlay.querySelector(".project-overlay-close");
+              scrollEl.style.transition = "none";
+              closeEl.style.transition = "none";
+              void overlay.offsetWidth;
+              scrollEl.style.transition = "";
+              closeEl.style.transition = "";
+              void overlay.offsetWidth;
+            }
+
+            openProject(projectId);
+          });
+        });
+
+        document.querySelectorAll(".portfolio-item").forEach((item) => {
+          item.addEventListener("mouseenter", () => {
+            document.body.classList.add("item-hovered");
+            item.classList.add("focused");
+          });
+          item.addEventListener("mouseleave", () => {
+            document.body.classList.remove("item-hovered");
+            item.classList.remove("focused");
+          });
+        });
+
         const isTouch = window.matchMedia("(hover: none)").matches;
         if (isTouch) {
-          document.querySelectorAll(".portfolio-item").forEach((item) => {
-            item.addEventListener(
-              "click",
-              (e) => {
-                const isBotOrCalendar =
-                  item.classList.contains("item-1") ||
-                  item.classList.contains("item-2");
-
-                if (isBotOrCalendar) {
-                  // Toggle description, never open lightbox
-                  if (item.classList.contains("active")) {
-                    item.classList.remove("active");
-                  } else {
+          document
+            .querySelectorAll(".portfolio-item:not(.project)")
+            .forEach((item) => {
+              item.addEventListener(
+                "click",
+                (e) => {
+                  if (!item.classList.contains("active")) {
+                    e.preventDefault();
+                    e.stopPropagation();
                     document
                       .querySelectorAll(".portfolio-item.active")
                       .forEach((o) => o.classList.remove("active"));
                     item.classList.add("active");
                   }
-                  return;
-                }
-
-                // Other items: first tap shows description, second tap fires native action
-                if (!item.classList.contains("active")) {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  document
-                    .querySelectorAll(".portfolio-item.active")
-                    .forEach((o) => o.classList.remove("active"));
-                  item.classList.add("active");
-                }
-              },
-              { capture: true },
-            );
-          });
+                },
+                { capture: true },
+              );
+            });
         }
       });
 
-      function openLightbox(images) {
-        // No lightbox on mobile (bot/calendar items are inert on touch)
-        if (window.matchMedia("(hover: none)").matches) {
-          return;
-        }
-
-        const lightbox = document.getElementById("lightbox");
-        const content = document.getElementById("lightbox-content");
-
-        content.innerHTML = "";
-
-        if (images[0].includes("calendars")) {
-          content.classList.add("calendars-gallery");
-          content.classList.remove("default-gallery");
-        } else {
-          content.classList.add("default-gallery");
-          content.classList.remove("calendars-gallery");
-        }
-
-        images.forEach((src, index) => {
-          const img = document.createElement("img");
-          img.src = src;
-          img.classList.add("lightbox-img");
-
-          if (src.includes("calendars")) {
-            img.classList.add("calendars");
-            if (index === 0) img.style.marginTop = "50px";
-          }
-
-          content.appendChild(img);
-        });
-
-        lightbox.style.display = "flex";
-        document.body.style.overflow = "hidden";
-      }
-
-      function closeLightbox() {
-        document.getElementById("lightbox").style.display = "none";
-        document.body.style.overflow = "";
-      }
-
-      document
-        .getElementById("lightbox")
-        .addEventListener("click", function (event) {
-          if (
-            !event.target.classList.contains("lightbox-img") &&
-            !event.target.classList.contains("close-btn")
-          ) {
-            closeLightbox();
-          }
-        });
-
-      document.addEventListener("contextmenu", function (event) {
-        event.preventDefault();
-      });
-
-      document.addEventListener("dragstart", function (event) {
-        if (event.target.tagName === "IMG") {
-          event.preventDefault();
-        }
+      document.addEventListener("contextmenu", (e) => e.preventDefault());
+      document.addEventListener("dragstart", (e) => {
+        if (e.target.tagName === "IMG") e.preventDefault();
       });
     </script>
   </body>

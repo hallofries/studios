@@ -81,6 +81,20 @@ body {
   z-index: 15;
   user-select: none;
   -webkit-user-drag: none;
+  /* override the site-wide custom cursor so the letter signals "clickable" */
+  cursor:
+    url("image/cursor-active.png") 13 13,
+    pointer !important;
+  transition: transform 0.3s;
+}
+/* Closed letter (open-letter.png) sits a few % higher — desktop only */
+.letter:not(.is-open) {
+  bottom: -1%;
+}
+/* Closed letter: lift ~3%, grow + rotate a touch on hover/tap */
+.letter:not(.is-open):hover,
+.letter:not(.is-open):active {
+  transform: translateY(-3%) rotate(2deg) scale(1.05);
 }
 /* Social media (bottom-right corner on desktop) */
 .social-media {
@@ -234,14 +248,31 @@ body {
     aspect-ratio: 107 / 94;
     height: auto;
   }
+  /* Closed letter sits flush at the bottom on mobile (no gap, no desktop raise) */
+  .letter:not(.is-open) {
+    bottom: 0;
+  }
+  /* Keep horizontal centering during hover/tap on mobile; no rotation */
+  .letter:not(.is-open):hover,
+  .letter:not(.is-open):active {
+    transform: translateX(-50%) translateY(-3%) scale(1.05);
+  }
 
   /* Social media — sitting ON the paper, below the email text */
+  /* Hidden until the letter is opened (tapped) — mobile only */
   .social-media {
     bottom: 20%;
     left: 46%;
     right: auto;
     transform: translateX(-50%);
     gap: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .letter.is-open ~ .social-media {
+    opacity: 1;
+    pointer-events: auto;
   }
   .social-media img {
     width: 42px;

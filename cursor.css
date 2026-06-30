@@ -1,6 +1,6 @@
 * {
   cursor:
-    url("image/cursor.png") 0 0,
+    url("image/cursor.png") 13 13,
     auto !important;
 }
 
@@ -26,7 +26,7 @@ textarea,
 .pvc-btn *,
 .pvc-progress {
   cursor:
-    url("image/cursor-active.png") 0 0,
+    url("image/cursor-active.png") 13 13,
     pointer !important;
 }
 
@@ -35,7 +35,7 @@ textarea,
 .grabbable *,
 .floater {
   cursor:
-    url("image/cursor-grab.png") 0 0,
+    url("image/cursor-grab.png") 13 13,
     grab !important;
 }
 .grabbable:active,
@@ -44,6 +44,6 @@ textarea,
 .grabbing *,
 .floater.dragging {
   cursor:
-    url("image/cursor-grabbed.png") 0 0,
+    url("image/cursor-grabbed.png") 13 13,
     grabbing !important;
 }

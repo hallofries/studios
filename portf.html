@@ -257,14 +257,31 @@
                   <img class="pvc-icon-play" src="image/oblor/ctrl-play.png" alt="" />
                   <img class="pvc-icon-pause" src="image/oblor/ctrl-pause.png" alt="" />
                 </button>
-                <div class="pvc-progress">
-                  <div class="pvc-progress-fill"></div>
-                </div>
+                <input
+                  type="range"
+                  class="pvc-progress"
+                  min="0"
+                  max="1000"
+                  value="0"
+                  step="1"
+                  aria-label="Seek"
+                />
                 <span class="pvc-time">0:00 / 0:00</span>
-                <button class="pvc-btn pvc-mute" type="button" aria-label="Mute / unmute">
-                  <img class="pvc-icon-volume" src="image/oblor/ctrl-volume.png" alt="" />
-                  <img class="pvc-icon-muted" src="image/oblor/ctrl-muted.png" alt="" />
-                </button>
+                <div class="pvc-volume">
+                  <button class="pvc-btn pvc-mute" type="button" aria-label="Mute / unmute">
+                    <img class="pvc-icon-volume" src="image/oblor/ctrl-volume.png" alt="" />
+                    <img class="pvc-icon-muted" src="image/oblor/ctrl-muted.png" alt="" />
+                  </button>
+                  <input
+                    type="range"
+                    class="pvc-volume-slider"
+                    min="0"
+                    max="100"
+                    value="100"
+                    step="1"
+                    aria-label="Volume"
+                  />
+                </div>
                 <button class="pvc-btn pvc-fullscreen" type="button" aria-label="Fullscreen">
                   <img src="image/oblor/ctrl-fullscreen.png" alt="" />
                 </button>
@@ -424,10 +441,10 @@
               if (controls) {
                 const playpause = controls.querySelector(".pvc-playpause");
                 const progress = controls.querySelector(".pvc-progress");
-                const progressFill =
-                  controls.querySelector(".pvc-progress-fill");
                 const timeLabel = controls.querySelector(".pvc-time");
                 const muteBtn = controls.querySelector(".pvc-mute");
+                const volumeSlider =
+                  controls.querySelector(".pvc-volume-slider");
                 const fsBtn = controls.querySelector(".pvc-fullscreen");
 
                 const fmt = (s) => {
@@ -438,15 +455,21 @@
                     .padStart(2, "0");
                   return `${m}:${sec}`;
                 };
+
+                let seeking = false;
+                function setProgressFill(pct) {
+                  if (progress) progress.style.setProperty("--pct", pct + "%");
+                }
                 function updateTime() {
                   const cur = projectVideo.currentTime || 0;
                   const dur = projectVideo.duration || 0;
                   if (timeLabel)
                     timeLabel.textContent = `${fmt(cur)} / ${fmt(dur)}`;
-                  if (progressFill)
-                    progressFill.style.width = dur
-                      ? `${(cur / dur) * 100}%`
-                      : "0%";
+                  if (progress && !seeking) {
+                    const pct = dur ? (cur / dur) * 100 : 0;
+                    progress.value = Math.round(pct * 10);
+                    setProgressFill(pct);
+                  }
                 }
                 projectVideo.addEventListener("loadedmetadata", updateTime);
                 projectVideo.addEventListener("timeupdate", updateTime);
@@ -459,29 +482,48 @@
                 }
 
                 if (progress) {
-                  let scrubbing = false;
-                  const seek = (e) => {
-                    const rect = progress.getBoundingClientRect();
-                    let ratio = (e.clientX - rect.left) / rect.width;
-                    ratio = Math.max(0, Math.min(1, ratio));
-                    if (projectVideo.duration) {
-                      projectVideo.currentTime = ratio * projectVideo.duration;
-                      updateTime();
-                    }
+                  const applySeek = () => {
+                    const dur = projectVideo.duration || 0;
+                    const pct = progress.value / 10;
+                    setProgressFill(pct);
+                    if (dur) projectVideo.currentTime = (pct / 100) * dur;
                   };
-                  progress.addEventListener("pointerdown", (e) => {
-                    scrubbing = true;
-                    progress.setPointerCapture(e.pointerId);
-                    seek(e);
-                  });
-                  progress.addEventListener("pointermove", (e) => {
-                    if (scrubbing) seek(e);
-                  });
-                  progress.addEventListener("pointerup", (e) => {
-                    scrubbing = false;
-                    try {
-                      progress.releasePointerCapture(e.pointerId);
-                    } catch (_) {}
+                  progress.addEventListener("input", applySeek);
+                  progress.addEventListener(
+                    "pointerdown",
+                    () => (seeking = true),
+                  );
+                  progress.addEventListener(
+                    "pointerup",
+                    () => (seeking = false),
+                  );
+                  progress.addEventListener("change", () => (seeking = false));
+                }
+
+                function setVolumeFill(pct) {
+                  if (volumeSlider)
+                    volumeSlider.style.setProperty("--pct", pct + "%");
+                }
+                function syncVolumeUI() {
+                  const v = projectVideo.muted ? 0 : projectVideo.volume;
+                  if (volumeSlider) {
+                    volumeSlider.value = Math.round(v * 100);
+                    setVolumeFill(v * 100);
+                  }
+                  videoWrap.classList.toggle(
+                    "is-muted",
+                    projectVideo.muted || projectVideo.volume === 0,
+                  );
+                }
+                syncVolumeUI();
+                projectVideo.addEventListener("volumechange", syncVolumeUI);
+
+                if (volumeSlider) {
+                  volumeSlider.addEventListener("input", () => {
+                    const v = volumeSlider.value / 100;
+                    projectVideo.muted = v === 0;
+                    projectVideo.volume = v;
+                    setVolumeFill(volumeSlider.value);
                   });
                 }
 

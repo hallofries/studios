@@ -53,8 +53,13 @@
       <!-- CONTACT title -->
       <img class="title" src="image/contact-title.png" alt="Contact" />
 
-      <!-- Foreground letter -->
-      <img class="letter" src="image/letter.png" alt="hi! mail me" />
+      <!-- Foreground letter (starts closed, toggles open/closed on click) -->
+      <img
+        class="letter"
+        id="letter"
+        src="image/open-letter.png"
+        alt="hi! mail me"
+      />
 
       <!-- Social media icons -->
       <div class="social-media">
@@ -69,6 +74,7 @@
         <a href="https://www.behance.net/hallofries" target="_blank">
           <img src="image/behance.png" alt="Behance" width="42" height="42" />
         </a>
+
         <a
           href="https://www.linkedin.com/in/dmitri-k-05625b306/"
           target="_blank"
@@ -145,6 +151,16 @@
             volumeButton.src = "image/musicnote.png";
           }
         });
+
+        // Letter: click to toggle open <-> closed
+        const letter = document.getElementById("letter");
+        if (letter) {
+          letter.addEventListener("click", () => {
+            const opening = !letter.classList.contains("is-open");
+            letter.classList.toggle("is-open", opening);
+            letter.src = opening ? "image/letter.png" : "image/open-letter.png";
+          });
+        }
       });
     </script>
   </body>

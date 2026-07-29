@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="en" class="theme-light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acrostic #01: A Postcard from the Future</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+@font-face{font-family:"Roboto";font-style:normal;font-weight:400;font-display:swap;src:url("https://fonts.gstatic.com/s/roboto/v51/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbWmT.ttf") format("truetype")}
+@font-face{font-family:"Roboto";font-style:normal;font-weight:500;font-display:swap;src:url("https://fonts.gstatic.com/s/roboto/v51/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWub2bWmT.ttf") format("truetype")}
+@font-face{font-family:"Roboto";font-style:normal;font-weight:700;font-display:swap;src:url("https://fonts.gstatic.com/s/roboto/v51/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuYjammT.ttf") format("truetype")}
+:root{
+ --color-white-00:#fff;--color-black-00:#000;--color-gray-00:#fbfbfb;--color-gray-01:#f9fafb;--color-gray-02:#f3f4f6;
+ --color-gray-11:#f1f5f9;--color-gray-12:#e2e4e9;--color-gray-13:#e2e8f0;--color-gray-20:#d8d8d8;
+ --color-blue-52:#64748b;--color-blue-88:#1e293b;--color-blue-93:#1a1c28;--color-blue-97:#020817;
+ --color-red-25:#ff8585;--color-red-47:#f25a5a;--color-green-12:#dbfaec;--color-green-62:#0f7043;
+ --color-mg-background:var(--color-white-00);--color-mg-text:var(--color-blue-97);--color-mg-midnight:var(--color-blue-97);
+ --color-mg-slate:var(--color-blue-52);--color-mg-slate-light:var(--color-gray-13);--color-mg-slate-pale:var(--color-gray-11);
+ --color-mg-acrostics:var(--color-red-25);
+ --color-yellow:#ffd400;--color-yellow-hover:#ffde67;--color-yellow-pale:#fff6c8;
+ --color-red:#b00;--color-clickable-button-wrong:#d7707d;
+}
+*{box-sizing:border-box}
+html{scrollbar-gutter:stable}
+body{font-family:"Roboto",Arial,sans-serif;font-size:16px;font-weight:400;font-synthesis:none;background:var(--color-mg-background);color:var(--color-mg-text);margin:0;min-height:100vh}
+button{font-family:inherit}
+button.unformatted{cursor:pointer;padding:0;border:none;background:transparent;color:inherit}
+#mg-subheader{position:sticky;top:0;z-index:30;height:45px;display:flex;justify-content:space-between;align-items:center;padding:0 1rem;background:var(--color-mg-midnight);color:#fff}
+#mg-subheader .name-date-container{display:flex;align-items:center;gap:.5rem;min-width:0}
+#mg-subheader .mg-name{font-weight:700}
+#mg-sh-title{font-size:.875rem;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mg-home-button{width:1.25rem;height:1.25rem;flex:0 0 auto;background:center/contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' viewBox='0 0 20 20'%3E%3Cpath fill='%23fff' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' d='m18.253 7.733-7.9-6.317a.74.74 0 0 0-.932 0l-7.9 6.333a.77.77 0 0 0-.285.608v9.623c0 .204.08.4.22.544a.74.74 0 0 0 .532.226h4.89v-4.622c0-.818.317-1.601.882-2.18a2.97 2.97 0 0 1 2.127-.902c.799 0 1.564.325 2.128.903a3.12 3.12 0 0 1 .882 2.179v4.622h4.89c.2 0 .39-.081.532-.226a.78.78 0 0 0 .22-.544V8.35a.79.79 0 0 0-.286-.617'/%3E%3C/svg%3E")}
+.mg-extra-actions{position:absolute;left:50%;transform:translateX(-50%)}
+.timer-container{display:flex;align-items:center;gap:.5rem;font-size:.875rem;font-variant-numeric:tabular-nums}
+#ac_timer{width:42px;text-align:right}
+#ac_pause{width:1.25rem;height:1.25rem;cursor:pointer;background:center/contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill='%23fff' d='M0 1.09C0 .48.482 0 1.094 0h4.377c.613 0 1.095.48 1.095 1.09v17.436c0 .61-.482 1.09-1.095 1.09H1.094c-.612 0-1.094-.48-1.094-1.09zM13.131 1.09c0-.61.482-1.09 1.094-1.09h4.377c.613 0 1.095.48 1.095 1.09v17.436c0 .61-.482 1.09-1.094 1.09h-4.378c-.612 0-1.094-.48-1.094-1.09z'/%3E%3C/svg%3E")}
+#ac_pause.is-paused{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill='%23fff' d='M4 2.7v14.6a1 1 0 0 0 1.55.84l10.9-7.3a1 1 0 0 0 0-1.68L5.55 1.86A1 1 0 0 0 4 2.7Z'/%3E%3C/svg%3E")}
+.mg-actions-container{display:flex;align-items:center;gap:1.25rem}
+.mg-actions-container button{width:1.25rem;height:1.25rem;background:center/contain no-repeat}
+.mg-stats-button{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill='%23fff' d='M2 18V9h3v9zm6 0V2h3v16zm6 0v-6h3v6z'/%3E%3C/svg%3E")}
+.mg-discuss-button{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%23fff' stroke-width='1.6' d='M2 3.5h16v11H8l-4.5 3v-3H2z'/%3E%3C/svg%3E")}
+.mg-more-menu-button{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill='%23fff' d='M10 6.25a2.083 2.083 0 1 0 0-4.166 2.083 2.083 0 0 0 0 4.166M10 12.083a2.083 2.083 0 1 0 0-4.166 2.083 2.083 0 0 0 0 4.166M10 17.916a2.083 2.083 0 1 0 0-4.166 2.083 2.083 0 0 0 0 4.166'/%3E%3C/svg%3E")}
+#menu-popover{display:none;position:fixed;right:10px;top:41px;z-index:60;width:220px;background:#fff;border:1px solid var(--color-mg-slate-light);border-radius:8px;box-shadow:0 10px 30px rgba(2,8,23,.2);overflow:hidden}
+#menu-popover.show{display:block}
+#menu-popover button{width:100%;border:0;background:#fff;text-align:left;padding:12px 15px;cursor:pointer;font-size:.875rem;color:var(--color-mg-text)}
+#menu-popover button:hover{background:var(--color-mg-slate-pale)}
+#full-page-content{display:flex;flex-direction:column;align-items:center;background:var(--color-mg-background)}
+#acrostic-game-container{display:flex;justify-content:center;padding:1.25rem 5px 5px;min-height:800px;width:100%}
+#full-play-area{display:flex;flex-direction:column;align-items:center;max-width:728px;width:100%}
+#top-wrapper.playActive{background:var(--color-mg-background);position:sticky;top:45px;z-index:20;padding-top:8px;width:100%}
+#fact-area{background:var(--color-mg-midnight);border-radius:.5rem;padding:1.25rem}
+.cell-area{display:grid;grid-template-columns:repeat(23,28px);grid-auto-rows:28px;gap:2px}
+.cell{display:flex;justify-content:center;align-items:center;font-size:1.25rem;font-weight:700;border:1px solid var(--color-mg-slate-light);position:relative;background:#fff;color:#000;border-radius:2px;user-select:none;transform-style:preserve-3d;backface-visibility:visible}
+.cell_num{font-size:.8125rem;color:var(--color-mg-slate);opacity:.8;font-weight:400}
+.cell.show-num.desktop{font-size:.9rem;font-weight:400}
+.cell.acr_cell_:not(.clues):not(.punctuation){border:none;background:var(--color-mg-midnight)}
+.cell.punctuation{font-size:28px;background:var(--color-gray-20);border:none;color:#000}
+.cell.quote-letter,.cell.clues:not(.space){cursor:pointer}
+.cell[data-visible-letter]::after{content:attr(data-visible-letter);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.25rem;font-weight:700;z-index:2}
+.cell[data-visible-letter] .cell_num{visibility:hidden}
+.cell.solved{background:var(--color-yellow);border:1px solid var(--color-yellow);color:#000}
+.cell.clues{width:30px;aspect-ratio:1;font-size:20px;border-radius:4px!important;background:var(--color-mg-background);border:1px solid var(--color-mg-slate-light);position:relative}
+.cell.clues[data-visible-letter]::after{font-size:20px}
+.cell.clues.first-letter:not(.wrong){color:#000;background:var(--color-yellow);border:1px solid var(--color-yellow)}
+.cell.clues.solved:not(.first-letter){color:var(--color-yellow);background:var(--color-mg-midnight);border:1px solid var(--color-mg-midnight)}
+.cell.clues.solved:not(.first-letter)::after{color:var(--color-yellow)}
+.cell.clues.first-letter.solved::after{color:#000}
+.cell.space{border:none!important;width:12px;background:transparent!important;cursor:default}
+.hilite-border{border:2px solid var(--color-red)!important}
+.cell.clues.hilite-border{margin:-1px!important}
+#entry-container{width:100%;background:var(--color-mg-background);padding:.5rem 0}
+#answer-entry{border:2px solid #000;font-weight:400;box-sizing:border-box;color:var(--color-mg-text);outline:none;border-radius:8px;width:100%;height:3rem;text-align:center;text-transform:uppercase;background:#fff;font-family:"Roboto",Arial,sans-serif;font-size:1.375rem;letter-spacing:.1em}
+#answer-entry::placeholder{color:#818a98;opacity:1}
+#answer-entry:disabled{opacity:.55}
+#clue-area{width:100%;border-radius:12px}
+.subclue{display:grid;grid-template-columns:7fr 8fr;padding:3px;height:50px;align-content:center;gap:10px;border-radius:4px}
+.subclue-hint{font-size:.875rem;font-weight:400;color:#000;align-content:center;text-align:right;padding-right:.5rem}
+.subclue-answer{margin-left:3px;display:flex;align-items:center;gap:2px;max-width:375px}
+.clue-even{background:var(--color-mg-background)}
+.clue-odd{background:var(--color-mg-slate-pale)}
+.subclue.solved-row .subclue-hint{opacity:.62}
+.wiggle{animation:wiggle .4s ease}
+@keyframes wiggle{0%{transform:translateX(0)}15%{transform:translateX(-5px)}30%{transform:translateX(5px)}45%{transform:translateX(-5px)}60%{transform:translateX(5px)}75%{transform:translateX(-5px)}100%{transform:translateX(0)}}
+@keyframes tile-wave{0%{transform:translateY(0)}25%{transform:translateY(-16px)}50%{transform:translateY(3px)}70%{transform:translateY(-4px)}85%{transform:translateY(1px)}100%{transform:translateY(0)}}
+@keyframes phrase-flip{0%{transform:rotateY(0deg)}50%{transform:rotateY(90deg)}100%{transform:rotateY(0deg)}}
+@keyframes cell-bounce{0%{transform:scale(1)}40%{transform:scale(1.2)}70%{transform:scale(.95)}100%{transform:scale(1)}}
+@keyframes celebration-flip{0%{transform:rotateY(0deg) scale(1)}40%{transform:rotateY(180deg) scale(1)}70%{transform:rotateY(360deg) scale(1.15)}100%{transform:rotateY(360deg) scale(1)}}
+#pause-overlay{display:none;position:fixed;inset:45px 0 0;z-index:90;background:rgba(2,8,23,.78);align-items:center;justify-content:center;padding:24px}
+#pause-overlay.show{display:flex}
+.pause-card{width:min(430px,92vw);background:#fff;border-radius:16px;padding:28px;text-align:center;box-shadow:0 18px 55px rgba(0,0,0,.28)}
+.pause-title{font-size:1.65rem;font-weight:700;margin:0 0 8px}
+.pause-time{color:var(--color-mg-slate);margin:0 0 20px;font-variant-numeric:tabular-nums}
+.modal-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+.game-button{min-height:40px;padding:0 20px;border:2px solid var(--color-mg-midnight);border-radius:999px;background:#fff;color:var(--color-mg-text);font-weight:700;cursor:pointer}
+.game-button.primary{background:var(--color-mg-midnight);color:#fff}
+
+/* Sporcle-style completion modal */
+#game-modal{display:none;position:fixed;inset:0;z-index:2000000002;background-color:rgba(0,0,0,.65);align-items:center;justify-content:center;padding:18px;animation-fill-mode:forwards;animation-duration:.3s;transition:backdrop-filter 225ms}
+#game-modal.show{display:flex;animation-name:modal-overlay-opening-keyframes;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+#game-modal.closing{display:flex;animation-name:modal-overlay-closing-keyframes}
+#game-modal .modal-card{display:inline-block;position:relative;width:500px;max-width:calc(100vw - 36px);padding:40px;background:#fff;border-radius:8px;box-shadow:0 20px 20px rgba(0,0,0,.2);outline:none;max-height:98vh;overflow-y:auto;animation-fill-mode:forwards;animation-duration:.3s;text-align:center}
+#game-modal.show .modal-card{animation-name:modal-opening-keyframes}
+#game-modal.closing .modal-card{animation-name:modal-closing-keyframes}
+#modal-close{position:absolute;right:10px;top:10px;width:30px;height:30px;margin:0;cursor:pointer;border:0;border-radius:999px;background-color:transparent;background-repeat:no-repeat;background-position:center;background-size:16px;background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 3 4 20M21 20 4 3'/%3E%3C/svg%3E")}
+#modal-close:hover,#modal-close:focus{background-color:var(--color-yellow-pale)}
+#GO_modal-body{text-align:center;position:relative}
+#GO_main{display:flex;flex-direction:column;gap:1.25rem}
+#GO_title-text{font-size:2rem;line-height:2.25rem;font-weight:700}
+#GO_pre-text,#GO_descr-text{color:var(--color-mg-slate);font-size:1rem}
+#GO_phrase-container{display:flex;flex-direction:column;align-items:center;gap:.5rem}
+#GO_acrostic-phrase{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;column-gap:.25rem;row-gap:.35rem;width:100%;font-size:1.25rem}
+.go-source-word{display:flex;gap:.2rem;white-space:nowrap;margin:0 .22rem}
+.go-source-cell{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:2px;background:var(--color-yellow);border:1px solid var(--color-yellow);color:#000;font-size:1.1rem;font-weight:700;transform-style:preserve-3d}
+#postgame-links{display:flex;align-items:center;justify-content:center;width:80%;align-self:center}
+.pg_buttons{width:95%;display:grid;grid-template-columns:1fr;font-size:.9rem;font-weight:700;padding:.5rem 1rem;gap:.75rem}
+.pg_link{height:40px;border-radius:73px;cursor:pointer;display:flex;justify-content:center;align-items:center;color:#000;background:#fff;border:2px solid #000;font-family:inherit;font-size:.9rem;font-weight:700}
+.pg_link:hover,.pg_link:focus{background:#000;color:#fff;outline:none}
+.pg_link.black{background:#000;color:#fff}.pg_link.black:hover,.pg_link.black:focus{background:#fff;color:#000}
+#share-status{min-height:1em;color:var(--color-mg-slate);font-size:.75rem;margin-top:-.65rem}
+#confetti-layer{position:fixed;inset:0;width:100%;height:100%;z-index:2000000003;pointer-events:none;display:none}
+#confetti-layer.active{display:block}
+body.modal-active{overflow:hidden}
+.spark{position:absolute;width:3px;height:3px;background-color:var(--color-yellow);border-radius:1px;pointer-events:none;z-index:4;left:50%;top:50%;margin-left:-1.5px;margin-top:-1.5px}
+@keyframes spark-0{0%{transform:translate(-6px,-6px) scale(1);opacity:1}50%{transform:translate(-18px,-20px) scale(1);opacity:1}100%{transform:translate(-18px,-10px) scale(.4);opacity:0}}
+@keyframes spark-1{0%{transform:translate(6px,-6px) scale(1);opacity:1}50%{transform:translate(18px,-16px) scale(1);opacity:1}100%{transform:translate(18px,-6px) scale(.4);opacity:0}}
+@keyframes spark-2{0%{transform:translate(-6px,6px) scale(1);opacity:1}50%{transform:translate(-18px,16px) scale(1);opacity:1}100%{transform:translate(-18px,6px) scale(.4);opacity:0}}
+@keyframes spark-3{0%{transform:translate(6px,6px) scale(1);opacity:1}50%{transform:translate(18px,20px) scale(1);opacity:1}100%{transform:translate(18px,10px) scale(.4);opacity:0}}
+@keyframes spark-4{0%{transform:translate(0,-7px) scale(1);opacity:1}50%{transform:translate(0,-23px) scale(1);opacity:1}100%{transform:translate(0,-12px) scale(.4);opacity:0}}
+@keyframes spark-5{0%{transform:translate(0,7px) scale(1);opacity:1}50%{transform:translate(0,23px) scale(1);opacity:1}100%{transform:translate(0,12px) scale(.4);opacity:0}}
+@keyframes modal-opening-keyframes{from{transform:scale(1.05);opacity:0}to{transform:none;opacity:1}}
+@keyframes modal-closing-keyframes{from{transform:scale(1);opacity:1}to{transform:scale(.95);opacity:0;visibility:hidden}}
+@keyframes modal-overlay-opening-keyframes{from{opacity:0}to{opacity:1}}
+@keyframes modal-overlay-closing-keyframes{from{opacity:1}to{opacity:0}}
+@media (max-width:560px){#game-modal .modal-card{padding:34px 20px;width:100%}#postgame-links{width:100%}.pg_buttons{width:100%;padding:.5rem 0}.go-source-cell{width:25px;height:25px;font-size:1rem}}
+
+@media (max-width:749px){
+ #mg-sh-title .long-title{display:none}
+ #acrostic-game-container{padding-left:0;padding-right:0}
+ #full-play-area{max-width:100%}
+ #top-wrapper.playActive{overflow:hidden}
+ #fact-area{border-radius:0;padding:12px 0;display:flex;justify-content:center}
+ .cell-area{transform:scale(.82);transform-origin:center center;margin:-14px -62px}
+ #entry-container{padding:.5rem 8px}
+ .subclue{grid-template-columns:1fr;min-height:76px;height:auto;gap:5px;padding:8px}
+ .subclue-hint{text-align:left;padding:0}
+ .subclue-answer{margin-left:0;max-width:100%;flex-wrap:wrap}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-delay:0ms!important;scroll-behavior:auto!important}}
+@media print{
+ #mg-subheader,#entry-container,#menu-popover,#pause-overlay,#game-modal,#confetti-layer{display:none!important}
+ #top-wrapper.playActive{position:static!important;padding-top:0!important}
+ #acrostic-game-container{padding:0!important;min-height:0!important}
+ #full-play-area{max-width:100%!important}
+ #fact-area{break-inside:avoid;margin-bottom:8mm}
+ .subclue{break-inside:avoid;page-break-inside:avoid}
+ .hilite-border{border:1px solid var(--color-mg-slate-light)!important;margin:0!important}
+ @page{size:A4 portrait;margin:9mm}
+}
+
+/* === Reference-matched pause, completion, confetti, and print revision === */
+#pause-overlay{display:none;position:fixed;inset:0;z-index:2000000002;background-color:rgba(0,0,0,.65);align-items:center;justify-content:center;animation-fill-mode:forwards;animation-duration:.3s;transition:backdrop-filter 225ms;padding:18px}
+#pause-overlay.show{display:flex;animation-name:modal-overlay-opening-keyframes;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+#pause-overlay.closing{display:flex;animation-name:modal-overlay-closing-keyframes}
+#pause-modal{display:flex;flex-direction:column;width:920px;max-width:calc(100vw - 36px);padding:0;background:#fff;border-radius:8px;box-shadow:0 20px 20px rgba(0,0,0,.2);overflow:hidden;animation-fill-mode:forwards;animation-duration:.3s}
+#pause-overlay.show #pause-modal{animation-name:modal-opening-keyframes}
+#pause-overlay.closing #pause-modal{animation-name:modal-closing-keyframes}
+.pause-head{display:flex;background-color:var(--color-yellow);color:#000;padding:.5rem .9375rem;text-transform:uppercase;font-weight:700;align-items:center;border-radius:8px 8px 0 0;min-height:53px}
+.pause-head .head-left,.pause-head .head-center,.pause-head .head-right{flex:1;text-align:center;font-size:1rem;font-variant-numeric:tabular-nums}
+.pause-head .head-center{font-size:1.1875rem}
+.pause-head .head-right{display:flex;align-items:center;justify-content:space-between}
+.pause-head .head-timer{flex:1}
+.pause-head .pause-modal-close{width:30px;height:30px;margin:0;border:0;border-radius:999px;cursor:pointer;background:transparent center/16px no-repeat url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 3 4 20M21 20 4 3'/%3E%3C/svg%3E")}
+.pause-head .pause-modal-close:hover,.pause-head .pause-modal-close:focus{background-color:rgba(255,255,255,.3);outline:none}
+.pause-body{display:flex;flex-direction:column;flex:1;padding:1.875rem 15%;overflow:hidden}
+.pause-body .top{display:flex;flex-direction:column;padding:0 10%}
+.pause-image{width:70px;height:70px;display:block;background-position:center;background-repeat:no-repeat;background-size:contain;margin:0 auto 5px;background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2270%22 height=%2270%22 fill=%22none%22 viewBox=%220 0 70 70%22%3E%3Cg clip-path=%22url(%2307c2af-a)%22%3E%3Crect width=%2269.6%22 height=%2251.194%22 x=%22.4%22 y=%2218.806%22 fill=%22%23FF6564%22 rx=%224%22/%3E%3Crect width=%2266.768%22 height=%2233.887%22 x=%221.879%22 y=%221.113%22 fill=%22%23000%22 rx=%225%22/%3E%3Cpath fill=%22%23000%22 stroke=%22%23000%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M33.088 2.305c.271.009.538.073.783.188l.002.001q.276.13.501.335l.143.143.002.001q.202.227.329.503l.075.187.001.003c.08.234.115.481.107.728h0v6.596h0c.008.247-.027.495-.107.729v.002a2.03 2.03 0 0 1-1.053 1.17 2 2 0 0 1-.783.187h-6.852l-.063-.001a2.04 2.04 0 0 1-1.387-.675 2.07 2.07 0 0 1-.524-1.444V4.394a2.07 2.07 0 0 1 .524-1.412v0c.355-.397.853-.64 1.387-.675l.063-.002z%22/%3E%3Cpath fill=%22%23fff%22 stroke=%22%23000%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M21.913 2.305q.307.01.596.11l.188.077.002.001c.244.114.464.276.646.478v.001a2.03 2.03 0 0 1 .514 1.422h.001v6.596h0a2.019 2.019 0 0 1-.516 1.42v.002a2 2 0 0 1-1.43.666H15.04a2 2 0 0 1-1.431-.666v-.001a2 2 0 0 1-.408-.69 2 2 0 0 1-.108-.73l-.001-6.597h0a2.026 2.026 0 0 1 .516-1.422v0c.182-.203.402-.365.646-.479l.002-.001c.245-.114.512-.178.783-.187zM10.717 2.306l.063.001c.468.03.907.22 1.247.534l.14.14v.001c.348.389.532.894.523 1.412h.001v6.596h0a2.06 2.06 0 0 1-.524 1.412 2.04 2.04 0 0 1-1.45.677H3.896l-.03-.001a2 2 0 0 1-1.43-.667v-.001a2.02 2.02 0 0 1-.513-1.43H1.92l.065-6.596h.001a2.029 2.029 0 0 1 1.157-1.89l.002-.001c.246-.115.512-.18.784-.187zM48.553 12.973a2 2 0 0 1-.596-.11l-.188-.077h-.002a2 2 0 0 1-.646-.48h0a2.03 2.03 0 0 1-.514-1.422h-.001V4.288h0a2.021 2.021 0 0 1 .516-1.42v-.002a2 2 0 0 1 1.43-.666h6.874a2 2 0 0 1 1.432.666l-.001.001a2.02 2.02 0 0 1 .516 1.421l.001 6.596h0a2.024 2.024 0 0 1-.516 1.422h0a2 2 0 0 1-.646.48h-.002a2 2 0 0 1-.783.187zM37.378 12.973a2 2 0 0 1-.783-.188h-.002a2 2 0 0 1-.501-.336l-.143-.143-.002-.001a2 2 0 0 1-.329-.503l-.075-.187-.001-.003a2 2 0 0 1-.106-.728h-.001V4.288h0a2 2 0 0 1 .107-.728l.001-.002a2.03 2.03 0 0 1 1.052-1.171c.245-.115.512-.179.783-.187h6.852l.063.001a2.04 2.04 0 0 1 1.387.675c.355.396.541.915.524 1.444v6.564a2.06 2.06 0 0 1-.524 1.412h0c-.355.397-.853.64-1.387.675l-.062.002z%22/%3E%3Cpath fill=%22%23000%22 stroke=%22%23000%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22m59.75 12.973-.064-.002a2.03 2.03 0 0 1-1.247-.534l-.14-.14v-.001a2.07 2.07 0 0 1-.523-1.412h-.001V4.288h0a2.06 2.06 0 0 1 .524-1.412 2.04 2.04 0 0 1 1.45-.677h6.821l.03.001a2 2 0 0 1 1.43.667v.001a2.02 2.02 0 0 1 .513 1.43h.002l-.065 6.597h-.001a2.028 2.028 0 0 1-1.157 1.89h-.002c-.246.115-.512.18-.784.188zM33.088 24.745c.271.009.538.073.783.188h.002q.276.131.501.336l.143.143.002.001q.202.227.329.503l.075.187.001.003c.08.234.115.48.107.728h0v6.596h0c.008.247-.027.494-.107.728v.002a2.03 2.03 0 0 1-1.053 1.171 2 2 0 0 1-.783.187h-6.852l-.063-.001a2.04 2.04 0 0 1-1.387-.675 2.07 2.07 0 0 1-.524-1.444v-6.564a2.06 2.06 0 0 1 .524-1.412v0c.356-.397.853-.64 1.387-.675l.063-.002z%22/%3E%3Cpath fill=%22%23fff%22 stroke=%22%23000%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M21.913 24.745a2 2 0 0 1 .596.11l.188.077h.002c.244.115.464.277.646.48v0a2.03 2.03 0 0 1 .514 1.422h.001v6.596h0a2.023 2.023 0 0 1-.516 1.42v.002a2 2 0 0 1-1.43.666H15.04a2 2 0 0 1-1.432-.666l.001-.001a2.02 2.02 0 0 1-.516-1.421l-.001-6.596h0a2.024 2.024 0 0 1 .516-1.422v0c.182-.203.402-.365.646-.48h.002c.245-.114.512-.178.783-.187zM10.717 24.745l.063.002c.468.03.907.22 1.247.534l.14.14v.001c.348.389.532.894.523 1.412h.001v6.596h0a2.06 2.06 0 0 1-.524 1.412 2.04 2.04 0 0 1-1.45.677H3.896l-.03-.001a2 2 0 0 1-1.43-.667v-.001a2.02 2.02 0 0 1-.513-1.43H1.92l.065-6.597h.001a2.03 2.03 0 0 1 1.157-1.89h.002c.246-.115.512-.18.784-.188zM48.553 35.412a2 2 0 0 1-.596-.11l-.188-.076-.002-.001a2 2 0 0 1-.646-.479h0a2.03 2.03 0 0 1-.514-1.422h-.001v-6.596h0a2.019 2.019 0 0 1 .516-1.42v-.002a2.003 2.003 0 0 1 1.432-.666l.03-.001h6.843a2 2 0 0 1 1.43.667h0a2.02 2.02 0 0 1 .516 1.422l.001 6.596h0a2.026 2.026 0 0 1-.516 1.422h0a2 2 0 0 1-.646.479h-.002a2 2 0 0 1-.783.187zM37.378 35.412a2 2 0 0 1-.783-.187l-.002-.001a2 2 0 0 1-.501-.335l-.143-.144h-.002a2 2 0 0 1-.329-.503l-.075-.187-.001-.003a2 2 0 0 1-.107-.728h0v-6.596h0a2 2 0 0 1 .107-.729l.001-.002a2.03 2.03 0 0 1 1.052-1.17c.245-.115.512-.179.783-.187l.03-.001h6.822q.032 0 .063.002a2.04 2.04 0 0 1 1.387.675c.355.396.541.915.524 1.444v6.564a2.07 2.07 0 0 1-.524 1.412h0c-.355.397-.853.64-1.387.674l-.062.002z%22/%3E%3Cpath fill=%22%23000%22 stroke=%22%23000%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M59.75 35.412q-.033 0-.064-.002a2.03 2.03 0 0 1-1.247-.533l-.14-.14v-.001a2.07 2.07 0 0 1-.523-1.412h-.001v-6.596h0a2.06 2.06 0 0 1 .524-1.412 2.04 2.04 0 0 1 1.45-.677h6.822l.03.001a2 2 0 0 1 1.43.667h-.002a2.02 2.02 0 0 1 .514 1.43h.002l-.065 6.597h-.001a2.028 2.028 0 0 1-1.157 1.89h-.002c-.246.116-.512.18-.784.188zM37.378 24.192a2 2 0 0 1-.784-.187l-.002-.001a2 2 0 0 1-.5-.335l-.143-.144h-.002a2 2 0 0 1-.33-.503l-.074-.187-.001-.003a2 2 0 0 1-.107-.729h0v-6.595h0a2 2 0 0 1 .107-.729v-.002a2.03 2.03 0 0 1 1.052-1.17c.246-.115.513-.179.784-.187l.03-.001h6.822q.03 0 .063.002a2.04 2.04 0 0 1 1.386.675c.355.396.542.915.525 1.444v6.564a2.07 2.07 0 0 1-.525 1.412h0c-.355.397-.852.64-1.386.674l-.063.002z%22/%3E%3Cpath fill=%22%23fff%22 stroke=%22%23000%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M48.552 24.192a2 2 0 0 1-.595-.11l-.189-.076-.002-.001a2 2 0 0 1-.645-.479h0a2.03 2.03 0 0 1-.515-1.422h0v-6.596h0a2.02 2.02 0 0 1 .516-1.42l-.001-.002a2.01 2.01 0 0 1 1.431-.666l.03-.001h6.843999999999999a2 2 0 0 1 1.431.667h0a2.02 2.02 0 0 1 .516 1.422v6.596h0a2.024 2.024 0 0 1-.516 1.422h0a2 2 0 0 1-.645.479h-.002a2 2 0 0 1-.784.187zM59.749 24.192q-.032 0-.064-.002a2.03 2.03 0 0 1-1.247-.533l-.14-.14v-.001a2.06 2.06 0 0 1-.523-1.412h0v-6.596h0a2.06 2.06 0 0 1 .524-1.412 2.04 2.04 0 0 1 1.45-.677H66.6a2 2 0 0 1 1.43.668h0a2.02 2.02 0 0 1 .513 1.43h.002l-.066 6.597h0a2.03 2.03 0 0 1-1.157 1.89h-.003c-.245.115-.512.18-.783.188zM21.913 13.525q.307.01.596.11l.188.077h.002c.244.115.464.277.646.48h0a2.03 2.03 0 0 1 .514 1.422h.001v6.596h0a2.02 2.02 0 0 1-.516 1.42v.002a2 2 0 0 1-1.43.666H15.04a2 2 0 0 1-1.431-.666v-.001a2 2 0 0 1-.408-.69 2 2 0 0 1-.108-.731l-.001-6.596h0a2.026 2.026 0 0 1 .516-1.422h0c.182-.203.402-.365.646-.48h.002c.245-.114.512-.178.783-.187zM33.088 13.525c.27.009.537.073.783.188h.002q.276.131.501.336l.143.143.002.001q.202.227.329.503l.075.187v.003c.081.234.115.48.107.728h.001v6.596h0a2 2 0 0 1-.107.728l-.001.002a2.03 2.03 0 0 1-1.052 1.171 2 2 0 0 1-.783.187h-6.853000000000001l-.062-.001a2.04 2.04 0 0 1-1.387-.675 2.07 2.07 0 0 1-.524-1.444v-6.564a2.07 2.07 0 0 1 .524-1.412h0c.355-.397.852-.64 1.387-.675l.062-.002z%22/%3E%3Cpath fill=%22%23000%22 stroke=%22%23000%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M10.717 13.525q.03 0 .063.002c.468.03.907.22 1.247.534l.14.14v.001c.348.389.532.894.523 1.412h.001v6.596h0a2.06 2.06 0 0 1-.524 1.412 2.04 2.04 0 0 1-1.45.677H3.896l-.03-.001a2 2 0 0 1-1.43-.667v-.001a2.02 2.02 0 0 1-.513-1.43H1.92l.065-6.597h.001a2.028 2.028 0 0 1 1.157-1.89h.002c.246-.115.512-.18.784-.188z%22/%3E%3Cpath fill=%22%23fff%22 stroke=%22%23000%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22M32.455 48c.317.009.628.084.915.217l.002.001a2.36 2.36 0 0 1 1.358 2.234v8.81h0a2.362 2.362 0 0 1-2.274 2.452h-9.159a2.34 2.34 0 0 1-1.672-.778l.001-.001a2.4 2.4 0 0 1-.476-.808l-.067-.227a2.4 2.4 0 0 1-.06-.639h-.001v-8.809h0a2.38 2.38 0 0 1 .603-1.674l.168-.168a2.4 2.4 0 0 1 .587-.392h.002c.287-.134.598-.209.915-.219zM47.174 48c.316.01.627.084.914.218l.002.001c.213.1.411.232.586.392l.167.168h0q.238.267.386.589l.088.218v.003c.095.278.137.57.126.864l.001 8.808h0c.01.293-.032.586-.127.863v.002a2.348 2.348 0 0 1-2.144 1.587l-.03.001h-9.109q-.032 0-.063-.002a2.38 2.38 0 0 1-1.622-.79 2.42 2.42 0 0 1-.615-1.66h0v-8.81h0a2.42 2.42 0 0 1 .614-1.66v-.002c.417-.464.998-.749 1.623-.789l.063-.002zM61.887 48c.316.01.627.084.914.218l.002.001c.214.1.412.232.586.392l.167.168h.001q.236.267.386.589l.088.218v.003c.095.278.137.57.126.864v8.808h0c.01.293-.031.586-.126.863v.002a2.348 2.348 0 0 1-2.143 1.587l-.031.001h-9.11q-.03 0-.063-.002a2.38 2.38 0 0 1-1.622-.79 2.42 2.42 0 0 1-.614-1.66h-.001v-8.81h0a2.42 2.42 0 0 1 .615-1.66v-.002c.416-.464.997-.749 1.622-.789l.064-.002z%22/%3E%3Cpath fill=%22%23FFF6C8%22 stroke=%22%23000%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke-width=%222%22 d=%22m17.719 48 .062.001a2.38 2.38 0 0 1 1.46.624l.163.165.001.001c.409.457.625 1.051.614 1.662v8.808h0a2.42 2.42 0 0 1-.615 1.661 2.38 2.38 0 0 1-1.685.792H8.58a2.33 2.33 0 0 1-1.67-.78l.001-.001a2.4 2.4 0 0 1-.388-.588l-.087-.22a2.4 2.4 0 0 1-.125-.875h-.002l.087-8.807h0a2.37 2.37 0 0 1 .6-1.663h.001a2.35 2.35 0 0 1 .753-.56l.002-.002c.287-.134.597-.209.914-.219z%22/%3E%3Crect width=%2267.6%22 height=%2268%22 x=%221.4%22 y=%221%22 stroke=%22%23000%22 stroke-width=%222%22 rx=%223%22/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id=%2207c2af-a%22%3E%3Cpath fill=%22%23fff%22 d=%22M0 0h70v70H0z%22/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E")}
+.pause-quiz-info{color:#000;text-align:center}
+.pause-quiz-name{font-weight:700;font-size:1.5rem;line-height:1.8rem}
+.pause-description{font-size:1rem;line-height:1.35rem}
+.pause-buttons{display:flex;flex-direction:row;justify-content:space-between;padding-bottom:1.0625rem;gap:1.25rem;margin-top:1rem}
+.pause-buttons button{color:#000;font-size:1.25rem;padding:1rem;display:flex;align-items:center;justify-content:center;gap:.625rem;border:0;border-radius:2rem;font-weight:700;cursor:pointer;line-height:1}
+.pause-buttons .resume{flex:2;background:#f90;border:2px solid #f90}
+.pause-buttons .resume:hover{background:#ffa800;border-color:#ffa800}
+.pause-buttons .give-up{flex:1;background:#d8d8d8;border:2px solid #d8d8d8}
+.pause-buttons .give-up:hover{background:#c5c4c4;border-color:#c5c4c4}
+.pause-buttons .icon{width:1rem;height:1rem;background-position:center;background-repeat:no-repeat;background-size:contain}
+.pause-buttons .resume .icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23000' d='M2.081 15.062a.86.86 0 0 1-1.245-.768V1.706c0-.29.153-.563.41-.734.255-.17.562-.17.835-.034L14.67 7.232a.854.854 0 0 1 0 1.535z'/%3E%3C/svg%3E")}
+.pause-buttons .give-up .icon{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23000' d='M15.02 13.259a1.235 1.235 0 0 0 0-1.749L11.51 8l3.51-3.51a1.235 1.235 0 0 0 0-1.749L13.271.992a1.235 1.235 0 0 0-1.748 0l-3.51 3.51L4.49.98a1.235 1.235 0 0 0-1.749 0L.992 2.729a1.235 1.235 0 0 0 0 1.748l3.51 3.51-3.51 3.51a1.235 1.235 0 0 0 0 1.75l1.75 1.748a1.235 1.235 0 0 0 1.748 0L8 11.485l3.51 3.51a1.235 1.235 0 0 0 1.749 0z'/%3E%3C/svg%3E")}
+
+/* The supplied reference CSS puts sparks behind their tile. */
+.spark{position:absolute;width:3px;height:3px;background-color:var(--color-yellow);border-radius:1px;pointer-events:none;z-index:-1;left:50%;top:50%;margin-left:-1.5px;margin-top:-1.5px}
+#confetti-layer{position:fixed;inset:0;width:100%;height:100%;z-index:2000000003;pointer-events:none;display:none}
+#confetti-layer.active{display:block}
+
+/* Completion modal uses the reference 500px narrow modal dimensions. */
+#game-modal .modal-card{width:500px;max-width:calc(100vw - 36px);padding:40px;border-radius:8px;box-shadow:0 20px 20px rgba(0,0,0,.2)}
+#game-modal #GO_modal-body{padding:0}
+#GO_acrostic-phrase{gap:.25rem;row-gap:.35rem;flex-wrap:wrap}
+.go-source-word{display:flex;gap:.2rem;white-space:nowrap;margin:0 .18rem}
+.go-source-cell{width:28px;height:28px;border-radius:2px;background:var(--color-yellow);border:1px solid var(--color-yellow);color:#000;font-size:1.1rem;font-weight:700;transform-style:preserve-3d}
+
+@media (max-width:700px){
+ #pause-modal{width:100%}
+ .pause-body{padding:1.5rem 7%}
+ .pause-body .top{padding:0}
+ .pause-buttons button{font-size:1rem;padding:.8rem}
+ .pause-head .head-left,.pause-head .head-right{font-size:.82rem}
+}
+
+@media print{
+ @page{size:A4 portrait;margin:7mm}
+ html,body{width:auto!important;min-height:0!important;background:#fff!important;overflow:visible!important}
+ body{font-size:9pt!important}
+ #menu-popover,#pause-overlay,#game-modal,#confetti-layer{display:none!important}
+ #mg-subheader{display:flex!important;position:static!important;height:32px!important;min-height:32px!important;padding:0 9px!important;border-radius:0!important}
+ #mg-sh-title,.timer-container{font-size:8.5pt!important}
+ .mg-actions-container{display:none!important}
+ #acrostic-game-container{padding:7px 0 0!important;min-height:0!important;display:block!important}
+ #full-play-area{max-width:none!important;width:100%!important}
+ #top-wrapper.playActive{position:static!important;padding-top:2px!important}
+ #fact-area{padding:10px!important;border-radius:6px!important;width:max-content!important;margin:0 auto 6px!important}
+ #puzzle-grid.cell-area{grid-template-columns:repeat(23,25px)!important;grid-auto-rows:25px!important;gap:1px!important}
+ #puzzle-grid .cell{font-size:11pt!important;border-radius:2px!important}
+ #puzzle-grid .cell_num{font-size:6.3pt!important}
+ #puzzle-grid .cell[data-visible-letter]::after{font-size:11pt!important}
+ #entry-container{padding:3px 0!important}
+ #answer-entry{height:25px!important;border-radius:5px!important;font-size:9pt!important;letter-spacing:.08em!important}
+ #clue-area{display:grid!important;grid-template-columns:1fr 1fr!important;column-gap:5mm!important;row-gap:2px!important;align-items:start!important}
+ .subclue{height:31px!important;min-height:31px!important;padding:2px 3px!important;gap:4px!important;grid-template-columns:45% 55%!important;border-radius:2px!important;break-inside:avoid!important}
+ .subclue-hint{font-size:8.1pt!important;line-height:1.08!important;padding-right:2px!important;overflow:hidden!important}
+ .subclue-answer{gap:1px!important;margin-left:0!important;max-width:none!important}
+ .cell.clues{width:18px!important;height:18px!important;min-width:18px!important;font-size:8pt!important;border-radius:2px!important}
+ .cell.clues[data-visible-letter]::after{font-size:8pt!important}
+ .cell.clues .cell_num{font-size:5.5pt!important}
+ .cell.space{width:5px!important;min-width:5px!important}
+}
+
+
+/* === Final exact cell geometry from the supplied Sporcle CSS ===
+   Phrase tracks are 28px. Clue cells use a 30px content box plus 1px borders = 32px rendered. */
+.cell.clues:not(.space){
+  box-sizing:content-box;
+  width:30px;
+  height:30px;
+  min-width:30px;
+  flex:0 0 30px;
+  aspect-ratio:auto;
+}
+.cell.clues.space{
+  box-sizing:border-box;
+  width:12px;
+  height:32px;
+  min-width:12px;
+  flex:0 0 12px;
+  aspect-ratio:auto;
+}
+#puzzle-grid.cell-area{
+  grid-template-columns:repeat(23,28px);
+  grid-auto-rows:28px;
+}
+@media print{
+  /* Preserve the original 32:28 clue-to-phrase proportion while scaling to one A4 page. */
+  #puzzle-grid.cell-area{
+    grid-template-columns:repeat(23,21.84px)!important;
+    grid-auto-rows:21.84px!important;
+    gap:1px!important;
+  }
+  .cell.clues:not(.space){
+    box-sizing:border-box!important;
+    width:24.96px!important;
+    height:24.96px!important;
+    min-width:24.96px!important;
+    flex:0 0 24.96px!important;
+  }
+  .cell.clues.space{
+    width:7px!important;
+    height:24.96px!important;
+    min-width:7px!important;
+    flex:0 0 7px!important;
+  }
+  .subclue{height:32px!important;min-height:32px!important}
+}
+
+</style>
+
+<style id="responsive-print-final-fixes">
+/* Final responsive rules: retain the original desktop geometry while letting
+   the fixed 23-column quote grid contract cleanly on small screens. */
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@media screen and (max-width: 749px) {
+  #mg-subheader {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  #acrostic-game-container {
+    width: 100%;
+    box-sizing: border-box;
+    padding: .75rem 0 5px;
+  }
+
+  #acrostic-game-container #full-play-area {
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+  }
+
+  #acrostic-game-container #full-play-area #top-wrapper.playActive {
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+  }
+
+  #acrostic-game-container #full-play-area #fact-area {
+    --quote-gap: 2px;
+    --quote-cell: clamp(12px, calc((100vw - 60px) / 23), 28px);
+    width: 100%;
+    box-sizing: border-box;
+    padding: clamp(8px, 3vw, 14px) 0;
+    border-radius: 0;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  #acrostic-game-container #full-play-area #puzzle-grid.cell-area {
+    grid-template-columns: repeat(23, var(--quote-cell));
+    grid-auto-rows: var(--quote-cell);
+    gap: var(--quote-gap);
+    transform: none !important;
+    transform-origin: center center !important;
+    margin: 0 !important;
+  }
+
+  #puzzle-grid .cell:not(.clues) {
+    min-width: 0;
+    min-height: 0;
+    font-size: clamp(.65rem, calc(var(--quote-cell) * .72), 1.25rem);
+  }
+
+  #puzzle-grid .cell_num {
+    font-size: clamp(.38rem, calc(var(--quote-cell) * .34), .8125rem);
+  }
+
+  #puzzle-grid .cell.punctuation {
+    font-size: clamp(.8rem, calc(var(--quote-cell) * .95), 1.75rem);
+  }
+
+  #entry-container {
+    width: 100%;
+    box-sizing: border-box;
+    padding: .5rem 8px;
+  }
+
+  #answer-entry {
+    max-width: 100%;
+  }
+
+  #clue-area {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  #acrostic-game-container #full-play-area #clue-area .subclue {
+    width: 100%;
+    box-sizing: border-box;
+    grid-template-columns: 1fr;
+    min-height: 76px;
+    height: auto;
+    gap: 5px;
+    padding: 8px;
+  }
+
+  #acrostic-game-container #full-play-area #clue-area .subclue-hint {
+    text-align: left;
+    padding: 0;
+  }
+
+  #acrostic-game-container #full-play-area #clue-area .subclue-answer {
+    margin-left: 0;
+    max-width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  #pause-modal {
+    width: 100%;
+    max-height: calc(100dvh - 24px);
+  }
+
+  .pause-body {
+    overflow-y: auto;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  #mg-subheader {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    padding: 0 12px;
+  }
+  #mg-subheader .name-date-container { min-width: 0; }
+  #mg-subheader .mg-extra-actions {
+    position: static;
+    left: auto;
+    transform: none;
+  }
+  #mg-subheader .mg-actions-container { display: none; }
+  #mg-sh-title .long-title { display: none; }
+  .pause-head { padding: .45rem .55rem; }
+  .pause-head .head-left,
+  .pause-head .head-right { font-size: .76rem; }
+  .pause-head .head-center { font-size: .95rem; }
+  .pause-body { padding: 1.35rem 7%; }
+  .pause-buttons {
+    grid-template-columns: 1fr;
+    gap: .65rem;
+  }
+  .pause-buttons button {
+    width: 100%;
+  }
+  #game-modal .modal-card {
+    width: calc(100vw - 24px);
+    max-height: calc(100dvh - 24px);
+    overflow-y: auto;
+    padding: 30px 18px;
+  }
+  #GO_acrostic-phrase {
+    gap: .18rem;
+    row-gap: .28rem;
+  }
+  .go-source-cell {
+    width: 24px;
+    height: 24px;
+    font-size: .95rem;
+  }
+}
+
+/* Clean one-page A4 version. The interactive timer/pause strip and input are
+   intentionally omitted; the phrase panel and every clue retain the web style. */
+@media print {
+  @page { size: A4 portrait; margin: 6mm; }
+
+  html, body {
+    width: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    background: #fff !important;
+    color: var(--color-mg-text) !important;
+  }
+
+  body {
+    margin: 0 !important;
+    font-family: Roboto, Arial, sans-serif !important;
+  }
+
+  #mg-subheader,
+  #entry-container,
+  #menu-popover,
+  #pause-overlay,
+  #game-modal,
+  #confetti-layer {
+    display: none !important;
+  }
+
+  #full-page-content,
+  #acrostic-game-container,
+  #full-play-area,
+  #top-wrapper.playActive {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: static !important;
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  #fact-area {
+    width: max-content !important;
+    max-width: 100% !important;
+    margin: 0 auto 4mm !important;
+    padding: 3.2mm 4mm !important;
+    border-radius: 2mm !important;
+    background: var(--color-mg-midnight) !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  #puzzle-grid.cell-area {
+    --print-quote-cell: 20px;
+    grid-template-columns: repeat(23, var(--print-quote-cell)) !important;
+    grid-auto-rows: var(--print-quote-cell) !important;
+    gap: 1px !important;
+    transform: none !important;
+    margin: 0 !important;
+  }
+
+  #puzzle-grid .cell {
+    border-radius: 2px !important;
+    font-size: 9.5pt !important;
+  }
+
+  #puzzle-grid .cell_num {
+    font-size: 5.3pt !important;
+  }
+
+  #puzzle-grid .cell[data-visible-letter]::after {
+    font-size: 9.5pt !important;
+  }
+
+  #puzzle-grid .cell.punctuation {
+    font-size: 13pt !important;
+  }
+
+  #clue-area {
+    display: block !important;
+    width: 100% !important;
+    border-radius: 3px !important;
+    margin: 0 !important;
+  }
+
+  #clue-area .subclue {
+    display: grid !important;
+    grid-template-columns: 42% 58% !important;
+    width: 100% !important;
+    min-height: 27px !important;
+    height: 27px !important;
+    box-sizing: border-box !important;
+    padding: 2px 4px !important;
+    gap: 7px !important;
+    border-radius: 2px !important;
+    align-content: center !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  #clue-area .subclue-hint {
+    font-size: 7.35pt !important;
+    line-height: 1.05 !important;
+    font-weight: 400 !important;
+    text-align: right !important;
+    align-content: center !important;
+    padding: 0 2px 0 0 !important;
+    overflow: visible !important;
+  }
+
+  #clue-area .subclue-answer {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    flex-wrap: nowrap !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    gap: 1px !important;
+  }
+
+  #clue-area .cell.clues:not(.space) {
+    box-sizing: border-box !important;
+    width: 23px !important;
+    height: 23px !important;
+    min-width: 23px !important;
+    flex: 0 0 23px !important;
+    border-radius: 2px !important;
+    font-size: 8.2pt !important;
+  }
+
+  #clue-area .cell.clues[data-visible-letter]::after {
+    font-size: 8.2pt !important;
+  }
+
+  #clue-area .cell.clues .cell_num {
+    font-size: 5.2pt !important;
+  }
+
+  #clue-area .cell.space {
+    box-sizing: border-box !important;
+    width: 7px !important;
+    height: 23px !important;
+    min-width: 7px !important;
+    flex: 0 0 7px !important;
+  }
+
+  .hilite-border {
+    margin: 0 !important;
+    border: 1px solid var(--color-mg-slate-light) !important;
+  }
+}
+</style>
+
+
+<style id="mobile-cell-type-fix">
+/* Mobile quote-cell typography must scale with the contracted 23-column grid.
+   The visible letters are rendered in ::after, so both the cell and pseudo-element
+   need responsive sizes. */
+@media screen and (max-width: 749px) {
+  #puzzle-grid .cell:not(.clues):not(.punctuation),
+  #puzzle-grid .cell:not(.clues):not(.punctuation)[data-visible-letter]::after {
+    font-size: clamp(.45rem, calc(var(--quote-cell) * .62), 1.25rem) !important;
+    line-height: 1 !important;
+  }
+
+  #puzzle-grid .cell_num {
+    font-size: clamp(.24rem, calc(var(--quote-cell) * .27), .8125rem) !important;
+    line-height: 1 !important;
+  }
+
+  #puzzle-grid .cell.punctuation,
+  #puzzle-grid .cell.punctuation[data-visible-letter]::after {
+    font-size: clamp(.55rem, calc(var(--quote-cell) * .78), 1.75rem) !important;
+    line-height: 1 !important;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  #puzzle-grid .cell:not(.clues):not(.punctuation),
+  #puzzle-grid .cell:not(.clues):not(.punctuation)[data-visible-letter]::after {
+    font-size: clamp(.42rem, calc(var(--quote-cell) * .58), .82rem) !important;
+  }
+
+  #puzzle-grid .cell_num {
+    font-size: clamp(.21rem, calc(var(--quote-cell) * .24), .55rem) !important;
+  }
+}
+</style>
+</head>
+<body>
+<main id="minigame-content">
+ <div id="mg-subheader" class="acrostic">
+  <div class="name-date-container"><span class="mg-home-button" aria-hidden="true"></span><div id="mg-sh-title"><span class="mg-name">Acrostic #01:</span> <span class="long-title">A Postcard from the Future</span></div></div>
+  <div class="mg-extra-actions timer-container"><div id="ac_timer">00:00</div><span id="ac_pause" role="button" tabindex="0" aria-label="Pause"></span></div>
+  <div class="mg-actions-container">
+   <button class="unformatted mg-stats-button" type="button" aria-label="Stats" title="Stats"></button>
+   <button class="unformatted mg-discuss-button" type="button" aria-label="Discussion" title="Discussion"></button>
+   <button class="unformatted mg-more-menu-button" id="more-button" type="button" aria-label="More" title="More"></button>
+  </div>
+ </div>
+ <div id="menu-popover">
+  <button id="how-button">How to play</button>
+  <button id="restart-button">Restart puzzle</button>
+  <button id="reveal-button">Reveal puzzle</button>
+  <button id="print-button">Print / Save as PDF</button>
+ </div>
+ <div id="full-page-content"><div id="acrostic-game-container"><div id="full-play-area" class="clues">
+  <div class="playActive" id="top-wrapper"><div id="fact-area"><div id="puzzle-grid" class="cell-area"></div></div><div id="entry-container"><input id="answer-entry" type="text" placeholder="TYPE ANSWERS HERE" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Type Answers Here"></div></div>
+  <div id="clue-area"></div>
+ </div></div></div>
+</main>
+<canvas id="confetti-layer" aria-hidden="true"></canvas>
+<div id="pause-overlay" aria-hidden="true"><div id="pause-modal" role="dialog" aria-modal="true" aria-labelledby="pause-heading"><div class="pause-head"><div class="head-left" id="pause-score">0 / 144</div><div class="head-center" id="pause-heading">PAUSED</div><div class="head-right"><span class="head-timer" id="pause-time">00:00</span><button class="pause-modal-close" id="pause-close" type="button" aria-label="Resume game"></button></div></div><div class="pause-body"><div class="top"><div class="pause-image" aria-hidden="true"></div><div class="pause-quiz-info"><div class="pause-quiz-name">Acrostic #01</div><div class="pause-description" id="pause-description">Your game has been paused.</div></div><div class="pause-buttons"><button class="resume" id="resume-button" type="button"><span class="icon" aria-hidden="true"></span>Resume</button><button class="give-up" id="pause-give-up" type="button"><span class="icon" aria-hidden="true"></span>Give Up</button></div></div></div></div></div>
+<div id="game-modal" aria-hidden="true"><div class="modal-card" id="modal-card" role="dialog" aria-modal="true" aria-labelledby="GO_title-text"><button id="modal-close" type="button" aria-label="Close"></button><div id="modal-content"></div></div></div>
+<script>
+const DATA = {"quote": "High in the Andes, where sunflowers climbed the slopes, two lovers looked toward Machu Picchu. For now they lived there only in a drawing, but the mountains were already waiting.", "source": "A MESSAGE FROM OUR FUTURE SELVES", "quoteGrid": [[{"type": "blank"}, {"type": "blank"}, {"type": "letter", "char": "H", "num": 61, "word": 0}, {"type": "letter", "char": "I", "num": 108, "word": 0}, {"type": "letter", "char": "G", "num": 37, "word": 0}, {"type": "letter", "char": "H", "num": 3, "word": 0}, {"type": "blank"}, {"type": "letter", "char": "I", "num": 109, "word": 1}, {"type": "letter", "char": "N", "num": 25, "word": 1}, {"type": "blank"}, {"type": "letter", "char": "T", "num": 17, "word": 2}, {"type": "letter", "char": "H", "num": 38, "word": 2}, {"type": "letter", "char": "E", "num": 101, "word": 2}, {"type": "blank"}, {"type": "letter", "char": "A", "num": 59, "word": 3}, {"type": "letter", "char": "N", "num": 81, "word": 3}, {"type": "letter", "char": "D", "num": 110, "word": 3}, {"type": "letter", "char": "E", "num": 115, "word": 3}, {"type": "letter", "char": "S", "num": 116, "word": 3}, {"type": "punct", "char": ","}, {"type": "blank"}, {"type": "blank"}, {"type": "blank"}], [{"type": "blank"}, {"type": "blank"}, {"type": "blank"}, {"type": "letter", "char": "W", "num": 27, "word": 4}, {"type": "letter", "char": "H", "num": 131, "word": 4}, {"type": "letter", "char": "E", "num": 22, "word": 4}, {"type": "letter", "char": "R", "num": 91, "word": 4}, {"type": "letter", "char": "E", "num": 118, "word": 4}, {"type": "blank"}, {"type": "letter", "char": "S", "num": 62, "word": 5}, {"type": "letter", "char": "U", "num": 84, "word": 5}, {"type": "letter", "char": "N", "num": 74, "word": 5}, {"type": "letter", "char": "F", "num": 103, "word": 5}, {"type": "letter", "char": "L", "num": 123, "word": 5}, {"type": "letter", "char": "O", "num": 33, "word": 5}, {"type": "letter", "char": "W", "num": 28, "word": 5}, {"type": "letter", "char": "E", "num": 130, "word": 5}, {"type": "letter", "char": "R", "num": 63, "word": 5}, {"type": "letter", "char": "S", "num": 122, "word": 5}, {"type": "blank"}, {"type": "blank"}, {"type": "blank"}, {"type": "blank"}], [{"type": "letter", "char": "C", "num": 42, "word": 6}, {"type": "letter", "char": "L", "num": 9, "word": 6}, {"type": "letter", "char": "I", "num": 58, "word": 6}, {"type": "letter", "char": "M", "num": 85, "word": 6}, {"type": "letter", "char": "B", "num": 51, "word": 6}, {"type": "letter", "char": "E", "num": 49, "word": 6}, {"type": "letter", "char": "D", "num": 79, "word": 6}, {"type": "blank"}, {"type": "letter", "char": "T", "num": 77, "word": 7}, {"type": "letter", "char": "H", "num": 47, "word": 7}, {"type": "letter", "char": "E", "num": 141, "word": 7}, {"type": "blank"}, {"type": "letter", "char": "S", "num": 60, "word": 8}, {"type": "letter", "char": "L", "num": 133, "word": 8}, {"type": "letter", "char": "O", "num": 97, "word": 8}, {"type": "letter", "char": "P", "num": 26, "word": 8}, {"type": "letter", "char": "E", "num": 143, "word": 8}, {"type": "letter", "char": "S", "num": 114, "word": 8}, {"type": "punct", "char": ","}, {"type": "blank"}, {"type": "letter", "char": "T", "num": 76, "word": 9}, {"type": "letter", "char": "W", "num": 99, "word": 9}, {"type": "letter", "char": "O", "num": 134, "word": 9}], [{"type": "blank"}, {"type": "letter", "char": "L", "num": 65, "word": 10}, {"type": "letter", "char": "O", "num": 69, "word": 10}, {"type": "letter", "char": "V", "num": 86, "word": 10}, {"type": "letter", "char": "E", "num": 112, "word": 10}, {"type": "letter", "char": "R", "num": 95, "word": 10}, {"type": "letter", "char": "S", "num": 55, "word": 10}, {"type": "blank"}, {"type": "letter", "char": "L", "num": 16, "word": 11}, {"type": "letter", "char": "O", "num": 70, "word": 11}, {"type": "letter", "char": "O", "num": 82, "word": 11}, {"type": "letter", "char": "K", "num": 50, "word": 11}, {"type": "letter", "char": "E", "num": 138, "word": 11}, {"type": "letter", "char": "D", "num": 46, "word": 11}, {"type": "blank"}, {"type": "letter", "char": "T", "num": 137, "word": 12}, {"type": "letter", "char": "O", "num": 52, "word": 12}, {"type": "letter", "char": "W", "num": 88, "word": 12}, {"type": "letter", "char": "A", "num": 45, "word": 12}, {"type": "letter", "char": "R", "num": 31, "word": 12}, {"type": "letter", "char": "D", "num": 56, "word": 12}, {"type": "blank"}, {"type": "blank"}], [{"type": "blank"}, {"type": "letter", "char": "M", "num": 4, "word": 13}, {"type": "letter", "char": "A", "num": 12, "word": 13}, {"type": "letter", "char": "C", "num": 29, "word": 13}, {"type": "letter", "char": "H", "num": 40, "word": 13}, {"type": "letter", "char": "U", "num": 1, "word": 13}, {"type": "blank"}, {"type": "letter", "char": "P", "num": 75, "word": 14}, {"type": "letter", "char": "I", "num": 129, "word": 14}, {"type": "letter", "char": "C", "num": 14, "word": 14}, {"type": "letter", "char": "C", "num": 94, "word": 14}, {"type": "letter", "char": "H", "num": 23, "word": 14}, {"type": "letter", "char": "U", "num": 132, "word": 14}, {"type": "punct", "char": "."}, {"type": "blank"}, {"type": "letter", "char": "F", "num": 5, "word": 15}, {"type": "letter", "char": "O", "num": 44, "word": 15}, {"type": "letter", "char": "R", "num": 104, "word": 15}, {"type": "blank"}, {"type": "letter", "char": "N", "num": 6, "word": 16}, {"type": "letter", "char": "O", "num": 117, "word": 16}, {"type": "letter", "char": "W", "num": 21, "word": 16}, {"type": "blank"}], [{"type": "blank"}, {"type": "letter", "char": "T", "num": 41, "word": 17}, {"type": "letter", "char": "H", "num": 57, "word": 17}, {"type": "letter", "char": "E", "num": 119, "word": 17}, {"type": "letter", "char": "Y", "num": 7, "word": 17}, {"type": "blank"}, {"type": "letter", "char": "L", "num": 72, "word": 18}, {"type": "letter", "char": "I", "num": 107, "word": 18}, {"type": "letter", "char": "V", "num": 15, "word": 18}, {"type": "letter", "char": "E", "num": 19, "word": 18}, {"type": "letter", "char": "D", "num": 90, "word": 18}, {"type": "blank"}, {"type": "letter", "char": "T", "num": 135, "word": 19}, {"type": "letter", "char": "H", "num": 128, "word": 19}, {"type": "letter", "char": "E", "num": 113, "word": 19}, {"type": "letter", "char": "R", "num": 93, "word": 19}, {"type": "letter", "char": "E", "num": 20, "word": 19}, {"type": "blank"}, {"type": "letter", "char": "O", "num": 54, "word": 20}, {"type": "letter", "char": "N", "num": 71, "word": 20}, {"type": "letter", "char": "L", "num": 10, "word": 20}, {"type": "letter", "char": "Y", "num": 48, "word": 20}, {"type": "blank"}], [{"type": "blank"}, {"type": "letter", "char": "I", "num": 24, "word": 21}, {"type": "letter", "char": "N", "num": 102, "word": 21}, {"type": "blank"}, {"type": "letter", "char": "A", "num": 43, "word": 22}, {"type": "blank"}, {"type": "letter", "char": "D", "num": 78, "word": 23}, {"type": "letter", "char": "R", "num": 92, "word": 23}, {"type": "letter", "char": "A", "num": 98, "word": 23}, {"type": "letter", "char": "W", "num": 67, "word": 23}, {"type": "letter", "char": "I", "num": 127, "word": 23}, {"type": "letter", "char": "N", "num": 36, "word": 23}, {"type": "letter", "char": "G", "num": 83, "word": 23}, {"type": "punct", "char": ","}, {"type": "blank"}, {"type": "letter", "char": "B", "num": 35, "word": 24}, {"type": "letter", "char": "U", "num": 68, "word": 24}, {"type": "letter", "char": "T", "num": 136, "word": 24}, {"type": "blank"}, {"type": "letter", "char": "T", "num": 53, "word": 25}, {"type": "letter", "char": "H", "num": 111, "word": 25}, {"type": "letter", "char": "E", "num": 96, "word": 25}, {"type": "blank"}], [{"type": "letter", "char": "M", "num": 125, "word": 26}, {"type": "letter", "char": "O", "num": 100, "word": 26}, {"type": "letter", "char": "U", "num": 73, "word": 26}, {"type": "letter", "char": "N", "num": 66, "word": 26}, {"type": "letter", "char": "T", "num": 105, "word": 26}, {"type": "letter", "char": "A", "num": 18, "word": 26}, {"type": "letter", "char": "I", "num": 39, "word": 26}, {"type": "letter", "char": "N", "num": 120, "word": 26}, {"type": "letter", "char": "S", "num": 144, "word": 26}, {"type": "blank"}, {"type": "letter", "char": "W", "num": 124, "word": 27}, {"type": "letter", "char": "E", "num": 140, "word": 27}, {"type": "letter", "char": "R", "num": 80, "word": 27}, {"type": "letter", "char": "E", "num": 8, "word": 27}, {"type": "blank"}, {"type": "letter", "char": "A", "num": 121, "word": 28}, {"type": "letter", "char": "L", "num": 89, "word": 28}, {"type": "letter", "char": "R", "num": 106, "word": 28}, {"type": "letter", "char": "E", "num": 32, "word": 28}, {"type": "letter", "char": "A", "num": 13, "word": 28}, {"type": "letter", "char": "D", "num": 30, "word": 28}, {"type": "letter", "char": "Y", "num": 142, "word": 28}, {"type": "blank"}], [{"type": "blank"}, {"type": "blank"}, {"type": "blank"}, {"type": "blank"}, {"type": "blank"}, {"type": "blank"}, {"type": "blank"}, {"type": "letter", "char": "W", "num": 11, "word": 29}, {"type": "letter", "char": "A", "num": 64, "word": 29}, {"type": "letter", "char": "I", "num": 34, "word": 29}, {"type": "letter", "char": "T", "num": 2, "word": 29}, {"type": "letter", "char": "I", "num": 126, "word": 29}, {"type": "letter", "char": "N", "num": 87, "word": 29}, {"type": "letter", "char": "G", "num": 139, "word": 29}, {"type": "punct", "char": "."}, {"type": "blank"}, {"type": "blank"}, {"type": "blank"}, {"type": "blank"}, {"type": "blank"}, {"type": "blank"}, {"type": "blank"}, {"type": "blank"}]], "quoteWords": [{"id": 0, "answer": "HIGH", "nums": [61, 108, 37, 3]}, {"id": 1, "answer": "IN", "nums": [109, 25]}, {"id": 2, "answer": "THE", "nums": [17, 38, 101]}, {"id": 3, "answer": "ANDES", "nums": [59, 81, 110, 115, 116]}, {"id": 4, "answer": "WHERE", "nums": [27, 131, 22, 91, 118]}, {"id": 5, "answer": "SUNFLOWERS", "nums": [62, 84, 74, 103, 123, 33, 28, 130, 63, 122]}, {"id": 6, "answer": "CLIMBED", "nums": [42, 9, 58, 85, 51, 49, 79]}, {"id": 7, "answer": "THE", "nums": [77, 47, 141]}, {"id": 8, "answer": "SLOPES", "nums": [60, 133, 97, 26, 143, 114]}, {"id": 9, "answer": "TWO", "nums": [76, 99, 134]}, {"id": 10, "answer": "LOVERS", "nums": [65, 69, 86, 112, 95, 55]}, {"id": 11, "answer": "LOOKED", "nums": [16, 70, 82, 50, 138, 46]}, {"id": 12, "answer": "TOWARD", "nums": [137, 52, 88, 45, 31, 56]}, {"id": 13, "answer": "MACHU", "nums": [4, 12, 29, 40, 1]}, {"id": 14, "answer": "PICCHU", "nums": [75, 129, 14, 94, 23, 132]}, {"id": 15, "answer": "FOR", "nums": [5, 44, 104]}, {"id": 16, "answer": "NOW", "nums": [6, 117, 21]}, {"id": 17, "answer": "THEY", "nums": [41, 57, 119, 7]}, {"id": 18, "answer": "LIVED", "nums": [72, 107, 15, 19, 90]}, {"id": 19, "answer": "THERE", "nums": [135, 128, 113, 93, 20]}, {"id": 20, "answer": "ONLY", "nums": [54, 71, 10, 48]}, {"id": 21, "answer": "IN", "nums": [24, 102]}, {"id": 22, "answer": "A", "nums": [43]}, {"id": 23, "answer": "DRAWING", "nums": [78, 92, 98, 67, 127, 36, 83]}, {"id": 24, "answer": "BUT", "nums": [35, 68, 136]}, {"id": 25, "answer": "THE", "nums": [53, 111, 96]}, {"id": 26, "answer": "MOUNTAINS", "nums": [125, 100, 73, 66, 105, 18, 39, 120, 144]}, {"id": 27, "answer": "WERE", "nums": [124, 140, 80, 8]}, {"id": 28, "answer": "ALREADY", "nums": [121, 89, 106, 32, 13, 30, 142]}, {"id": 29, "answer": "WAITING", "nums": [11, 64, 34, 2, 126, 87, 139]}], "entries": [{"index": 0, "answer": "ANSWER", "display": "ANSWER", "clue": "What every clue is waiting for.", "parts": [{"type": "letter", "char": "A", "num": 13}, {"type": "letter", "char": "N", "num": 36}, {"type": "letter", "char": "S", "num": 122}, {"type": "letter", "char": "W", "num": 88}, {"type": "letter", "char": "E", "num": 113}, {"type": "letter", "char": "R", "num": 80}]}, {"index": 1, "answer": "MACHU", "display": "MACHU", "clue": "The first half of our future Peruvian destination.", "parts": [{"type": "letter", "char": "M", "num": 4}, {"type": "letter", "char": "A", "num": 121}, {"type": "letter", "char": "C", "num": 42}, {"type": "letter", "char": "H", "num": 3}, {"type": "letter", "char": "U", "num": 84}]}, {"index": 2, "answer": "ELSEWHERE", "display": "ELSEWHERE", "clue": "In another place; not here.", "parts": [{"type": "letter", "char": "E", "num": 130}, {"type": "letter", "char": "L", "num": 133}, {"type": "letter", "char": "S", "num": 116}, {"type": "letter", "char": "E", "num": 32}, {"type": "letter", "char": "W", "num": 67}, {"type": "letter", "char": "H", "num": 47}, {"type": "letter", "char": "E", "num": 119}, {"type": "letter", "char": "R", "num": 93}, {"type": "letter", "char": "E", "num": 140}]}, {"index": 3, "answer": "STRETCHED", "display": "STRETCHED", "clue": "Made longer, as distance can make a journey feel.", "parts": [{"type": "letter", "char": "S", "num": 60}, {"type": "letter", "char": "T", "num": 17}, {"type": "letter", "char": "R", "num": 106}, {"type": "letter", "char": "E", "num": 143}, {"type": "letter", "char": "T", "num": 2}, {"type": "letter", "char": "C", "num": 94}, {"type": "letter", "char": "H", "num": 111}, {"type": "letter", "char": "E", "num": 101}, {"type": "letter", "char": "D", "num": 30}]}, {"index": 4, "answer": "SHADOW", "display": "SHADOW", "clue": "A dark shape made when light is blocked.", "parts": [{"type": "letter", "char": "S", "num": 62}, {"type": "letter", "char": "H", "num": 23}, {"type": "letter", "char": "A", "num": 45}, {"type": "letter", "char": "D", "num": 46}, {"type": "letter", "char": "O", "num": 100}, {"type": "letter", "char": "W", "num": 28}]}, {"index": 5, "answer": "AWAIT", "display": "AWAIT", "clue": "To remain ready for something still to come.", "parts": [{"type": "letter", "char": "A", "num": 64}, {"type": "letter", "char": "W", "num": 124}, {"type": "letter", "char": "A", "num": 12}, {"type": "letter", "char": "I", "num": 127}, {"type": "letter", "char": "T", "num": 137}]}, {"index": 6, "answer": "GLOWING", "display": "GLOWING", "clue": "Giving off a soft, steady light.", "parts": [{"type": "letter", "char": "G", "num": 139}, {"type": "letter", "char": "L", "num": 16}, {"type": "letter", "char": "O", "num": 70}, {"type": "letter", "char": "W", "num": 27}, {"type": "letter", "char": "I", "num": 126}, {"type": "letter", "char": "N", "num": 71}, {"type": "letter", "char": "G", "num": 83}]}, {"index": 7, "answer": "EARTH", "display": "EARTH", "clue": "What the terraces seem to follow the shape of.", "parts": [{"type": "letter", "char": "E", "num": 112}, {"type": "letter", "char": "A", "num": 18}, {"type": "letter", "char": "R", "num": 91}, {"type": "letter", "char": "T", "num": 41}, {"type": "letter", "char": "H", "num": 38}]}, {"index": 8, "answer": "FIELD", "display": "FIELD", "clue": "An open stretch of land where sunflowers might grow.", "parts": [{"type": "letter", "char": "F", "num": 103}, {"type": "letter", "char": "I", "num": 34}, {"type": "letter", "char": "E", "num": 19}, {"type": "letter", "char": "L", "num": 10}, {"type": "letter", "char": "D", "num": 78}]}, {"index": 9, "answer": "RIDE", "display": "RIDE", "clue": "A trip made on a bicycle.", "parts": [{"type": "letter", "char": "R", "num": 31}, {"type": "letter", "char": "I", "num": 108}, {"type": "letter", "char": "D", "num": 110}, {"type": "letter", "char": "E", "num": 20}]}, {"index": 10, "answer": "ONLY", "display": "ONLY", "clue": "One and no more.", "parts": [{"type": "letter", "char": "O", "num": 69}, {"type": "letter", "char": "N", "num": 87}, {"type": "letter", "char": "L", "num": 65}, {"type": "letter", "char": "Y", "num": 142}]}, {"index": 11, "answer": "MOON", "display": "MOON", "clue": "The subject of some of our telescope dates.", "parts": [{"type": "letter", "char": "M", "num": 85}, {"type": "letter", "char": "O", "num": 33}, {"type": "letter", "char": "O", "num": 54}, {"type": "letter", "char": "N", "num": 102}]}, {"index": 12, "answer": "OUTWARD", "display": "OUTWARD", "clue": "Away from the centre.", "parts": [{"type": "letter", "char": "O", "num": 97}, {"type": "letter", "char": "U", "num": 132}, {"type": "letter", "char": "T", "num": 77}, {"type": "letter", "char": "W", "num": 99}, {"type": "letter", "char": "A", "num": 98}, {"type": "letter", "char": "R", "num": 95}, {"type": "letter", "char": "D", "num": 90}]}, {"index": 13, "answer": "UNITE", "display": "UNITE", "clue": "To bring together.", "parts": [{"type": "letter", "char": "U", "num": 68}, {"type": "letter", "char": "N", "num": 120}, {"type": "letter", "char": "I", "num": 58}, {"type": "letter", "char": "T", "num": 76}, {"type": "letter", "char": "E", "num": 118}]}, {"index": 14, "answer": "RIBBON", "display": "RIBBON", "clue": "A narrow strip used to tie a gift.", "parts": [{"type": "letter", "char": "R", "num": 104}, {"type": "letter", "char": "I", "num": 109}, {"type": "letter", "char": "B", "num": 51}, {"type": "letter", "char": "B", "num": 35}, {"type": "letter", "char": "O", "num": 134}, {"type": "letter", "char": "N", "num": 74}]}, {"index": 15, "answer": "FLY", "display": "FLY", "clue": "Swimming shorthand for butterfly.", "parts": [{"type": "letter", "char": "F", "num": 5}, {"type": "letter", "char": "L", "num": 9}, {"type": "letter", "char": "Y", "num": 48}]}, {"index": 16, "answer": "UPHILL", "display": "UPHILL", "clue": "The direction that makes cycling considerably less relaxing.", "parts": [{"type": "letter", "char": "U", "num": 1}, {"type": "letter", "char": "P", "num": 75}, {"type": "letter", "char": "H", "num": 61}, {"type": "letter", "char": "I", "num": 129}, {"type": "letter", "char": "L", "num": 123}, {"type": "letter", "char": "L", "num": 72}]}, {"index": 17, "answer": "THEN", "display": "THEN", "clue": "After that.", "parts": [{"type": "letter", "char": "T", "num": 136}, {"type": "letter", "char": "H", "num": 57}, {"type": "letter", "char": "E", "num": 115}, {"type": "letter", "char": "N", "num": 6}]}, {"index": 18, "answer": "UPWARD", "display": "UPWARD", "clue": "In the direction of the sky.", "parts": [{"type": "letter", "char": "U", "num": 73}, {"type": "letter", "char": "P", "num": 26}, {"type": "letter", "char": "W", "num": 21}, {"type": "letter", "char": "A", "num": 43}, {"type": "letter", "char": "R", "num": 92}, {"type": "letter", "char": "D", "num": 56}]}, {"index": 19, "answer": "RIGHT", "display": "RIGHT", "clue": "Correct—or the opposite of left.", "parts": [{"type": "letter", "char": "R", "num": 63}, {"type": "letter", "char": "I", "num": 39}, {"type": "letter", "char": "G", "num": 37}, {"type": "letter", "char": "H", "num": 128}, {"type": "letter", "char": "T", "num": 135}]}, {"index": 20, "answer": "ECHO", "display": "ECHO", "clue": "A sound that returns to its source.", "parts": [{"type": "letter", "char": "E", "num": 96}, {"type": "letter", "char": "C", "num": 29}, {"type": "letter", "char": "H", "num": 131}, {"type": "letter", "char": "O", "num": 82}]}, {"index": 21, "answer": "STONE", "display": "STONE", "clue": "The material of Machu Picchu’s famous walls.", "parts": [{"type": "letter", "char": "S", "num": 114}, {"type": "letter", "char": "T", "num": 105}, {"type": "letter", "char": "O", "num": 44}, {"type": "letter", "char": "N", "num": 66}, {"type": "letter", "char": "E", "num": 8}]}, {"index": 22, "answer": "ENCHANTED", "display": "ENCHANTED", "clue": "A Taylor Swift song about being wonderstruck.", "parts": [{"type": "letter", "char": "E", "num": 141}, {"type": "letter", "char": "N", "num": 25}, {"type": "letter", "char": "C", "num": 14}, {"type": "letter", "char": "H", "num": 40}, {"type": "letter", "char": "A", "num": 59}, {"type": "letter", "char": "N", "num": 81}, {"type": "letter", "char": "T", "num": 53}, {"type": "letter", "char": "E", "num": 138}, {"type": "letter", "char": "D", "num": 79}]}, {"index": 23, "answer": "LISI", "display": "LISI", "clue": "The lake where our first date involved bicycles and a picnic.", "parts": [{"type": "letter", "char": "L", "num": 89}, {"type": "letter", "char": "I", "num": 24}, {"type": "letter", "char": "S", "num": 144}, {"type": "letter", "char": "I", "num": 107}]}, {"index": 24, "answer": "VOW", "display": "VOW", "clue": "A solemn promise.", "parts": [{"type": "letter", "char": "V", "num": 15}, {"type": "letter", "char": "O", "num": 52}, {"type": "letter", "char": "W", "num": 11}]}, {"index": 25, "answer": "EVE", "display": "EVE", "clue": "The day or night before an occasion.", "parts": [{"type": "letter", "char": "E", "num": 49}, {"type": "letter", "char": "V", "num": 86}, {"type": "letter", "char": "E", "num": 22}]}, {"index": 26, "answer": "SMOKY", "display": "SMOKY", "clue": "Filled with smoke or haze.", "parts": [{"type": "letter", "char": "S", "num": 55}, {"type": "letter", "char": "M", "num": 125}, {"type": "letter", "char": "O", "num": 117}, {"type": "letter", "char": "K", "num": 50}, {"type": "letter", "char": "Y", "num": 7}]}]};
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const norm=s=>(s||'').toUpperCase().replace(/[^A-Z]/g,'');
+const formatTime=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+const state={elapsed:0,paused:false,ended:false,selectedNum:null,solvedClues:new Set(),committed:new Map()};
+const cellsByNum=new Map(),quoteCellByNum=new Map(),clueCellByNum=new Map(),clueRows=new Map(),quoteWords=new Map();
+const input=$('#answer-entry'),timer=$('#ac_timer');
+function registerCell(num,cell,kind){if(!cellsByNum.has(num))cellsByNum.set(num,[]);cellsByNum.get(num).push(cell);(kind==='quote'?quoteCellByNum:clueCellByNum).set(num,cell)}
+function makeCell(num,classes=''){const el=document.createElement('div');el.className=`cell ${classes} acr_cell_${num||''}`;if(num){el.classList.add('show-num','desktop');el.dataset.num=num;const n=document.createElement('div');n.className='cell_num';n.textContent=num;el.append(n)}return el}
+function buildQuote(){const grid=$('#puzzle-grid');DATA.quoteGrid.forEach((row,r)=>row.forEach((item,c)=>{let el;if(item.type==='blank')el=makeCell(null,'acr_cell_');else if(item.type==='punct'){el=makeCell(null,'punctuation');el.textContent=item.char}else{el=makeCell(item.num,'quote-letter');el.dataset.answer=item.char;el.dataset.word=item.word;registerCell(item.num,el,'quote');if(!quoteWords.has(item.word))quoteWords.set(item.word,{index:item.word,text:'',nums:[]});const group=quoteWords.get(item.word);group.text+=item.char;group.nums.push(item.num);el.addEventListener('click',()=>selectNumber(item.num))}el.style.gridArea=`${r+1}/${c+1}`;grid.append(el)}))}
+function buildClues(){const area=$('#clue-area');DATA.entries.forEach((entry,i)=>{const row=document.createElement('div');row.className=`subclue ${i%2?'clue-odd':'clue-even'}`;row.id=`clue_${i}`;const hint=document.createElement('div');hint.className='subclue-hint';hint.textContent=entry.clue.replace(/\.\s*$/,'');const answer=document.createElement('div');answer.className='subclue-answer clue-cell-area';let first=true;entry.parts.forEach(part=>{if(part.type==='space'){answer.append(makeCell(null,'clues acr_cell_ space'));return}const cell=makeCell(part.num,'clues');cell.dataset.answer=part.char;cell.dataset.clue=i;if(first){cell.classList.add('first-letter');first=false}registerCell(part.num,cell,'clue');cell.addEventListener('click',e=>{e.stopPropagation();selectNumber(part.num)});answer.append(cell)});row.append(hint,answer);area.append(row);clueRows.set(i,row)})}
+function setVisible(cell,letter,origin='clue'){if(!cell)return;cell.dataset.visibleLetter=letter;if(cell.classList.contains('clues')){cell.classList.remove('solved','solved-from-grid');cell.classList.add(origin==='grid'?'solved-from-grid':'solved')}else cell.classList.add('solved')}
+function clearSelection(){if(state.selectedNum!==null){for(const cell of cellsByNum.get(state.selectedNum)||[])cell.classList.remove('hilite-border')}state.selectedNum=null}
+function selectNumber(num){if(state.ended||state.paused)return;clearSelection();state.selectedNum=Number(num);for(const cell of cellsByNum.get(state.selectedNum)||[])cell.classList.add('hilite-border');input.focus({preventScroll:true})}
+function restartAnimation(el,name,duration,delay,easing='ease'){if(!el)return;el.style.animation='none';void el.offsetWidth;el.style.animation=`${name} ${duration}ms ${easing} ${delay}ms 1 normal both`;const done=()=>{el.style.animation='';el.removeEventListener('animationend',done)};el.addEventListener('animationend',done)}
+function settleInput(){input.value='';clearSelection();input.focus({preventScroll:true})}
+function solveClue(index,animate=true){if(state.solvedClues.has(index)||state.ended)return false;const entry=DATA.entries[index];state.solvedClues.add(index);clueRows.get(index)?.classList.add('solved-row');const letters=entry.parts.filter(p=>p.type==='letter');letters.forEach((part,i)=>{state.committed.set(part.num,part.char);const clue=clueCellByNum.get(part.num),quote=quoteCellByNum.get(part.num);setVisible(clue,part.char,'clue');setVisible(quote,part.char,'clue');if(animate){restartAnimation(clue,'tile-wave',600,i*95,'ease');restartAnimation(quote,'phrase-flip',400,170+i*95,'ease')}});settleInput();checkComplete();return true}
+function phraseMatches(guess){return [...quoteWords.values()].filter(w=>w.text===guess&&w.nums.some(n=>!state.committed.has(n)))}
+function solvePhraseWord(guess,animate=true){const matches=phraseMatches(guess);if(!matches.length||state.ended)return false;let step=0;for(const group of matches){for(const num of group.nums){if(state.committed.has(num)){step++;continue}const quote=quoteCellByNum.get(num),clue=clueCellByNum.get(num),letter=quote?.dataset.answer||clue?.dataset.answer;state.committed.set(num,letter);setVisible(quote,letter,'grid');setVisible(clue,letter,'grid');if(animate){restartAnimation(quote,'tile-wave',600,step*95,'ease');restartAnimation(clue,'cell-bounce',400,170+step*95,'ease')}step++}}settleInput();checkComplete();return true}
+function unresolvedCandidates(){const terms=[];DATA.entries.forEach((e,i)=>{if(!state.solvedClues.has(i))terms.push(e.answer)});for(const w of quoteWords.values())if(w.nums.some(n=>!state.committed.has(n)))terms.push(w.text);return terms}
+function acceptGuess(guess){const clueIndex=DATA.entries.findIndex((e,i)=>!state.solvedClues.has(i)&&e.answer===guess);if(clueIndex>=0)return solveClue(clueIndex,true);return solvePhraseWord(guess,true)}
+function wrongAttempt(){input.classList.remove('wiggle');void input.offsetWidth;input.classList.add('wiggle');setTimeout(()=>input.classList.remove('wiggle'),420)}
+function handleInput(){if(state.paused||state.ended)return;const guess=norm(input.value);if(!guess)return;const candidates=unresolvedCandidates();if(!candidates.includes(guess))return;const hasLonger=candidates.some(x=>x.length>guess.length&&x.startsWith(guess));if(!hasLonger)acceptGuess(guess)}
+function checkComplete(){if(state.committed.size<quoteCellByNum.size)return;finish(false)}
+let confettiFrame=0,confettiStopAt=0,confettiHardStopAt=0,confettiPieces=[];
+function resizeConfetti(){const canvas=$('#confetti-layer'),dpr=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.round(innerWidth*dpr);canvas.height=Math.round(innerHeight*dpr);canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';const ctx=canvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0)}
+function seedConfetti(count=210){const colors=['#26ccff','#a25afd','#ff5e7e','#88ff5a','#fcff42','#ffa62d','#ff36ff'];confettiPieces=[];for(let i=0;i<count;i++){const square=Math.random()<.28;confettiPieces.push({x:Math.random()*innerWidth,y:-18-Math.random()*innerHeight*.92,w:square?3.5+Math.random()*3:4+Math.random()*6,h:square?3.5+Math.random()*3:2+Math.random()*3.5,vx:-.55+Math.random()*1.1,vy:2.35+Math.random()*2.45,rot:Math.random()*Math.PI*2,vr:-.105+Math.random()*.21,sway:Math.random()*Math.PI*2,sv:.012+Math.random()*.025,color:colors[(Math.random()*colors.length)|0]})}}
+function drawConfetti(now){const canvas=$('#confetti-layer'),ctx=canvas.getContext('2d');ctx.clearRect(0,0,innerWidth,innerHeight);for(const p of confettiPieces){p.sway+=p.sv;p.x+=p.vx+Math.sin(p.sway)*.42;p.y+=p.vy;p.rot+=p.vr;if(p.y>innerHeight+30&&now<confettiStopAt){p.y=-30-Math.random()*220;p.x=Math.random()*innerWidth}ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.color;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore()}if(now<confettiHardStopAt&&(now<confettiStopAt||confettiPieces.some(p=>p.y<innerHeight+30))){confettiFrame=requestAnimationFrame(drawConfetti)}else{canvas.classList.remove('active');ctx.clearRect(0,0,innerWidth,innerHeight);confettiFrame=0}}
+function startConfetti(duration=8400){cancelAnimationFrame(confettiFrame);resizeConfetti();seedConfetti();const canvas=$('#confetti-layer'),now=performance.now();canvas.classList.add('active');confettiStopAt=now+Math.max(0,duration-3000);confettiHardStopAt=now+duration;confettiFrame=requestAnimationFrame(drawConfetti)}
+function stopConfetti(){cancelAnimationFrame(confettiFrame);confettiFrame=0;confettiPieces=[];const canvas=$('#confetti-layer');canvas.classList.remove('active');canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height)}
+function addSparks(cell,delay){for(let i=0;i<6;i++){const spark=document.createElement('i');spark.className='spark';spark.style.animation=`spark-${i} 500ms ease ${delay}ms 1 both`;cell.append(spark);setTimeout(()=>spark.remove(),delay+540)}}
+function sourcePhraseMarkup(){let n=0;return DATA.source.split(/\s+/).filter(Boolean).map(word=>`<span class="go-source-word">${[...word].map(ch=>`<span class="go-source-cell" style="animation:cell-bounce 400ms ease ${n++*28}ms 1 both">${ch}</span>`).join('')}</span>`).join('')}
+function completionMarkup(){return `<div id="GO_modal-body"><div id="GO_main"><div id="GO_title-text">Congrats!</div><div id="GO_phrase-container"><div id="GO_pre-text">The acrostic was</div><div id="GO_acrostic-phrase">${sourcePhraseMarkup()}</div><div id="GO_descr-text">You solved Acrostic #01 in ${formatTime(state.elapsed)}</div></div><div id="postgame-links"><div class="pg_buttons is-modal"><button class="pg_link" id="share-results-button" type="button">Share Results</button><button class="pg_link" id="play-again-button" type="button">Play Again</button><button class="pg_link" id="completion-print-button" type="button">Print</button><button class="pg_link" id="completion-close-button" type="button">Close</button></div></div><div id="share-status" aria-live="polite"></div></div></div>`}
+function openModal(content,completion=false){const modal=$('#game-modal');$('#modal-content').innerHTML=content;modal.classList.remove('closing');modal.classList.add('show');modal.setAttribute('aria-hidden','false');modal.classList.toggle('completion',completion);document.body.classList.add('modal-active');if(completion){$('#share-results-button').addEventListener('click',shareResults);$('#play-again-button').addEventListener('click',()=>{closeModal(true);resetPuzzle()});$('#completion-print-button').addEventListener('click',()=>window.print());$('#completion-close-button').addEventListener('click',()=>closeModal())}setTimeout(()=>$('#modal-close').focus({preventScroll:true}),60)}
+function closeModal(immediate=false){const modal=$('#game-modal');if(!modal.classList.contains('show')&&!modal.classList.contains('closing'))return;if(immediate){modal.classList.remove('show','closing','completion');modal.setAttribute('aria-hidden','true');document.body.classList.remove('modal-active');return}modal.classList.remove('show');modal.classList.add('closing');setTimeout(()=>{modal.classList.remove('closing','completion');modal.setAttribute('aria-hidden','true');document.body.classList.remove('modal-active')},300)}
+async function shareResults(){const text=`A Postcard from the Future\nSolved in ${formatTime(state.elapsed)}\n${DATA.source}`;let ok=false;try{await navigator.clipboard.writeText(text);ok=true}catch(e){try{const ta=document.createElement('textarea');ta.value=text;document.body.append(ta);ta.select();ok=document.execCommand('copy');ta.remove()}catch(_){}}const status=$('#share-status');status.textContent=ok?'Results copied':'Copy unavailable';setTimeout(()=>status.textContent='',1800)}
+function celebration(){
+ const tiles=$$('#puzzle-grid .quote-letter.solved, #puzzle-grid .punctuation');
+ startConfetti(8400);
+
+ // Sporcle's completion effect travels across the phrase as a diagonal wave.
+ // Columns advance left-to-right while each lower row begins roughly one beat
+ // earlier, producing the slanted wavefront visible in the reference recording.
+ const positioned=tiles.map(cell=>{
+   const parts=cell.style.gridArea.split('/').map(v=>parseInt(v.trim(),10));
+   return {cell,row:parts[0]||1,col:parts[1]||1};
+ });
+ const raw=positioned.map(({row,col})=>(col-row)*60);
+ const minDelay=Math.min(...raw);
+ let maxDelay=0;
+ positioned.forEach(({cell,row,col})=>{
+   const delay=(col-row)*60-minDelay;
+   maxDelay=Math.max(maxDelay,delay);
+   restartAnimation(cell,'celebration-flip',650,delay,'ease-in-out');
+   addSparks(cell,delay+410);
+ });
+
+ // Let the last diagonal band settle before the result card appears.
+ return maxDelay+650+700;
+}
+function finish(revealed){if(state.ended)return;state.paused=false;clearSelection();if(revealed){DATA.entries.forEach((entry,i)=>{state.solvedClues.add(i);clueRows.get(i)?.classList.add('solved-row');entry.parts.filter(p=>p.type==='letter').forEach(part=>{state.committed.set(part.num,part.char);setVisible(clueCellByNum.get(part.num),part.char,'clue');setVisible(quoteCellByNum.get(part.num),part.char,'clue')})})}state.ended=true;input.disabled=true;if(revealed){setTimeout(()=>openModal(`<div id="GO_modal-body"><div id="GO_main"><div id="GO_title-text">Puzzle revealed</div><div id="GO_phrase-container"><div class="revealed-quote">${DATA.quote}</div><div class="revealed-source">${DATA.source}</div></div><div id="postgame-links"><div class="pg_buttons is-modal"><button class="pg_link" id="play-again-button" type="button">Play Again</button><button class="pg_link" id="completion-print-button" type="button">Print</button><button class="pg_link" id="completion-close-button" type="button">Close</button></div></div></div></div>`,true),50);return}const duration=celebration();setTimeout(()=>openModal(completionMarkup(),true),duration)}
+function resetPuzzle(){state.elapsed=0;state.paused=false;state.ended=false;state.selectedNum=null;state.solvedClues.clear();state.committed.clear();timer.textContent='00:00';input.disabled=false;input.value='';$$('.cell').forEach(c=>{delete c.dataset.visibleLetter;c.classList.remove('solved','solved-from-grid','hilite-border','wrong');c.style.animation=''});$$('.subclue').forEach(r=>r.classList.remove('solved-row'));$('#pause-overlay').classList.remove('show','closing');$('#pause-overlay').setAttribute('aria-hidden','true');closeModal(true);stopConfetti();$('#menu-popover').classList.remove('show');$('#ac_pause').classList.remove('is-paused');input.focus()}
+function updatePauseScore(){const total=quoteCellByNum.size;$('#pause-score').textContent=`${state.committed.size} / ${total}`}
+let pauseReason='manual';
+function togglePause(force,reason='manual'){
+ if(state.ended)return;
+ const shouldPause=typeof force==='boolean'?force:!state.paused;
+ if(shouldPause){
+  pauseReason=reason;state.paused=true;updatePauseScore();$('#pause-time').textContent=formatTime(state.elapsed);$('#pause-description').textContent=reason==='inactivity'?'Your game has been paused due to inactivity.':'Your game has been paused.';input.disabled=true;$('#ac_pause').classList.add('is-paused');const overlay=$('#pause-overlay');overlay.classList.remove('closing');overlay.classList.add('show');overlay.setAttribute('aria-hidden','false');document.body.classList.add('modal-active');setTimeout(()=>$('#resume-button').focus({preventScroll:true}),60);
+ }else{
+  state.paused=false;input.disabled=false;$('#ac_pause').classList.remove('is-paused');const overlay=$('#pause-overlay');overlay.classList.remove('show');overlay.classList.add('closing');setTimeout(()=>{overlay.classList.remove('closing');overlay.setAttribute('aria-hidden','true');document.body.classList.remove('modal-active');input.focus()},300);markActivity();
+ }
+}
+function showHow(){openModal('<div id="GO_modal-body"><div id="GO_main"><div id="GO_title-text">How to play</div><p>Type a clue answer or any complete word from the hidden phrase. Correct guesses fill every matching numbered letter.</p><p>Click an individual numbered square to highlight its matching square in the other section.</p><p>The first letters of all clue answers reveal a second message.</p><div class="pg_buttons is-modal"><button class="pg_link" id="completion-close-button" type="button">Close</button></div></div></div>');$('#completion-close-button').addEventListener('click',()=>closeModal())}
+input.addEventListener('input',handleInput);
+input.addEventListener('keydown',e=>{if(e.key==='Enter'&&norm(input.value)){e.preventDefault();if(!acceptGuess(norm(input.value)))wrongAttempt()}else if(e.key==='Escape'){input.value='';clearSelection()}});
+$('#ac_pause').addEventListener('click',()=>togglePause(undefined,'manual'));$('#ac_pause').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();togglePause(undefined,'manual')}});
+$('#resume-button').addEventListener('click',()=>togglePause(false));$('#pause-close').addEventListener('click',()=>togglePause(false));$('#pause-give-up').addEventListener('click',()=>{togglePause(false);setTimeout(()=>finish(true),310)});
+$('#more-button').addEventListener('click',e=>{e.stopPropagation();$('#menu-popover').classList.toggle('show')});
+$('#how-button').addEventListener('click',()=>{$('#menu-popover').classList.remove('show');showHow()});
+$('#restart-button').addEventListener('click',()=>{if(confirm('Restart this puzzle?'))resetPuzzle()});
+$('#reveal-button').addEventListener('click',()=>{if(confirm('Reveal the complete puzzle?'))finish(true)});
+$('#print-button').addEventListener('click',()=>{$('#menu-popover').classList.remove('show');window.print()});
+$('#modal-close').addEventListener('click',()=>closeModal());
+$('#game-modal').addEventListener('click',e=>{if(e.target.id==='game-modal')closeModal()});
+$('.mg-stats-button').addEventListener('click',()=>{if(state.ended)openModal(completionMarkup(),true)});
+window.addEventListener('resize',()=>{if($('#confetti-layer').classList.contains('active'))resizeConfetti()});
+document.addEventListener('click',e=>{if(!e.target.closest('#menu-popover')&&!e.target.closest('#more-button'))$('#menu-popover').classList.remove('show')});
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&!state.paused&&!state.ended)togglePause(true,'inactivity')});
+let lastActivity=Date.now();
+function markActivity(){lastActivity=Date.now()}
+['pointerdown','keydown','touchstart','wheel'].forEach(type=>document.addEventListener(type,markActivity,{passive:true}));
+setInterval(()=>{if(!state.paused&&!state.ended&&Date.now()-lastActivity>=120000)togglePause(true,'inactivity')},1000);
+buildQuote();buildClues();input.focus();setInterval(()=>{if(!state.paused&&!state.ended){state.elapsed++;timer.textContent=formatTime(state.elapsed)}},1000);
+</script>
+</body></html>

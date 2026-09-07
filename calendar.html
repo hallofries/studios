@@ -1,0 +1,1729 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="cursor.css" />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>illustrated calendar - hallofries studios</title>
+
+    <link rel="stylesheet" href="calendar.css" />
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="image/favicon-16.png"
+    />
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="image/favicon-32x32.png"
+    />
+
+    <link rel="icon" type="image/x-icon" href="image/favicon.ico" />
+    <link rel="apple-touch-icon" href="image/apple-touch-icon.png" />
+    <link rel="manifest" href="image/site.webmanifest" />
+
+    <meta
+      property="og:title"
+      content="illustrated calendar - hallofries studios"
+    />
+
+    <meta property="og:description" content="an illustrated calendar project" />
+
+    <meta
+      property="og:image"
+      content="https://hallofries.github.io/studios/image/calendar/calendar-hero.png"
+    />
+
+    <meta
+      property="og:url"
+      content="https://hallofries.github.io/studios/calendar.html"
+    />
+
+    <meta property="og:type" content="website" />
+
+    <script
+      data-goatcounter="https://hallofries.goatcounter.com/count"
+      async
+      src="//gc.zgo.at/count.js"
+    ></script>
+  </head>
+
+  <body>
+    <!-- =========================================================
+         MENU
+    ========================================================== -->
+
+    <input type="checkbox" id="menu-toggle" />
+
+    <label for="menu-toggle" class="toggle-button">
+      <img src="image/menu2.png" alt="Menu" />
+    </label>
+
+    <div class="overlay" id="menuOverlay"></div>
+
+    <div class="menu-item" id="home">
+      <a href="index.html">
+        <img src="image/home.png" alt="Home" />
+      </a>
+    </div>
+
+    <div class="menu-item" id="about">
+      <a href="aboutme.html">
+        <img src="image/about.png" alt="About" />
+      </a>
+    </div>
+
+    <div class="menu-item" id="portfolio">
+      <a href="portf.html">
+        <img src="image/portfolio.png" alt="Portfolio" />
+      </a>
+    </div>
+
+    <div class="menu-item" id="contact">
+      <a href="contactme.html">
+        <img src="image/contact.png" alt="Contact" />
+      </a>
+    </div>
+
+    <!-- =========================================================
+         PAGE
+    ========================================================== -->
+
+    <main class="calendar-page">
+      <!-- =======================================================
+           INTRO
+      ======================================================== -->
+
+      <img
+        class="calendar-hero"
+        src="image/calendar/calendar-hero.png"
+        alt=""
+        draggable="false"
+      />
+
+      <img
+        class="calendar-title"
+        src="image/calendar/calendar-title.png"
+        alt="Illustrated Calendar"
+        draggable="false"
+      />
+
+      <img
+        class="calendar-cover"
+        src="image/calendar/calendar-cover.png"
+        alt="Calendar cover"
+        draggable="false"
+      />
+
+      <img
+        class="note-description"
+        src="image/calendar/note-desc.png"
+        alt=""
+        draggable="false"
+      />
+
+      <!-- =======================================================
+           DESKTOP MONTH SELECTOR
+      ======================================================== -->
+
+      <section
+        class="calendar-month-section"
+        id="calendarMonthSection"
+        aria-label="Illustrated calendar by month"
+      >
+        <img
+          class="month-sketch"
+          id="monthSketch"
+          src="image/calendar/sep/sketch.png"
+          alt=""
+          draggable="false"
+        />
+
+        <div
+          class="main-inspector"
+          id="mainInspector"
+          aria-label="Move the cursor over the illustration to inspect details"
+        >
+          <img
+            class="main-image main-image-a"
+            id="mainImageA"
+            src="image/calendar/sep/main.png"
+            alt="September calendar illustration"
+            draggable="false"
+          />
+
+          <img
+            class="main-image main-image-b"
+            id="mainImageB"
+            src="image/calendar/sep/main.png"
+            alt=""
+            draggable="false"
+          />
+
+          <span
+            class="magnifier-lens"
+            id="magnifierLens"
+            aria-hidden="true"
+          ></span>
+        </div>
+
+        <img
+          class="month-note"
+          id="monthNote"
+          src="image/calendar/sep/note.png"
+          alt=""
+          draggable="false"
+        />
+
+        <img
+          class="click-hint"
+          src="image/calendar/click.png"
+          alt=""
+          draggable="false"
+        />
+
+        <button
+          class="month-thumb month-jan"
+          type="button"
+          data-month="jan"
+          aria-label="January"
+        >
+          <img
+            src="image/calendar/jan/thumb.png"
+            alt="January"
+            draggable="false"
+          />
+        </button>
+
+        <button
+          class="month-thumb month-feb"
+          type="button"
+          data-month="feb"
+          aria-label="February"
+        >
+          <img
+            src="image/calendar/feb/thumb.png"
+            alt="February"
+            draggable="false"
+          />
+        </button>
+
+        <button
+          class="month-thumb month-mar"
+          type="button"
+          data-month="mar"
+          aria-label="March"
+        >
+          <img
+            src="image/calendar/mar/thumb.png"
+            alt="March"
+            draggable="false"
+          />
+        </button>
+
+        <button
+          class="month-thumb month-apr"
+          type="button"
+          data-month="apr"
+          aria-label="April"
+        >
+          <img
+            src="image/calendar/apr/thumb.png"
+            alt="April"
+            draggable="false"
+          />
+        </button>
+
+        <button
+          class="month-thumb month-may"
+          type="button"
+          data-month="may"
+          aria-label="May"
+        >
+          <img src="image/calendar/may/thumb.png" alt="May" draggable="false" />
+        </button>
+
+        <button
+          class="month-thumb month-jun"
+          type="button"
+          data-month="jun"
+          aria-label="June"
+        >
+          <img
+            src="image/calendar/jun/thumb.png"
+            alt="June"
+            draggable="false"
+          />
+        </button>
+
+        <button
+          class="month-thumb month-jul"
+          type="button"
+          data-month="jul"
+          aria-label="July"
+        >
+          <img
+            src="image/calendar/jul/thumb.png"
+            alt="July"
+            draggable="false"
+          />
+        </button>
+
+        <button
+          class="month-thumb month-aug"
+          type="button"
+          data-month="aug"
+          aria-label="August"
+        >
+          <img
+            src="image/calendar/aug/thumb.png"
+            alt="August"
+            draggable="false"
+          />
+        </button>
+
+        <button
+          class="month-thumb month-sep is-active"
+          type="button"
+          data-month="sep"
+          aria-label="September"
+          aria-current="true"
+        >
+          <img
+            src="image/calendar/sep/thumb.png"
+            alt="September"
+            draggable="false"
+          />
+        </button>
+
+        <button
+          class="month-thumb month-oct"
+          type="button"
+          data-month="oct"
+          aria-label="October"
+        >
+          <img
+            src="image/calendar/oct/thumb.png"
+            alt="October"
+            draggable="false"
+          />
+        </button>
+
+        <button
+          class="month-thumb month-nov"
+          type="button"
+          data-month="nov"
+          aria-label="November"
+        >
+          <img
+            src="image/calendar/nov/thumb.png"
+            alt="November"
+            draggable="false"
+          />
+        </button>
+
+        <button
+          class="month-thumb month-dec"
+          type="button"
+          data-month="dec"
+          aria-label="December"
+        >
+          <img
+            src="image/calendar/dec/thumb.png"
+            alt="December"
+            draggable="false"
+          />
+        </button>
+      </section>
+
+      <!-- =======================================================
+           MOBILE MONTH CAROUSEL
+      ======================================================== -->
+
+      <section
+        class="mobile-month-carousel"
+        id="mobileMonthCarousel"
+        aria-label="Swipe through calendar months"
+      >
+        <div class="mobile-month-track" id="mobileMonthTrack"></div>
+      </section>
+
+      <img
+        class="mobile-swipe-hint"
+        id="mobileSwipeHint"
+        src="image/calendar/swipe.png"
+        alt="Swipe"
+        draggable="false"
+      />
+
+      <!-- =======================================================
+           TIMELAPSES
+      ======================================================== -->
+
+      <img
+        class="timelapses-title"
+        src="image/calendar/timelapses-title.png"
+        alt="Time-lapses"
+        draggable="false"
+      />
+
+      <div class="timelapse-row">
+        <div class="timelapse-frame timelapse-frame-1">
+          <video
+            class="timelapse-video"
+            muted
+            loop
+            playsinline
+            preload="metadata"
+          >
+            <source src="image/calendar/timelapse-01.mp4" type="video/mp4" />
+          </video>
+
+          <button
+            class="timelapse-toggle"
+            type="button"
+            aria-label="Play timelapse"
+          >
+            <img
+              class="timelapse-icon timelapse-icon-play"
+              src="image/oblor/ctrl-play.png"
+              alt=""
+            />
+
+            <img
+              class="timelapse-icon timelapse-icon-pause"
+              src="image/oblor/ctrl-pause.png"
+              alt=""
+            />
+          </button>
+        </div>
+
+        <div class="timelapse-frame timelapse-frame-2">
+          <video
+            class="timelapse-video"
+            muted
+            loop
+            playsinline
+            preload="metadata"
+          >
+            <source src="image/calendar/timelapse-03.mp4" type="video/mp4" />
+          </video>
+
+          <button
+            class="timelapse-toggle"
+            type="button"
+            aria-label="Play timelapse"
+          >
+            <img
+              class="timelapse-icon timelapse-icon-play"
+              src="image/oblor/ctrl-play.png"
+              alt=""
+            />
+
+            <img
+              class="timelapse-icon timelapse-icon-pause"
+              src="image/oblor/ctrl-pause.png"
+              alt=""
+            />
+          </button>
+        </div>
+
+        <div class="timelapse-frame timelapse-frame-3">
+          <video
+            class="timelapse-video"
+            muted
+            loop
+            playsinline
+            preload="metadata"
+          >
+            <source src="image/calendar/timelapse-02.mp4" type="video/mp4" />
+          </video>
+
+          <button
+            class="timelapse-toggle"
+            type="button"
+            aria-label="Play timelapse"
+          >
+            <img
+              class="timelapse-icon timelapse-icon-play"
+              src="image/oblor/ctrl-play.png"
+              alt=""
+            />
+
+            <img
+              class="timelapse-icon timelapse-icon-pause"
+              src="image/oblor/ctrl-pause.png"
+              alt=""
+            />
+          </button>
+        </div>
+      </div>
+
+      <!-- =======================================================
+           END
+      ======================================================== -->
+
+      <img
+        class="thanks-title"
+        src="image/calendar/thanks.png"
+        alt="Thanks!"
+        draggable="false"
+      />
+    </main>
+
+    <script>
+      /* =========================================================
+         MONTH CONFIG
+      ========================================================== */
+
+      const MONTHS = [
+        "jan",
+        "feb",
+        "mar",
+        "apr",
+        "may",
+        "jun",
+        "jul",
+        "aug",
+        "sep",
+        "oct",
+        "nov",
+        "dec",
+      ];
+
+      const MONTH_NAMES = {
+        jan: "January",
+        feb: "February",
+        mar: "March",
+        apr: "April",
+        may: "May",
+        jun: "June",
+        jul: "July",
+        aug: "August",
+        sep: "September",
+        oct: "October",
+        nov: "November",
+        dec: "December",
+      };
+
+      const DEFAULT_MONTH = MONTHS[new Date().getMonth()] || "sep";
+
+      function getMonthAssets(month) {
+        const base = `image/calendar/${month}`;
+
+        return {
+          main: `${base}/main.png`,
+          sketch: `${base}/sketch.png`,
+          note: `${base}/note.png`,
+          thumb: `${base}/thumb.png`,
+        };
+      }
+
+      function getAdjacentMonth(month, amount) {
+        const index = MONTHS.indexOf(month);
+
+        const nextIndex = (index + amount + MONTHS.length) % MONTHS.length;
+
+        return MONTHS[nextIndex];
+      }
+
+      /* =========================================================
+         ELEMENTS
+      ========================================================== */
+
+      const monthButtons = Array.from(
+        document.querySelectorAll(".month-thumb"),
+      );
+
+      const monthSketch = document.getElementById("monthSketch");
+
+      const monthNote = document.getElementById("monthNote");
+
+      const mainInspector = document.getElementById("mainInspector");
+
+      const mainImageA = document.getElementById("mainImageA");
+
+      const mainImageB = document.getElementById("mainImageB");
+
+      const mainLayers = [mainImageA, mainImageB];
+
+      const magnifierLens = document.getElementById("magnifierLens");
+
+      const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      );
+
+      let currentMonth = DEFAULT_MONTH;
+
+      let frontMainIndex = 0;
+
+      let transitionRunning = false;
+
+      let pendingMonth = null;
+
+      /* =========================================================
+         PRELOAD
+      ========================================================== */
+
+      const preloadCache = new Map();
+
+      function preloadImage(src) {
+        if (preloadCache.has(src)) {
+          return preloadCache.get(src);
+        }
+
+        const promise = new Promise((resolve) => {
+          const image = new Image();
+
+          image.onload = async () => {
+            if (image.decode) {
+              try {
+                await image.decode();
+              } catch (error) {}
+            }
+
+            resolve();
+          };
+
+          image.onerror = resolve;
+
+          image.src = src;
+        });
+
+        preloadCache.set(src, promise);
+
+        return promise;
+      }
+
+      function preloadAllCalendarImages() {
+        MONTHS.forEach((month) => {
+          const assets = getMonthAssets(month);
+
+          preloadImage(assets.main);
+          preloadImage(assets.sketch);
+          preloadImage(assets.note);
+          preloadImage(assets.thumb);
+        });
+      }
+
+      window.addEventListener("load", () => {
+        if ("requestIdleCallback" in window) {
+          requestIdleCallback(preloadAllCalendarImages);
+        } else {
+          setTimeout(preloadAllCalendarImages, 200);
+        }
+      });
+
+      /* =========================================================
+         UTILITIES
+      ========================================================== */
+
+      function wait(ms) {
+        return new Promise((resolve) => {
+          setTimeout(resolve, ms);
+        });
+      }
+
+      function cancelAnimations(element) {
+        element.getAnimations().forEach((animation) => {
+          animation.cancel();
+        });
+      }
+
+      function getCenterVectorToMain(element) {
+        const elementRect = element.getBoundingClientRect();
+
+        const mainRect = mainInspector.getBoundingClientRect();
+
+        const elementCenterX = elementRect.left + elementRect.width / 2;
+
+        const elementCenterY = elementRect.top + elementRect.height / 2;
+
+        const mainCenterX = mainRect.left + mainRect.width / 2;
+
+        const mainCenterY = mainRect.top + mainRect.height / 2;
+
+        return {
+          x: mainCenterX - elementCenterX,
+
+          y: mainCenterY - elementCenterY,
+        };
+      }
+
+      /* =========================================================
+         DESKTOP THUMBNAILS
+      ========================================================== */
+
+      function setSelectedThumbnail(month) {
+        monthButtons.forEach((button) => {
+          const active = button.dataset.month === month;
+
+          button.classList.toggle("is-active", active);
+
+          if (active) {
+            button.setAttribute("aria-current", "true");
+          } else {
+            button.removeAttribute("aria-current");
+          }
+        });
+      }
+
+      /* =========================================================
+         DESKTOP INSTANT STATE
+      ========================================================== */
+
+      function applyDesktopMonthInstant(month) {
+        const assets = getMonthAssets(month);
+
+        monthSketch.src = assets.sketch;
+
+        monthNote.src = assets.note;
+
+        mainImageA.src = assets.main;
+
+        mainImageA.alt = `${MONTH_NAMES[month]} calendar illustration`;
+
+        mainImageB.src = assets.main;
+
+        mainImageB.alt = "";
+
+        mainImageA.style.transition = "none";
+
+        mainImageB.style.transition = "none";
+
+        mainImageA.style.opacity = "1";
+
+        mainImageB.style.opacity = "0";
+
+        mainImageA.style.transform = "scale(1)";
+
+        mainImageB.style.transform = "scale(1)";
+
+        mainImageA.style.zIndex = "2";
+
+        mainImageB.style.zIndex = "1";
+
+        frontMainIndex = 0;
+
+        currentMonth = month;
+
+        setSelectedThumbnail(month);
+
+        updateMagnifierImage(assets.main);
+      }
+
+      /* =========================================================
+         DESKTOP DECORATION COLLAPSE
+      ========================================================== */
+
+      async function collapseDecoration(element, rotation) {
+        cancelAnimations(element);
+
+        const vector = getCenterVectorToMain(element);
+
+        const animation = element.animate(
+          [
+            {
+              transform: "translate(0px, 0px) rotate(0deg) scale(1)",
+            },
+
+            {
+              offset: 0.35,
+
+              transform:
+                `translate(${vector.x * 0.24}px, ${vector.y * 0.24}px) ` +
+                `rotate(${rotation * 0.2}deg) scale(0.94)`,
+            },
+
+            {
+              offset: 0.7,
+
+              transform:
+                `translate(${vector.x * 0.72}px, ${vector.y * 0.72}px) ` +
+                `rotate(${rotation * 0.72}deg) scale(0.52)`,
+            },
+
+            {
+              transform:
+                `translate(${vector.x}px, ${vector.y}px) ` +
+                `rotate(${rotation}deg) scale(0.16)`,
+            },
+          ],
+          {
+            duration: 540,
+
+            easing: "cubic-bezier(0.55, 0, 0.35, 1)",
+
+            fill: "forwards",
+          },
+        );
+
+        try {
+          await animation.finished;
+        } catch (error) {}
+
+        element.style.visibility = "hidden";
+
+        cancelAnimations(element);
+      }
+
+      /* =========================================================
+         DESKTOP DECORATION EXPAND
+      ========================================================== */
+
+      async function expandDecoration(element, rotation) {
+        cancelAnimations(element);
+
+        const vector = getCenterVectorToMain(element);
+
+        element.style.visibility = "visible";
+
+        const animation = element.animate(
+          [
+            {
+              transform:
+                `translate(${vector.x}px, ${vector.y}px) ` +
+                `rotate(${rotation}deg) scale(0.16)`,
+            },
+
+            {
+              offset: 0.45,
+
+              transform:
+                `translate(${vector.x * 0.42}px, ${vector.y * 0.42}px) ` +
+                `rotate(${rotation * 0.42}deg) scale(0.7)`,
+            },
+
+            {
+              offset: 0.82,
+
+              transform:
+                `translate(${vector.x * -0.025}px, ${vector.y * -0.025}px) ` +
+                `rotate(${rotation * -0.05}deg) scale(1.035)`,
+            },
+
+            {
+              transform: "translate(0px, 0px) rotate(0deg) scale(1)",
+            },
+          ],
+          {
+            duration: 690,
+
+            easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+
+            fill: "forwards",
+          },
+        );
+
+        try {
+          await animation.finished;
+        } catch (error) {}
+
+        cancelAnimations(element);
+      }
+
+      /* =========================================================
+         DESKTOP MAIN CROSSFADE
+      ========================================================== */
+
+      async function crossfadeMainImage(src, month) {
+        await preloadImage(src);
+
+        const front = mainLayers[frontMainIndex];
+
+        const back = mainLayers[1 - frontMainIndex];
+
+        back.src = src;
+
+        back.alt = `${MONTH_NAMES[month]} calendar illustration`;
+
+        if (back.decode) {
+          try {
+            await back.decode();
+          } catch (error) {}
+        }
+
+        back.style.transition = "none";
+
+        front.style.transition = "none";
+
+        back.style.zIndex = "2";
+
+        front.style.zIndex = "1";
+
+        back.style.opacity = "0";
+
+        back.style.transform = "scale(0.965)";
+
+        front.style.opacity = "1";
+
+        front.style.transform = "scale(1)";
+
+        void back.offsetWidth;
+
+        back.style.transition =
+          "opacity 320ms ease, transform 430ms cubic-bezier(0.16, 1, 0.3, 1)";
+
+        front.style.transition = "opacity 320ms ease, transform 430ms ease";
+
+        back.style.opacity = "1";
+
+        back.style.transform = "scale(1)";
+
+        front.style.opacity = "0";
+
+        front.style.transform = "scale(1.02)";
+
+        await wait(440);
+
+        front.style.transition = "none";
+
+        front.style.opacity = "0";
+
+        front.style.transform = "scale(1)";
+
+        front.style.zIndex = "1";
+
+        back.style.transition = "none";
+
+        back.style.opacity = "1";
+
+        back.style.transform = "scale(1)";
+
+        back.style.zIndex = "2";
+
+        frontMainIndex = 1 - frontMainIndex;
+
+        updateMagnifierImage(src);
+      }
+
+      /* =========================================================
+         DESKTOP MONTH SWITCH
+      ========================================================== */
+
+      async function switchMonth(month) {
+        if (!MONTHS.includes(month)) {
+          return;
+        }
+
+        if (month === currentMonth && !transitionRunning) {
+          return;
+        }
+
+        if (transitionRunning) {
+          pendingMonth = month;
+
+          return;
+        }
+
+        transitionRunning = true;
+
+        hideMagnifier();
+
+        setSelectedThumbnail(month);
+
+        const assets = getMonthAssets(month);
+
+        if (reducedMotion.matches) {
+          await Promise.all([
+            preloadImage(assets.main),
+            preloadImage(assets.sketch),
+            preloadImage(assets.note),
+          ]);
+
+          applyDesktopMonthInstant(month);
+
+          renderMobileSlides(month);
+
+          transitionRunning = false;
+
+          return;
+        }
+
+        await Promise.all([
+          collapseDecoration(monthSketch, 90),
+
+          collapseDecoration(monthNote, -90),
+        ]);
+
+        await Promise.all([
+          preloadImage(assets.main),
+          preloadImage(assets.sketch),
+          preloadImage(assets.note),
+        ]);
+
+        monthSketch.src = assets.sketch;
+
+        monthNote.src = assets.note;
+
+        await crossfadeMainImage(assets.main, month);
+
+        await Promise.all([
+          expandDecoration(monthSketch, -90),
+
+          expandDecoration(monthNote, 90),
+        ]);
+
+        currentMonth = month;
+
+        renderMobileSlides(currentMonth);
+
+        transitionRunning = false;
+
+        if (pendingMonth && pendingMonth !== currentMonth) {
+          const nextMonth = pendingMonth;
+
+          pendingMonth = null;
+
+          switchMonth(nextMonth);
+        } else {
+          pendingMonth = null;
+        }
+      }
+
+      monthButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          switchMonth(button.dataset.month);
+        });
+      });
+
+      /* =========================================================
+         DESKTOP MAGNIFIER
+      ========================================================== */
+
+      const MAGNIFICATION = 2.2;
+
+      let pointerInsideMain = false;
+
+      let targetPointerX = 0;
+      let targetPointerY = 0;
+
+      let smoothPointerX = 0;
+      let smoothPointerY = 0;
+
+      let magnifierRAF = null;
+
+      let magnifierImage = getMonthAssets(DEFAULT_MONTH).main;
+
+      function updateMagnifierImage(src) {
+        magnifierImage = src;
+
+        magnifierLens.style.backgroundImage = `url("${src}")`;
+      }
+
+      function updateMagnifierBackground(x, y) {
+        const mainRect = mainInspector.getBoundingClientRect();
+
+        const lensRect = magnifierLens.getBoundingClientRect();
+
+        const lensRadiusX = lensRect.width / 2;
+
+        const lensRadiusY = lensRect.height / 2;
+
+        const backgroundWidth = mainRect.width * MAGNIFICATION;
+
+        const backgroundHeight = mainRect.height * MAGNIFICATION;
+
+        const backgroundX = lensRadiusX - x * MAGNIFICATION;
+
+        const backgroundY = lensRadiusY - y * MAGNIFICATION;
+
+        magnifierLens.style.backgroundSize = `${backgroundWidth}px ${backgroundHeight}px`;
+
+        magnifierLens.style.backgroundPosition = `${backgroundX}px ${backgroundY}px`;
+      }
+
+      function runMagnifierAnimation() {
+        if (!pointerInsideMain) {
+          magnifierRAF = null;
+
+          return;
+        }
+
+        const easing = 0.28;
+
+        smoothPointerX += (targetPointerX - smoothPointerX) * easing;
+
+        smoothPointerY += (targetPointerY - smoothPointerY) * easing;
+
+        magnifierLens.style.left = `${smoothPointerX}px`;
+
+        magnifierLens.style.top = `${smoothPointerY}px`;
+
+        updateMagnifierBackground(smoothPointerX, smoothPointerY);
+
+        magnifierRAF = requestAnimationFrame(runMagnifierAnimation);
+      }
+
+      function startMagnifier() {
+        mainInspector.classList.add("is-magnifying");
+
+        magnifierLens.style.backgroundImage = `url("${magnifierImage}")`;
+
+        updateMagnifierBackground(smoothPointerX, smoothPointerY);
+
+        if (!magnifierRAF) {
+          magnifierRAF = requestAnimationFrame(runMagnifierAnimation);
+        }
+      }
+
+      function hideMagnifier() {
+        pointerInsideMain = false;
+
+        mainInspector.classList.remove("is-magnifying");
+
+        if (magnifierRAF) {
+          cancelAnimationFrame(magnifierRAF);
+
+          magnifierRAF = null;
+        }
+      }
+
+      mainInspector.addEventListener("pointerenter", (event) => {
+        if (event.pointerType === "touch") {
+          return;
+        }
+
+        pointerInsideMain = true;
+
+        const rect = mainInspector.getBoundingClientRect();
+
+        targetPointerX = event.clientX - rect.left;
+
+        targetPointerY = event.clientY - rect.top;
+
+        smoothPointerX = targetPointerX;
+
+        smoothPointerY = targetPointerY;
+
+        startMagnifier();
+      });
+
+      mainInspector.addEventListener("pointermove", (event) => {
+        if (event.pointerType === "touch") {
+          return;
+        }
+
+        const rect = mainInspector.getBoundingClientRect();
+
+        targetPointerX = Math.max(
+          0,
+          Math.min(rect.width, event.clientX - rect.left),
+        );
+
+        targetPointerY = Math.max(
+          0,
+          Math.min(rect.height, event.clientY - rect.top),
+        );
+      });
+
+      mainInspector.addEventListener("pointerleave", hideMagnifier);
+
+      /* =========================================================
+         MOBILE MONTH CAROUSEL
+      ========================================================== */
+
+      const mobileMonthCarousel = document.getElementById(
+        "mobileMonthCarousel",
+      );
+
+      const mobileMonthTrack = document.getElementById("mobileMonthTrack");
+
+      const mobileSwipeHint = document.getElementById("mobileSwipeHint");
+
+      let mobileSwipeHintDismissed = false;
+
+      let mobileSwipeLocked = false;
+
+      let mobileDragging = false;
+
+      let mobileDragStartX = 0;
+
+      let mobileDragDeltaX = 0;
+
+      let mobileBaseX = 0;
+
+      const MOBILE_SNAP_DURATION = 430;
+
+      const MOBILE_REVEAL_DELAY = 170;
+
+      const MOBILE_REVEAL_DURATION = 570;
+
+      /* =========================================================
+         SWIPE HINT
+
+         Only disappears after the first SUCCESSFUL month swipe.
+      ========================================================== */
+
+      function dismissMobileSwipeHint() {
+        if (mobileSwipeHintDismissed || !mobileSwipeHint) {
+          return;
+        }
+
+        mobileSwipeHintDismissed = true;
+
+        mobileSwipeHint.classList.add("is-dismissed");
+      }
+
+      /* =========================================================
+         MOBILE SLIDE CREATION
+      ========================================================== */
+
+      function createMobileMonthSlide(month, position) {
+        const assets = getMonthAssets(month);
+
+        const slide = document.createElement("article");
+
+        slide.className = `mobile-month-slide is-${position}`;
+
+        slide.dataset.month = month;
+
+        slide.dataset.position = position;
+
+        slide.setAttribute("aria-label", MONTH_NAMES[month]);
+
+        const note = document.createElement("img");
+
+        note.className = "mobile-month-note";
+
+        note.src = assets.note;
+
+        note.alt = "";
+
+        note.draggable = false;
+
+        const main = document.createElement("img");
+
+        main.className = "mobile-month-main";
+
+        main.src = assets.main;
+
+        main.alt = `${MONTH_NAMES[month]} calendar illustration`;
+
+        main.draggable = false;
+
+        const sketch = document.createElement("img");
+
+        sketch.className = "mobile-month-sketch";
+
+        sketch.src = assets.sketch;
+
+        sketch.alt = "";
+
+        sketch.draggable = false;
+
+        slide.append(note, main, sketch);
+
+        return slide;
+      }
+
+      function updateMobileSlideContent(slide, month) {
+        const assets = getMonthAssets(month);
+
+        slide.dataset.month = month;
+
+        slide.setAttribute("aria-label", MONTH_NAMES[month]);
+
+        const note = slide.querySelector(".mobile-month-note");
+
+        const main = slide.querySelector(".mobile-month-main");
+
+        const sketch = slide.querySelector(".mobile-month-sketch");
+
+        note.src = assets.note;
+
+        main.src = assets.main;
+
+        main.alt = `${MONTH_NAMES[month]} calendar illustration`;
+
+        sketch.src = assets.sketch;
+      }
+
+      function setMobileSlideState(slide, position, revealed = false) {
+        slide.classList.remove(
+          "is-previous",
+          "is-current",
+          "is-next",
+          "is-revealed",
+          "is-arriving",
+        );
+
+        slide.classList.add(`is-${position}`);
+
+        slide.dataset.position = position;
+
+        if (revealed) {
+          slide.classList.add("is-revealed");
+        }
+      }
+
+      /* =========================================================
+         MOBILE METRICS
+      ========================================================== */
+
+      function getMobileMetrics() {
+        const slide = mobileMonthTrack.querySelector(".mobile-month-slide");
+
+        const slideWidth = slide
+          ? slide.getBoundingClientRect().width
+          : window.innerWidth * (290.84 / 390);
+
+        const trackStyles = getComputedStyle(mobileMonthTrack);
+
+        const gap = parseFloat(trackStyles.columnGap) || 0;
+
+        const leftInset = window.innerWidth * (49.5 / 390);
+
+        const step = slideWidth + gap;
+
+        return {
+          slideWidth,
+          gap,
+          leftInset,
+          step,
+
+          base: leftInset - step,
+        };
+      }
+
+      function setMobileTrackPosition(x, animate) {
+        mobileMonthTrack.style.transition = animate
+          ? `transform ${MOBILE_SNAP_DURATION}ms cubic-bezier(0.22, 0.7, 0.22, 1)`
+          : "none";
+
+        mobileMonthTrack.style.transform = `translate3d(${x}px, 0, 0)`;
+      }
+
+      function resetMobileTrack(animate = false) {
+        const metrics = getMobileMetrics();
+
+        mobileBaseX = metrics.base;
+
+        setMobileTrackPosition(mobileBaseX, animate);
+      }
+
+      /* =========================================================
+         INITIAL MOBILE RENDER
+      ========================================================== */
+
+      function renderMobileSlides(month) {
+        const previous = getAdjacentMonth(month, -1);
+
+        const next = getAdjacentMonth(month, 1);
+
+        mobileMonthTrack.innerHTML = "";
+
+        const previousSlide = createMobileMonthSlide(previous, "previous");
+
+        const currentSlide = createMobileMonthSlide(month, "current");
+
+        const nextSlide = createMobileMonthSlide(next, "next");
+
+        currentSlide.classList.add("is-revealed");
+
+        mobileMonthTrack.append(previousSlide, currentSlide, nextSlide);
+
+        resetMobileTrack(false);
+      }
+
+      /* =========================================================
+         MOBILE SNAP PROMISE
+      ========================================================== */
+
+      function waitForMobileTrackTransition() {
+        return new Promise((resolve) => {
+          let finished = false;
+
+          const finish = () => {
+            if (finished) {
+              return;
+            }
+
+            finished = true;
+
+            mobileMonthTrack.removeEventListener(
+              "transitionend",
+              onTransitionEnd,
+            );
+
+            resolve();
+          };
+
+          const onTransitionEnd = (event) => {
+            if (
+              event.target !== mobileMonthTrack ||
+              event.propertyName !== "transform"
+            ) {
+              return;
+            }
+
+            finish();
+          };
+
+          mobileMonthTrack.addEventListener("transitionend", onTransitionEnd);
+
+          setTimeout(finish, MOBILE_SNAP_DURATION + 80);
+        });
+      }
+
+      /* =========================================================
+         INCOMING PAPER REVEAL
+      ========================================================== */
+
+      async function revealIncomingMobileSlide(slide) {
+        if (reducedMotion.matches) {
+          slide.classList.add("is-revealed");
+
+          return;
+        }
+
+        await wait(MOBILE_REVEAL_DELAY);
+
+        slide.classList.add("is-arriving");
+
+        await wait(MOBILE_REVEAL_DURATION);
+      }
+
+      /* =========================================================
+         SILENT SLIDE RECYCLING
+      ========================================================== */
+
+      async function recycleMobileSlides(direction, newMonth) {
+        const slides = Array.from(mobileMonthTrack.children);
+
+        mobileMonthTrack.style.transition = "none";
+
+        if (direction > 0) {
+          const oldPrevious = slides[0];
+
+          const oldCurrent = slides[1];
+
+          const incoming = slides[2];
+
+          mobileMonthTrack.appendChild(oldPrevious);
+
+          const newNextMonth = getAdjacentMonth(newMonth, 1);
+
+          const newNextAssets = getMonthAssets(newNextMonth);
+
+          await Promise.all([
+            preloadImage(newNextAssets.main),
+            preloadImage(newNextAssets.note),
+            preloadImage(newNextAssets.sketch),
+          ]);
+
+          updateMobileSlideContent(oldPrevious, newNextMonth);
+
+          setMobileSlideState(oldCurrent, "previous", false);
+
+          setMobileSlideState(incoming, "current", true);
+
+          setMobileSlideState(oldPrevious, "next", false);
+        } else {
+          const incoming = slides[0];
+
+          const oldCurrent = slides[1];
+
+          const oldNext = slides[2];
+
+          mobileMonthTrack.insertBefore(oldNext, incoming);
+
+          const newPreviousMonth = getAdjacentMonth(newMonth, -1);
+
+          const newPreviousAssets = getMonthAssets(newPreviousMonth);
+
+          await Promise.all([
+            preloadImage(newPreviousAssets.main),
+            preloadImage(newPreviousAssets.note),
+            preloadImage(newPreviousAssets.sketch),
+          ]);
+
+          updateMobileSlideContent(oldNext, newPreviousMonth);
+
+          setMobileSlideState(oldNext, "previous", false);
+
+          setMobileSlideState(incoming, "current", true);
+
+          setMobileSlideState(oldCurrent, "next", false);
+        }
+
+        resetMobileTrack(false);
+      }
+
+      /* =========================================================
+         MOBILE MONTH MOVE
+      ========================================================== */
+
+      async function moveMobileMonth(direction) {
+        if (mobileSwipeLocked) {
+          return;
+        }
+
+        mobileSwipeLocked = true;
+
+        /*
+          A real swipe has now been accepted,
+          so the hint can disappear.
+        */
+
+        dismissMobileSwipeHint();
+
+        const metrics = getMobileMetrics();
+
+        const incomingSlide = mobileMonthTrack.querySelector(
+          direction > 0
+            ? ".mobile-month-slide.is-next"
+            : ".mobile-month-slide.is-previous",
+        );
+
+        if (!incomingSlide) {
+          mobileSwipeLocked = false;
+
+          resetMobileTrack(true);
+
+          return;
+        }
+
+        const newMonth = getAdjacentMonth(currentMonth, direction);
+
+        const target =
+          direction > 0
+            ? metrics.base - metrics.step
+            : metrics.base + metrics.step;
+
+        const snapPromise = waitForMobileTrackTransition();
+
+        setMobileTrackPosition(target, true);
+
+        const revealPromise = revealIncomingMobileSlide(incomingSlide);
+
+        await Promise.all([snapPromise, revealPromise]);
+
+        applyDesktopMonthInstant(newMonth);
+
+        await recycleMobileSlides(direction, newMonth);
+
+        mobileSwipeLocked = false;
+      }
+
+      /* =========================================================
+         MOBILE DRAGGING
+      ========================================================== */
+
+      mobileMonthCarousel.addEventListener("pointerdown", (event) => {
+        if (mobileSwipeLocked) {
+          return;
+        }
+
+        if (event.pointerType === "mouse" && event.button !== 0) {
+          return;
+        }
+
+        mobileDragging = true;
+
+        mobileDragStartX = event.clientX;
+
+        mobileDragDeltaX = 0;
+
+        const metrics = getMobileMetrics();
+
+        mobileBaseX = metrics.base;
+
+        mobileMonthTrack.style.transition = "none";
+
+        mobileMonthCarousel.classList.add("is-dragging");
+
+        try {
+          mobileMonthCarousel.setPointerCapture(event.pointerId);
+        } catch (error) {}
+      });
+
+      mobileMonthCarousel.addEventListener("pointermove", (event) => {
+        if (!mobileDragging) {
+          return;
+        }
+
+        mobileDragDeltaX = event.clientX - mobileDragStartX;
+
+        setMobileTrackPosition(mobileBaseX + mobileDragDeltaX, false);
+      });
+
+      async function finishMobileDrag(event) {
+        if (!mobileDragging) {
+          return;
+        }
+
+        mobileDragging = false;
+
+        mobileMonthCarousel.classList.remove("is-dragging");
+
+        try {
+          mobileMonthCarousel.releasePointerCapture(event.pointerId);
+        } catch (error) {}
+
+        const threshold = Math.max(38, window.innerWidth * (45 / 390));
+
+        if (mobileDragDeltaX < -threshold) {
+          await moveMobileMonth(1);
+
+          return;
+        }
+
+        if (mobileDragDeltaX > threshold) {
+          await moveMobileMonth(-1);
+
+          return;
+        }
+
+        resetMobileTrack(true);
+      }
+
+      mobileMonthCarousel.addEventListener("pointerup", finishMobileDrag);
+
+      mobileMonthCarousel.addEventListener("pointercancel", () => {
+        mobileDragging = false;
+
+        mobileMonthCarousel.classList.remove("is-dragging");
+
+        resetMobileTrack(true);
+      });
+
+      /* =========================================================
+         TIMELAPSES
+      ========================================================== */
+
+      const timelapseFrames = Array.from(
+        document.querySelectorAll(".timelapse-frame"),
+      );
+
+      timelapseFrames.forEach((frame) => {
+        const video = frame.querySelector(".timelapse-video");
+
+        const toggle = frame.querySelector(".timelapse-toggle");
+
+        function updateVideoState() {
+          const playing = !video.paused && !video.ended;
+
+          frame.classList.toggle("is-playing", playing);
+
+          toggle.setAttribute(
+            "aria-label",
+            playing ? "Pause timelapse" : "Play timelapse",
+          );
+        }
+
+        async function playVideo() {
+          timelapseFrames.forEach((otherFrame) => {
+            if (otherFrame === frame) {
+              return;
+            }
+
+            const otherVideo = otherFrame.querySelector(".timelapse-video");
+
+            otherVideo.pause();
+          });
+
+          try {
+            await video.play();
+          } catch (error) {}
+
+          updateVideoState();
+        }
+
+        function pauseVideo() {
+          video.pause();
+
+          updateVideoState();
+        }
+
+        toggle.addEventListener("click", (event) => {
+          event.stopPropagation();
+
+          if (video.paused) {
+            playVideo();
+          } else {
+            pauseVideo();
+          }
+        });
+
+        video.addEventListener("click", () => {
+          if (video.paused) {
+            playVideo();
+          } else {
+            pauseVideo();
+          }
+        });
+
+        video.addEventListener("play", updateVideoState);
+
+        video.addEventListener("pause", updateVideoState);
+
+        video.addEventListener("ended", updateVideoState);
+
+        updateVideoState();
+      });
+
+      /* =========================================================
+         MENU
+      ========================================================== */
+
+      const menuToggle = document.getElementById("menu-toggle");
+
+      const menuOverlay = document.getElementById("menuOverlay");
+
+      menuOverlay.addEventListener("click", () => {
+        menuToggle.checked = false;
+      });
+
+      /* =========================================================
+         RESIZE
+      ========================================================== */
+
+      let resizeRAF = null;
+
+      window.addEventListener("resize", () => {
+        if (resizeRAF) {
+          cancelAnimationFrame(resizeRAF);
+        }
+
+        resizeRAF = requestAnimationFrame(() => {
+          if (!mobileSwipeLocked && !mobileDragging) {
+            resetMobileTrack(false);
+          }
+
+          resizeRAF = null;
+        });
+      });
+
+      /* =========================================================
+         PROTECTION
+      ========================================================== */
+
+      document.addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+      });
+
+      document.addEventListener("dragstart", (event) => {
+        if (event.target.tagName === "IMG") {
+          event.preventDefault();
+        }
+      });
+
+      /* =========================================================
+         INITIALIZE
+      ========================================================== */
+
+      applyDesktopMonthInstant(DEFAULT_MONTH);
+
+      renderMobileSlides(DEFAULT_MONTH);
+
+      updateMagnifierImage(getMonthAssets(DEFAULT_MONTH).main);
+    </script>
+  </body>
+</html>

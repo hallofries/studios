@@ -456,6 +456,177 @@ body.item-hovered .intro-text {
   transform: translate(0, 0) scale(1);
 }
 
+/* ============================================================
+   ILLUSTRATED CALENDAR THUMBNAIL
+   Figma reference frame: 1920px wide
+============================================================ */
+
+/*
+  The wrapper is exactly the calendar thumb's Figma box.
+  Everything else is positioned relative to this box so the
+  final hover state lands on the supplied Figma coordinates.
+*/
+.portfolio-item.project.item-calendar {
+  top: calc(1727 / 1920 * 100vw);
+  left: calc(484 / 1920 * 100vw);
+  right: auto;
+  bottom: auto;
+  width: calc(325 / 1920 * 100vw);
+  height: calc(394 / 1920 * 100vw);
+  cursor: pointer;
+  text-decoration: none;
+  overflow: visible;
+}
+
+/* Main thumbnail never moves. */
+.item-calendar .calendar-thumb {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 0;
+  z-index: 2;
+  transform: none;
+  opacity: 1;
+  filter: none;
+}
+
+/*
+  Decorative pieces sit underneath the thumb (z-index 1).
+  Their final left/top/size values exactly match the supplied
+  Figma placement. Their resting transforms pull them back to
+  the centre of the thumbnail, where they are hidden underneath.
+*/
+.item-calendar .calendar-asset {
+  z-index: 1;
+  opacity: 0;
+  transform-origin: center center;
+  transition:
+    transform 0.62s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.12s ease;
+  will-change: transform, opacity;
+}
+
+/* hover1: final page x 395, y 1902 */
+.item-calendar .calendar-hover-1 {
+  left: calc(-89 / 1920 * 100vw);
+  top: calc(175 / 1920 * 100vw);
+  width: calc(158.72 / 1920 * 100vw);
+  height: calc(155.98 / 1920 * 100vw);
+  object-fit: contain;
+  transform: translate(calc(172.14 / 1920 * 100vw), calc(-55.99 / 1920 * 100vw))
+    rotate(8deg) scale(0.12);
+}
+
+/* hover2: final page x 631.47, y 1663.99 */
+.item-calendar .calendar-hover-2 {
+  left: calc(147.47 / 1920 * 100vw);
+  top: calc(-63.01 / 1920 * 100vw);
+  width: calc(177.78 / 1920 * 100vw);
+  height: calc(175.84 / 1920 * 100vw);
+  object-fit: contain;
+  transform: translate(calc(-73.86 / 1920 * 100vw), calc(172.09 / 1920 * 100vw))
+    rotate(-8deg) scale(0.12);
+}
+
+/* leaf1: final page x 509, y 2050 */
+.item-calendar .calendar-leaf-1 {
+  left: calc(25 / 1920 * 100vw);
+  top: calc(323 / 1920 * 100vw);
+  width: calc(53.39 / 1920 * 100vw);
+  height: calc(52.56 / 1920 * 100vw);
+  object-fit: contain;
+  transform: translate(
+      calc(110.805 / 1920 * 100vw),
+      calc(-152.28 / 1920 * 100vw)
+    )
+    rotate(22deg) scale(0.12);
+}
+
+/* leaf2: final page x 765, y 2096 */
+.item-calendar .calendar-leaf-2 {
+  left: calc(281 / 1920 * 100vw);
+  top: calc(369 / 1920 * 100vw);
+  width: calc(54 / 1920 * 100vw);
+  height: calc(35 / 1920 * 100vw);
+  object-fit: contain;
+  transform: translate(calc(-145.5 / 1920 * 100vw), calc(-189.5 / 1920 * 100vw))
+    rotate(-18deg) scale(0.12);
+}
+
+/* leaf3: final page x 756, y 1821 */
+.item-calendar .calendar-leaf-3 {
+  left: calc(272 / 1920 * 100vw);
+  top: calc(94 / 1920 * 100vw);
+  width: calc(28.16 / 1920 * 100vw);
+  height: calc(31.62 / 1920 * 100vw);
+  object-fit: contain;
+  transform: translate(calc(-123.58 / 1920 * 100vw), calc(87.19 / 1920 * 100vw))
+    rotate(-24deg) scale(0.12);
+}
+
+/*
+  Title is intentionally different from the behind-the-thumb
+  pieces: it lives ABOVE the thumbnail and grows into place.
+  This avoids the awkward z-index jump that would happen if it
+  literally slid from underneath and then had to cross the thumb.
+
+  Final page x 603, y 1876; size 256 x 197.
+*/
+.item-calendar .calendar-thumb-title {
+  position: absolute;
+  left: calc(119 / 1920 * 100vw);
+  top: calc(149 / 1920 * 100vw);
+  width: calc(256 / 1920 * 100vw);
+  height: calc(197 / 1920 * 100vw);
+  object-fit: contain;
+  border-radius: 0;
+  z-index: 3;
+  opacity: 0;
+  transform: scale(0.12) rotate(-4deg);
+  transform-origin: center center;
+  transition:
+    transform 0.58s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.2s ease;
+  will-change: transform, opacity;
+}
+
+/* Final hover state. */
+.item-calendar:hover .calendar-hover-1,
+.item-calendar:hover .calendar-hover-2,
+.item-calendar:hover .calendar-leaf-1,
+.item-calendar:hover .calendar-leaf-2,
+.item-calendar:hover .calendar-leaf-3 {
+  transform: translate(0, 0) rotate(0deg) scale(1);
+  opacity: 1;
+}
+
+.item-calendar:hover .calendar-thumb-title {
+  transform: scale(1) rotate(0deg);
+  opacity: 1;
+}
+
+/* Tiny stagger makes the reveal feel less mechanically simultaneous. */
+.item-calendar:hover .calendar-hover-2 {
+  transition-delay: 0s;
+}
+.item-calendar:hover .calendar-hover-1 {
+  transition-delay: 0.035s;
+}
+.item-calendar:hover .calendar-leaf-3 {
+  transition-delay: 0.055s;
+}
+.item-calendar:hover .calendar-leaf-1 {
+  transition-delay: 0.075s;
+}
+.item-calendar:hover .calendar-leaf-2 {
+  transition-delay: 0.09s;
+}
+.item-calendar:hover .calendar-thumb-title {
+  transition-delay: 0.055s;
+}
+
 body.item-hovered .portfolio-item:not(.focused) {
   opacity: 0.4;
   transition: opacity 0.4s ease;
@@ -933,7 +1104,8 @@ body.item-hovered .portfolio-item:not(.focused) {
   .item-10,
   .item-11,
   .item-oblor,
-  .item-usipb {
+  .item-usipb,
+  .item-calendar {
     inset: auto;
   }
   .portfolio-item.project.item-1 {
@@ -951,7 +1123,17 @@ body.item-hovered .portfolio-item:not(.focused) {
     height: auto;
     aspect-ratio: 420 / 460;
   }
-  .portfolio-item.project .asset {
+  .portfolio-item.project.item-calendar {
+    width: 80vw;
+    height: auto;
+    aspect-ratio: 325 / 394;
+  }
+  .item-calendar .calendar-thumb {
+    width: 100%;
+    height: 100%;
+  }
+  .portfolio-item.project .asset,
+  .item-calendar .calendar-thumb-title {
     display: none;
   }
   .item-1 {

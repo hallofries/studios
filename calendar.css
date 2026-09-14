@@ -23,7 +23,7 @@ body {
 
   background-color: #5d7650;
 
-  background-image: url("image/calendar/background.png");
+  background-image: url("image/calendar/background.jpg");
 
   background-repeat: repeat;
 
@@ -262,6 +262,7 @@ img {
   z-index: 2;
 }
 
+/* static now — no animation, no hover motion */
 .note-description {
   position: absolute;
 
@@ -276,10 +277,6 @@ img {
   object-fit: contain;
 
   cursor: default;
-
-  transform-origin: 50% 20%;
-
-  animation: noteDescriptionIdle 6.5s ease-in-out infinite;
 
   z-index: 2;
 }
@@ -315,54 +312,6 @@ img {
 
   100% {
     transform: rotate(0deg);
-  }
-}
-
-/* ============================================================
-   DESKTOP NOTE MOTION
-============================================================ */
-
-@keyframes noteDescriptionIdle {
-  0% {
-    transform: translateY(0) rotate(0deg);
-  }
-
-  25% {
-    transform: translateY(calc(-2.5 / 1920 * 100vw)) rotate(-0.12deg);
-  }
-
-  50% {
-    transform: translateY(calc(-4 / 1920 * 100vw)) rotate(0.1deg);
-  }
-
-  75% {
-    transform: translateY(calc(-1.5 / 1920 * 100vw)) rotate(-0.08deg);
-  }
-
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-}
-
-@keyframes noteDescriptionHover {
-  0% {
-    transform: translateY(0) rotate(0deg);
-  }
-
-  42% {
-    transform: translateY(calc(-16 / 1920 * 100vw)) rotate(-1.15deg);
-  }
-
-  68% {
-    transform: translateY(calc(-13 / 1920 * 100vw)) rotate(0.4deg);
-  }
-
-  84% {
-    transform: translateY(calc(-14.5 / 1920 * 100vw)) rotate(-0.35deg);
-  }
-
-  100% {
-    transform: translateY(calc(-14 / 1920 * 100vw)) rotate(-0.55deg);
   }
 }
 
@@ -906,10 +855,6 @@ img {
     animation: calendarPendulum 2.35s cubic-bezier(0.22, 0.61, 0.36, 1);
   }
 
-  .note-description:hover {
-    animation: noteDescriptionHover 0.72s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
   .month-thumb:not(.is-active):hover {
     transform: translateY(calc(-9 / 1920 * 100vw));
   }
@@ -1046,8 +991,6 @@ img {
     width: calc(355.73 / 390 * 100vw);
 
     height: calc(368 / 390 * 100vw);
-
-    animation: none;
 
     pointer-events: none;
 

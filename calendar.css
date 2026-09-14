@@ -929,10 +929,31 @@ img {
 
   .menu-item img {
     width: 53vw;
-
+    aspect-ratio: 9 / 10;
     height: auto;
 
     max-width: 380px;
+    max-height: 422px;
+  }
+
+  #portfolio {
+    top: 11vh;
+    left: 40vw;
+  }
+
+  #about {
+    top: 26vh;
+    left: 4vw;
+  }
+
+  #contact {
+    top: 35vh;
+    left: 43vw;
+  }
+
+  #home {
+    top: 53vh;
+    left: 22vw;
   }
 
   /* ==========================================================

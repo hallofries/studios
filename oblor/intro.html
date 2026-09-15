@@ -2,14 +2,30 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>OBLOR — Insert Disc</title>
     <link rel="stylesheet" href="intro.css" />
   </head>
   <body>
+    <!-- Main site menu: intentionally only present on intro.html. -->
+    <input type="checkbox" id="introMenuToggle" class="intro-menu-toggle" />
+    <label for="introMenuToggle" class="intro-menu-button" aria-label="Open site menu">
+      <img src="../image/menu2.png" alt="Menu" draggable="false" />
+    </label>
+    <div class="intro-menu-overlay" aria-hidden="true"></div>
+    <div class="intro-menu-item intro-menu-home">
+      <a href="../index.html"><img src="../image/home.png" alt="Home" draggable="false" /></a>
+    </div>
+    <div class="intro-menu-item intro-menu-about">
+      <a href="../aboutme.html"><img src="../image/about.png" alt="About" draggable="false" /></a>
+    </div>
+    <div class="intro-menu-item intro-menu-portfolio">
+      <a href="../portf.html"><img src="../image/portfolio.png" alt="Portfolio" draggable="false" /></a>
+    </div>
+    <div class="intro-menu-item intro-menu-contact">
+      <a href="../contactme.html"><img src="../image/contact.png" alt="Contact" draggable="false" /></a>
+    </div>
+
     <!--
       SEPARATE OBLOR INTRO PAGE.
       This page owns only the room / passcode / CD interaction.
@@ -61,11 +77,7 @@
                 maxlength="24"
                 aria-describedby="passcodeError"
               />
-              <span
-                id="passcodeMask"
-                class="passcode-mask"
-                aria-hidden="true"
-              ></span>
+              <span id="passcodeMask" class="passcode-mask" aria-hidden="true"></span>
             </label>
 
             <p id="passcodeError" class="passcode-error" aria-live="polite">
@@ -73,14 +85,9 @@
             </p>
           </div>
 
-          <div
-            id="loadingSpinner"
-            class="xp-spinner"
-            aria-label="Loading"
-            hidden
-          >
-            <span></span><span></span><span></span><span></span> <span></span
-            ><span></span><span></span><span></span>
+          <div id="loadingSpinner" class="xp-spinner" aria-label="Loading" hidden>
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
           </div>
         </form>
       </section>

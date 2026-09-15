@@ -47,6 +47,151 @@ input {
   font: inherit;
 }
 
+
+/* ============================================================
+   MAIN SITE MENU — INTRO PAGE ONLY
+   Mirrors the portfolio page menu, but uses ../image/* because
+   this file lives inside /oblor/.
+   ============================================================ */
+.intro-menu-toggle {
+  display: none;
+}
+
+.intro-menu-button {
+  position: fixed;
+  top: 20px;
+  right: 2%;
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
+  z-index: 9002;
+}
+
+.intro-menu-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.3s;
+}
+
+.intro-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0);
+  z-index: 9000;
+  pointer-events: none;
+  transition: background-color 0.5s ease;
+}
+
+.intro-menu-toggle:checked ~ .intro-menu-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  pointer-events: all;
+}
+
+.intro-menu-item {
+  position: fixed;
+  transform: scale(0) rotate(0);
+  opacity: 0;
+  transition:
+    transform 0.5s ease,
+    opacity 0.5s ease;
+  z-index: 9001;
+  pointer-events: none;
+}
+
+.intro-menu-item img {
+  width: 380px;
+  height: 380px;
+  object-fit: contain;
+  display: block;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.intro-menu-home {
+  top: 50vh;
+  left: 40vw;
+}
+
+.intro-menu-about {
+  top: 30vh;
+  left: 15vw;
+}
+
+.intro-menu-portfolio {
+  top: 5vh;
+  left: 35vw;
+}
+
+.intro-menu-contact {
+  top: 20vh;
+  left: 55vw;
+}
+
+.intro-menu-toggle:checked ~ .intro-menu-item {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+@media (hover: hover) {
+  .intro-menu-button img:hover {
+    transform: rotate(40deg) scale(1.2);
+  }
+
+  .intro-menu-item img:hover {
+    transform: rotate(10deg) scale(1.1);
+  }
+}
+
+@media (hover: none) {
+  .intro-menu-toggle:checked ~ .intro-menu-button img {
+    transform: rotate(40deg) scale(1.2);
+  }
+}
+
+@media (max-width: 768px) {
+  .intro-menu-button {
+    top: 3%;
+    right: 7%;
+    width: 16vw;
+    height: 16vw;
+    max-width: 70px;
+    max-height: 70px;
+    min-width: 50px;
+    min-height: 50px;
+  }
+
+  .intro-menu-item img {
+    width: 53vw;
+    aspect-ratio: 9 / 10;
+    height: auto;
+    max-width: 380px;
+    max-height: 422px;
+  }
+
+  .intro-menu-portfolio {
+    top: 11vh;
+    left: 40vw;
+  }
+
+  .intro-menu-about {
+    top: 26vh;
+    left: 4vw;
+  }
+
+  .intro-menu-contact {
+    top: 35vh;
+    left: 43vw;
+  }
+
+  .intro-menu-home {
+    top: 53vh;
+    left: 22vw;
+  }
+}
+
 /*
   FULL VIEWPORT, NO FRAME.
   1920x1080 remains the design coordinate system, but the whole composition
@@ -262,48 +407,18 @@ input {
   animation: xp-spinner-fade 0.8s linear infinite;
 }
 
-.xp-spinner span:nth-child(1) {
-  transform: rotate(0deg);
-  animation-delay: -0.7s;
-}
-.xp-spinner span:nth-child(2) {
-  transform: rotate(45deg);
-  animation-delay: -0.6s;
-}
-.xp-spinner span:nth-child(3) {
-  transform: rotate(90deg);
-  animation-delay: -0.5s;
-}
-.xp-spinner span:nth-child(4) {
-  transform: rotate(135deg);
-  animation-delay: -0.4s;
-}
-.xp-spinner span:nth-child(5) {
-  transform: rotate(180deg);
-  animation-delay: -0.3s;
-}
-.xp-spinner span:nth-child(6) {
-  transform: rotate(225deg);
-  animation-delay: -0.2s;
-}
-.xp-spinner span:nth-child(7) {
-  transform: rotate(270deg);
-  animation-delay: -0.1s;
-}
-.xp-spinner span:nth-child(8) {
-  transform: rotate(315deg);
-  animation-delay: 0s;
-}
+.xp-spinner span:nth-child(1) { transform: rotate(0deg); animation-delay: -0.70s; }
+.xp-spinner span:nth-child(2) { transform: rotate(45deg); animation-delay: -0.60s; }
+.xp-spinner span:nth-child(3) { transform: rotate(90deg); animation-delay: -0.50s; }
+.xp-spinner span:nth-child(4) { transform: rotate(135deg); animation-delay: -0.40s; }
+.xp-spinner span:nth-child(5) { transform: rotate(180deg); animation-delay: -0.30s; }
+.xp-spinner span:nth-child(6) { transform: rotate(225deg); animation-delay: -0.20s; }
+.xp-spinner span:nth-child(7) { transform: rotate(270deg); animation-delay: -0.10s; }
+.xp-spinner span:nth-child(8) { transform: rotate(315deg); animation-delay: 0s; }
 
 @keyframes xp-spinner-fade {
-  0%,
-  18% {
-    opacity: 1;
-  }
-  75%,
-  100% {
-    opacity: 0.12;
-  }
+  0%, 18% { opacity: 1; }
+  75%, 100% { opacity: 0.12; }
 }
 
 /* ============================================================
@@ -375,7 +490,8 @@ input {
   z-index: 3;
   pointer-events: none;
   opacity: 0;
-  filter: drop-shadow(0 0 8px rgba(255, 238, 148, 0.95))
+  filter:
+    drop-shadow(0 0 8px rgba(255, 238, 148, 0.95))
     drop-shadow(0 0 18px rgba(255, 234, 118, 0.72));
 }
 
@@ -450,7 +566,8 @@ input {
 
 .floating-cd.is-dragging {
   cursor: grabbing;
-  filter: drop-shadow(0 9px 12px rgba(0, 0, 0, 0.4))
+  filter:
+    drop-shadow(0 9px 12px rgba(0, 0, 0, 0.4))
     drop-shadow(0 0 7px rgba(255, 239, 153, 0.35));
 }
 
@@ -482,6 +599,7 @@ input {
   opacity: 1;
 }
 
+
 /* ============================================================
    RETURNING-VISITOR SKIP BUTTON
    Only shown by intro.js after this browser has completed the
@@ -490,9 +608,9 @@ input {
    ============================================================ */
 .skip-intro-button {
   position: fixed;
-  top: 18px;
-  right: 18px;
-  z-index: 12000;
+  left: max(18px, env(safe-area-inset-left));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 8000;
   margin: 0;
   padding: 7px 9px 6px;
   border: 1px solid rgba(255, 255, 255, 0.18);
@@ -525,7 +643,5 @@ input {
 }
 
 @keyframes skip-intro-appear {
-  to {
-    opacity: 1;
-  }
+  to { opacity: 1; }
 }

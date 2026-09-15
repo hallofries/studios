@@ -633,6 +633,12 @@
         document.querySelectorAll(".portfolio-item.project").forEach((item) => {
           item.addEventListener("click", () => {
             const projectId = item.dataset.project;
+
+            if (projectId === "oblor") {
+              window.location.href = "oblor/intro.html";
+              return;
+            }
+
             const project = PROJECTS[projectId];
             if (!project) return;
 

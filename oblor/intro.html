@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>OBLOR — Insert Disc</title>
+    <link rel="stylesheet" href="intro.css" />
+  </head>
+  <body>
+    <!--
+      SEPARATE OBLOR INTRO PAGE.
+      This page owns only the room / passcode / CD interaction.
+      The existing index.html desktop remains untouched and is loaded after the disc is inserted.
+    -->
+    <main id="introStage" class="intro-stage" aria-label="OBLOR room">
+      <img
+        class="room-background"
+        src="assets/intro/background.png"
+        alt=""
+        draggable="false"
+      />
+
+      <!-- PC + note are one group so they always preserve the same relative placement. -->
+      <section id="pcGroup" class="pc-group" aria-label="Computer">
+        <img
+          id="pcImage"
+          class="pc-image"
+          src="assets/intro/pc.png"
+          alt=""
+          draggable="false"
+        />
+
+        <img
+          id="noteImage"
+          class="passcode-note"
+          src="assets/intro/note-state1.png"
+          alt="Passcode note"
+          draggable="false"
+          role="button"
+          tabindex="0"
+          aria-label="Reveal passcode"
+        />
+
+        <!-- Live HTML interface positioned over the CRT. -->
+        <form id="passcodeForm" class="monitor-ui" autocomplete="off">
+          <div id="passcodeContent" class="passcode-content">
+            <p class="monitor-prompt">Enter passcode to<br />open CD-ROM</p>
+
+            <label class="passcode-field" aria-label="Enter passcode">
+              <input
+                id="passcodeInput"
+                class="passcode-input"
+                type="text"
+                inputmode="text"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+                maxlength="24"
+                aria-describedby="passcodeError"
+              />
+              <span
+                id="passcodeMask"
+                class="passcode-mask"
+                aria-hidden="true"
+              ></span>
+            </label>
+
+            <p id="passcodeError" class="passcode-error" aria-live="polite">
+              Try again bro.
+            </p>
+          </div>
+
+          <div
+            id="loadingSpinner"
+            class="xp-spinner"
+            aria-label="Loading"
+            hidden
+          >
+            <span></span><span></span><span></span><span></span> <span></span
+            ><span></span><span></span><span></span>
+          </div>
+        </form>
+      </section>
+
+      <!-- Disk pile and interactive OBLOR case share the same 1920x1080 coordinate group. -->
+      <section class="disk-stack-group" aria-label="OBLOR discs">
+        <img
+          class="disk-stack-image"
+          src="assets/intro/disks.png"
+          alt=""
+          draggable="false"
+        />
+
+        <!--
+          IMPORTANT: the clickable hitbox, glow, label, and visible case are FOUR
+          separate absolute layers. The visible OBLOR case is always exactly
+          263 x 288px and is never resized by the hover UI.
+        -->
+        <button
+          id="oblorDiskButton"
+          class="oblor-disk-button"
+          type="button"
+          aria-label="Get the OBLOR CD"
+        ></button>
+
+        <div class="oblor-disk-glow" aria-hidden="true"></div>
+
+        <img
+          class="oblor-disk-image"
+          src="assets/intro/oblor-disk.png"
+          alt="OBLOR disc case"
+          draggable="false"
+        />
+
+        <span class="get-cd-hint" aria-hidden="true">get the cd!</span>
+      </section>
+
+      <!-- Spawned after the OBLOR case is clicked. -->
+      <img
+        id="floatingCd"
+        class="floating-cd"
+        src="assets/intro/floating-cd.png"
+        alt="OBLOR CD"
+        draggable="false"
+        hidden
+      />
+
+      <!--
+        Invisible logical drop target. It covers the LEFT HALF of the full PC image,
+        exactly as requested. It never renders visually.
+      -->
+      <div id="cdDropZone" class="cd-drop-zone" aria-hidden="true"></div>
+    </main>
+
+    <button id="skipIntroButton" class="skip-intro-button" type="button" hidden>
+      skip intro →
+    </button>
+
+    <div id="fadeOverlay" class="fade-overlay" aria-hidden="true"></div>
+
+    <script src="intro.js"></script>
+  </body>
+</html>

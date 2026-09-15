@@ -1,0 +1,531 @@
+@font-face {
+  font-family: "W95F";
+  src: url("assets/intro/W95F.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PxPlus IBM VGA8";
+  src: url("assets/intro/PxPlus_IBM_VGA8.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Oblorian";
+  src: url("assets/intro/oblorian.woff2") format("woff2");
+  font-display: swap;
+}
+
+:root {
+  --crt-green: #31f074;
+  --crt-red: #ff4635;
+  --design-width: 1920;
+  --design-height: 1080;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #000;
+}
+
+body {
+  overscroll-behavior: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+/*
+  FULL VIEWPORT, NO FRAME.
+  1920x1080 remains the design coordinate system, but the whole composition
+  scales with COVER behavior so it always fills the viewport. On non-16:9
+  screens the outer edges crop slightly rather than showing a border/frame.
+*/
+.intro-stage {
+  --stage-scale: 1;
+
+  position: fixed;
+  left: var(--stage-left, 0px);
+  bottom: var(--stage-bottom, 0px);
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background: #000;
+  transform: scale(var(--stage-scale));
+  transform-origin: left bottom;
+}
+
+.room-background {
+  position: absolute;
+  inset: 0;
+  width: 1920px;
+  height: 1080px;
+  display: block;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+/* ============================================================
+   PC GROUP
+   Figma: x 162, y 197, w 1578, h 1052
+   ============================================================ */
+.pc-group {
+  position: absolute;
+  left: 162px;
+  top: 197px;
+  width: 1578px;
+  height: 1052px;
+}
+
+.pc-image {
+  position: absolute;
+  inset: 0;
+  width: 1578px;
+  height: 1052px;
+  object-fit: fill;
+  display: block;
+  pointer-events: none;
+}
+
+/*
+  NOTE is intentionally positioned INSIDE pc-group.
+  Global Figma position: x 1125, y 345, w 171.72, h 154.71
+  Relative to PC: x 963, y 148
+*/
+.passcode-note {
+  position: absolute;
+  left: 963px;
+  top: 148px;
+  width: 171.72px;
+  height: 154.71px;
+  object-fit: fill;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 7;
+}
+
+.passcode-note.is-revealed {
+  cursor: default;
+}
+
+.passcode-note:focus-visible {
+  outline: 2px dotted rgba(255, 240, 165, 0.85);
+  outline-offset: 3px;
+}
+
+/* ============================================================
+   CRT UI
+   Positioned relative to the PC group so it scales/moves with the PC.
+   The values reproduce the placement from the supplied 1920x1080 artwork.
+   ============================================================ */
+.monitor-ui {
+  position: absolute;
+  left: 665px;
+  top: 314px;
+  width: 360px;
+  min-height: 150px;
+  margin: 0;
+  padding: 0;
+  z-index: 6;
+  color: var(--crt-green);
+  font-family: "PxPlus IBM VGA8", "Courier New", monospace;
+  text-align: center;
+}
+
+.passcode-content {
+  position: relative;
+  width: 100%;
+}
+
+.monitor-prompt {
+  margin: 0 0 21px;
+  color: var(--crt-green);
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-align: center;
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+.passcode-field {
+  position: relative;
+  display: block;
+  width: 204px;
+  height: 32px;
+  margin: 0 auto;
+  border: 2px solid var(--crt-green);
+  background: transparent;
+}
+
+.passcode-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0 6px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: transparent;
+  caret-color: transparent;
+  font-family: "PxPlus IBM VGA8", "Courier New", monospace;
+  font-size: 28px;
+  line-height: 1;
+  text-align: center;
+}
+
+.passcode-mask {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: var(--crt-green);
+  pointer-events: none;
+  font-family: "PxPlus IBM VGA8", "Courier New", monospace;
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: 2px;
+  padding: 0;
+  transform: none;
+  white-space: nowrap;
+}
+
+.passcode-error {
+  min-height: 21px;
+  margin: 12px 0 0;
+  color: var(--crt-red);
+  font-size: 18px;
+  line-height: 20px;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.monitor-ui.is-error .passcode-field {
+  border-color: var(--crt-red);
+}
+
+.monitor-ui.is-error .passcode-mask {
+  color: var(--crt-red);
+}
+
+.monitor-ui.is-error .passcode-error {
+  opacity: 1;
+  visibility: visible;
+}
+
+.monitor-ui.is-unlocked .passcode-input {
+  pointer-events: none;
+}
+
+/* ============================================================
+   XP-ish segmented loading spinner shown after CD insertion
+   ============================================================ */
+.xp-spinner {
+  position: absolute;
+  left: 50%;
+  top: 50px;
+  width: 58px;
+  height: 58px;
+  transform: translateX(-50%);
+}
+
+.xp-spinner[hidden] {
+  display: none;
+}
+
+.xp-spinner span {
+  position: absolute;
+  left: 25px;
+  top: 3px;
+  width: 8px;
+  height: 17px;
+  border-radius: 1px;
+  background: var(--crt-green);
+  transform-origin: 4px 26px;
+  animation: xp-spinner-fade 0.8s linear infinite;
+}
+
+.xp-spinner span:nth-child(1) {
+  transform: rotate(0deg);
+  animation-delay: -0.7s;
+}
+.xp-spinner span:nth-child(2) {
+  transform: rotate(45deg);
+  animation-delay: -0.6s;
+}
+.xp-spinner span:nth-child(3) {
+  transform: rotate(90deg);
+  animation-delay: -0.5s;
+}
+.xp-spinner span:nth-child(4) {
+  transform: rotate(135deg);
+  animation-delay: -0.4s;
+}
+.xp-spinner span:nth-child(5) {
+  transform: rotate(180deg);
+  animation-delay: -0.3s;
+}
+.xp-spinner span:nth-child(6) {
+  transform: rotate(225deg);
+  animation-delay: -0.2s;
+}
+.xp-spinner span:nth-child(7) {
+  transform: rotate(270deg);
+  animation-delay: -0.1s;
+}
+.xp-spinner span:nth-child(8) {
+  transform: rotate(315deg);
+  animation-delay: 0s;
+}
+
+@keyframes xp-spinner-fade {
+  0%,
+  18% {
+    opacity: 1;
+  }
+  75%,
+  100% {
+    opacity: 0.12;
+  }
+}
+
+/* ============================================================
+   DISKS GROUP
+   Figma disks: x 1519, y 723, w 535, h 317.16
+   ============================================================ */
+.disk-stack-group {
+  position: absolute;
+  left: 1519px;
+  top: 723px;
+  width: 535px;
+  height: 317.16px;
+  z-index: 8;
+}
+
+.disk-stack-image {
+  position: absolute;
+  inset: 0;
+  width: 535px;
+  height: 317.16px;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+/*
+  OBLOR case global: x 1544, y 738, w 263, h 288
+  Relative to disks group: x 25, y 15
+
+  The IMAGE, HITBOX, GLOW, and LABEL are deliberately separate layers.
+  Nothing on hover can change the image's 263 x 288 size.
+*/
+.oblor-disk-button {
+  position: absolute;
+  left: 25px;
+  top: 15px;
+  width: 263px;
+  height: 288px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  cursor: pointer;
+  z-index: 6;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.oblor-disk-image {
+  position: absolute;
+  left: 25px;
+  top: 15px;
+  width: 263px;
+  height: 288px;
+  display: block;
+  object-fit: fill;
+  max-width: none;
+  max-height: none;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.oblor-disk-glow {
+  position: absolute;
+  left: 25px;
+  top: 15px;
+  width: 263px;
+  height: 288px;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  filter: drop-shadow(0 0 8px rgba(255, 238, 148, 0.95))
+    drop-shadow(0 0 18px rgba(255, 234, 118, 0.72));
+}
+
+/* The glow uses the exact case silhouette without affecting the visible image. */
+.oblor-disk-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("assets/intro/oblor-disk.png") center / 263px 288px no-repeat;
+}
+
+.get-cd-hint {
+  position: absolute;
+  left: calc(25px + 149.5px);
+  top: -25px;
+  transform: translateX(-50%) rotate(5deg);
+  transform-origin: center;
+  width: 300px;
+  color: #fff0a5;
+  opacity: 0;
+  z-index: 7;
+  font-family: "Oblorian", "W95F", cursive;
+  font-size: 27px;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+  text-shadow: none;
+}
+
+.oblor-disk-button:hover ~ .oblor-disk-glow,
+.oblor-disk-button:focus-visible ~ .oblor-disk-glow {
+  opacity: 1;
+}
+
+.oblor-disk-button:hover ~ .get-cd-hint,
+.oblor-disk-button:focus-visible ~ .get-cd-hint {
+  opacity: 1;
+}
+
+/* After the case is clicked, the prompt stays gone. The visible case stays put. */
+.oblor-disk-button.is-used {
+  cursor: default;
+}
+
+.oblor-disk-button.is-used ~ .oblor-disk-glow,
+.oblor-disk-button.is-used ~ .get-cd-hint {
+  opacity: 0 !important;
+}
+
+/* ============================================================
+   FLOATING / DRAGGABLE CD
+   ============================================================ */
+.floating-cd {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 228px;
+  height: 231px;
+  display: block;
+  object-fit: contain;
+  z-index: 30;
+  cursor: grab;
+  touch-action: none;
+  will-change: left, top, transform;
+  filter: drop-shadow(0 9px 12px rgba(0, 0, 0, 0.36));
+}
+
+.floating-cd[hidden] {
+  display: none;
+}
+
+.floating-cd.is-dragging {
+  cursor: grabbing;
+  filter: drop-shadow(0 9px 12px rgba(0, 0, 0, 0.4))
+    drop-shadow(0 0 7px rgba(255, 239, 153, 0.35));
+}
+
+/* Logical only: no visible overlay. Left half of PC image. */
+.cd-drop-zone {
+  position: absolute;
+  left: 162px;
+  top: 197px;
+  width: 789px;
+  height: 1052px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ============================================================
+   FADE TO BLACK BEFORE NAVIGATING TO index.html
+   ============================================================ */
+.fade-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20000;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.fade-overlay.is-active {
+  opacity: 1;
+}
+
+/* ============================================================
+   RETURNING-VISITOR SKIP BUTTON
+   Only shown by intro.js after this browser has completed the
+   room interaction at least once. Kept outside the 1920x1080
+   stage so it stays in the same viewport corner at every size.
+   ============================================================ */
+.skip-intro-button {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 12000;
+  margin: 0;
+  padding: 7px 9px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.34);
+  color: rgba(255, 255, 255, 0.74);
+  font-family: "W95F", "PxPlus IBM VGA8", monospace;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: lowercase;
+  cursor: pointer;
+  opacity: 0;
+  animation: skip-intro-appear 0.28s ease 0.35s forwards;
+}
+
+.skip-intro-button[hidden] {
+  display: none;
+}
+
+.skip-intro-button:hover,
+.skip-intro-button:focus-visible {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.56);
+  border-color: rgba(255, 255, 255, 0.34);
+}
+
+.skip-intro-button:focus-visible {
+  outline: 1px dotted #fff;
+  outline-offset: 2px;
+}
+
+@keyframes skip-intro-appear {
+  to {
+    opacity: 1;
+  }
+}

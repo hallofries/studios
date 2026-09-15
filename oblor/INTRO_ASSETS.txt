@@ -1,0 +1,22 @@
+OBLOR INTRO — REQUIRED FILES
+
+Put these inside assets/intro/ exactly:
+
+background.png
+pc.png
+pc-cd-open.png
+note-state1.png
+note-state2.png
+disks.png
+oblor-disk.png
+floating-cd.png
+W95F.otf
+oblorian.ttf
+
+The existing index.html / oblor.css desktop files are NOT changed.
+Open intro.html to start the complete experience.
+
+Flow:
+intro.html -> existing index.html -> existing game/index.html
+
+Passcode: oblor11

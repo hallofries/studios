@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+
+    <title>OBLOR</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+
+        margin: 0;
+        padding: 0;
+
+        overflow: hidden;
+
+        background: #000;
+      }
+
+      body {
+        touch-action: none;
+      }
+
+      /*
+    ===========================================
+    FIXED 1920 × 1080 OBLOR FRAME
+    ===========================================
+    */
+
+      #game-stage {
+        --stage-scale: 1;
+
+        position: absolute;
+
+        left: 50%;
+        top: 50%;
+
+        width: 1920px;
+        height: 1080px;
+
+        overflow: hidden;
+
+        background: #000;
+
+        transform: translate(-50%, -50%) scale(var(--stage-scale));
+
+        transform-origin: center center;
+
+        border-radius: 18px;
+
+        border: 3px solid #303629;
+
+        box-shadow:
+          0 0 0 1px #444b38,
+          0 0 0 4px #1d2118,
+          inset 0 0 0 1px #4a513c,
+          0 12px 34px rgba(0, 0, 0, 0.78);
+      }
+
+      /*
+    ===========================================
+    GODOT CANVAS
+
+    IMPORTANT:
+    actual canvas = exactly 1920 × 1080.
+
+    The outer stage is what gets scaled.
+    ===========================================
+    */
+
+      #canvas {
+        display: block;
+
+        width: 1920px;
+        height: 1080px;
+
+        margin: 0;
+        padding: 0;
+
+        border: 0;
+
+        border-radius: 14px;
+
+        background: #000;
+
+        outline: none;
+      }
+
+      #canvas:focus {
+        outline: none;
+      }
+
+      /*
+    ===========================================
+    ERROR ONLY
+    ===========================================
+    */
+
+      #error {
+        position: absolute;
+
+        left: 50%;
+        top: 50%;
+
+        transform: translate(-50%, -50%);
+
+        display: none;
+
+        max-width: 700px;
+
+        padding: 20px 24px;
+
+        color: #fff;
+
+        background: #000;
+
+        border: 1px solid #303629;
+
+        border-radius: 8px;
+
+        font-family: Tahoma, Arial, sans-serif;
+
+        font-size: 16px;
+
+        line-height: 1.45;
+
+        text-align: center;
+
+        z-index: 10;
+      }
+
+      #error.is-visible {
+        display: block;
+      }
+      .return-button {
+        position: fixed;
+
+        left: 50%;
+        top: 14px;
+
+        transform: translateX(-50%);
+
+        z-index: 99999;
+
+        min-width: 122px;
+
+        padding: 6px 15px 7px;
+
+        border: 1px solid #2b3023;
+
+        border-radius: 4px;
+
+        color: #929a82;
+
+        background: linear-gradient(
+          180deg,
+          #414735 0%,
+          #303629 48%,
+          #24291f 100%
+        );
+
+        box-shadow:
+          inset 1px 1px 0 rgba(255, 255, 255, 0.10),
+          inset -1px -1px 0 #191d16,
+          0 2px 5px rgba(0, 0, 0, 0.7);
+
+        font-family: Tahoma, Arial, sans-serif;
+
+        font-size: 14px;
+
+        line-height: 1;
+
+        text-align: center;
+
+        text-decoration: none;
+
+        cursor: default;
+
+        transition:
+          background 0.12s ease,
+          color 0.12s ease,
+          border-color 0.12s ease;
+      }
+
+      .return-button:hover {
+        color: #111;
+
+        border-color: #65704b;
+
+        background: linear-gradient(
+          180deg,
+          #f5f7df 0%,
+          #d8dfb9 48%,
+          #a9b27d 100%
+        );
+
+        box-shadow:
+          inset 1px 1px 0 #fff,
+          inset -1px -1px 0 #707955,
+          0 2px 5px rgba(0, 0, 0, 0.6);
+      }
+
+      .return-button:active {
+        padding-top: 7px;
+        padding-bottom: 6px;
+
+        box-shadow: inset 1px 1px 2px #66704c;
+      }
+
+
+      /*
+      ===========================================
+      PIXEL DOWNLOAD LOADER
+      ===========================================
+      */
+
+      @font-face {
+        font-family: "PxPlus IBM VGA8";
+        src:
+          url("../assets/intro/PxPlus_IBM_VGA8.ttf") format("truetype"),
+          url("../assets/intro/PxPlus IBM VGA8.ttf") format("truetype");
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+      }
+
+      #game-stage {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      #game-stage.is-ready {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      #oblor-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 100000;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #000;
+        color: #31f074;
+
+        font-family: "PxPlus IBM VGA8", "Courier New", monospace;
+        image-rendering: pixelated;
+      }
+
+      #oblor-loader.is-done {
+        display: none;
+      }
+
+      .pixel-loader {
+        width: min(520px, calc(100vw - 56px));
+        text-align: left;
+      }
+
+      .pixel-loader-title {
+        margin: 0 0 18px;
+        font-size: 24px;
+        line-height: 1;
+        letter-spacing: 0;
+        font-weight: 400;
+      }
+
+      .pixel-loader-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .pixel-loader-track {
+        flex: 1;
+        height: 22px;
+        display: grid;
+        grid-template-columns: repeat(24, 1fr);
+        gap: 3px;
+        padding: 3px;
+        border: 2px solid #31f074;
+        background: #000;
+      }
+
+      .pixel-loader-block {
+        display: block;
+        min-width: 0;
+        background: transparent;
+      }
+
+      .pixel-loader-block.is-filled {
+        background: #31f074;
+      }
+
+      .pixel-loader-percent {
+        width: 54px;
+        flex: 0 0 54px;
+        font-size: 20px;
+        line-height: 1;
+        text-align: right;
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="oblor-loader" aria-live="polite" aria-label="Loading OBLOR">
+      <div class="pixel-loader">
+        <div class="pixel-loader-title">LOADING OBLOR...</div>
+        <div class="pixel-loader-row">
+          <div class="pixel-loader-track" id="pixel-loader-track" aria-hidden="true">
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+            <span class="pixel-loader-block"></span>
+          </div>
+          <div class="pixel-loader-percent" id="pixel-loader-percent">0%</div>
+        </div>
+      </div>
+    </div>
+    <a class="return-button" href="../index.html?return=1"> ← desktop </a>
+    <div id="game-stage">
+      <canvas id="canvas" width="1920" height="1080" tabindex="1">
+        Your browser does not support the canvas tag.
+      </canvas>
+
+      <div id="error"></div>
+    </div>
+
+    <noscript> JavaScript is required to play OBLOR. </noscript>
+
+    <script src="index.js" onerror="document.getElementById('pixel-loader-percent').textContent='ERROR'; document.querySelector('.pixel-loader-title').textContent='GAME FILES NOT FOUND';"></script>
+
+    <script>
+      /*
+    ===========================================
+    FRAME SCALING
+    ===========================================
+    */
+
+      const BASE_WIDTH = 1920;
+      const BASE_HEIGHT = 1080;
+
+      const stage = document.getElementById("game-stage");
+
+      const canvas = document.getElementById("canvas");
+
+      function resizeStage() {
+        const scaleX = window.innerWidth / BASE_WIDTH;
+
+        const scaleY = window.innerHeight / BASE_HEIGHT;
+
+        /*
+        92% gives us the black gap around
+        the frame on ALL sides.
+      */
+
+        const stageScale = Math.min(1, scaleX * 0.92, scaleY * 0.92);
+
+        stage.style.setProperty("--stage-scale", stageScale);
+      }
+
+      resizeStage();
+
+      window.addEventListener("resize", resizeStage);
+
+      /*
+    ===========================================
+    KEEP GODOT CANVAS FIXED
+
+    Godot must NOT resize this based on the
+    browser window.
+
+    The canvas stays 1920 × 1080.
+
+    We scale only the outer frame.
+    ===========================================
+    */
+
+      canvas.width = BASE_WIDTH;
+      canvas.height = BASE_HEIGHT;
+
+      /*
+    ===========================================
+    GODOT CONFIG
+    ===========================================
+    */
+
+      const GODOT_CONFIG = {
+        args: [],
+
+        /*
+        0 = HTML controls canvas size.
+      */
+        canvasResizePolicy: 0,
+
+        emscriptenPoolSize: 8,
+
+        ensureCrossOriginIsolationHeaders: true,
+
+        executable: "index",
+
+        experimentalVK: false,
+
+        fileSizes: {
+          "index.pck": 66098832,
+          "index.wasm": 36145869,
+        },
+
+        focusCanvas: true,
+
+        gdextensionLibs: [],
+
+        godotPoolSize: 4,
+      };
+
+      const GODOT_THREADS_ENABLED = false;
+
+      const engine = new Engine(GODOT_CONFIG);
+
+      const errorBox = document.getElementById("error");
+
+      const loader = document.getElementById("oblor-loader");
+      const loaderPercent = document.getElementById("pixel-loader-percent");
+      const loaderBlocks = Array.from(
+        document.querySelectorAll(".pixel-loader-block"),
+      );
+
+      const EXPECTED_DOWNLOAD_BYTES = Object.values(
+        GODOT_CONFIG.fileSizes,
+      ).reduce((sum, size) => sum + size, 0);
+
+      function setLoaderProgress(current, total) {
+        const knownTotal = total > 0 ? total : EXPECTED_DOWNLOAD_BYTES;
+        let ratio = knownTotal > 0 ? current / knownTotal : 0;
+
+        ratio = Math.max(0, Math.min(1, ratio));
+
+        const filled = Math.round(ratio * loaderBlocks.length);
+        const percent = Math.round(ratio * 100);
+
+        loaderBlocks.forEach((block, index) => {
+          block.classList.toggle("is-filled", index < filled);
+        });
+
+        loaderPercent.textContent = `${percent}%`;
+      }
+
+      function finishLoader() {
+        setLoaderProgress(1, 1);
+        stage.classList.add("is-ready");
+        loader.classList.add("is-done");
+      }
+
+      setLoaderProgress(0, 1);
+
+      /*
+    ===========================================
+    ERRORS
+    ===========================================
+    */
+
+      function showError(error) {
+        console.error(error);
+
+        let message = "OBLOR could not be started.";
+
+        if (error instanceof Error) {
+          message = error.message;
+        } else if (typeof error === "string") {
+          message = error;
+        }
+
+        errorBox.textContent = message;
+
+        stage.classList.add("is-ready");
+        loader.classList.add("is-done");
+        errorBox.classList.add("is-visible");
+      }
+
+      /*
+    ===========================================
+    START GAME
+    ===========================================
+    */
+
+      (async function startOblor() {
+        const missing = Engine.getMissingFeatures({
+          threads: GODOT_THREADS_ENABLED,
+        });
+
+        if (missing.length !== 0) {
+          showError(
+            "This browser is missing features required to run OBLOR:\n" +
+              missing.join(", "),
+          );
+
+          return;
+        }
+
+        try {
+          await engine.startGame({
+            /*
+            Explicitly tell Godot to use OUR
+            fixed canvas.
+          */
+
+            canvas: canvas,
+
+            /*
+            Do not resize it.
+          */
+
+            canvasResizePolicy: 0,
+
+            /*
+            No loading UI whatsoever.
+          */
+
+            onProgress: function (current, total) {
+              setLoaderProgress(current, total);
+            },
+          });
+
+          finishLoader();
+        } catch (error) {
+          showError(error);
+        }
+      })();
+    </script>
+  </body>
+</html>

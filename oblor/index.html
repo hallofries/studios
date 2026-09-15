@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>OBLOR</title>
+
+    <link rel="stylesheet" href="oblor.css" />
+  </head>
+
+  <body>
+    <!-- BACK TO MAIN PORTFOLIO -->
+    <a class="return-button" href="intro.html" target="_top"> ← go back </a>
+
+    <div id="stage" class="oblor-stage">
+      <main id="desktop" class="desktop" aria-label="OBLOR desktop">
+        <!-- PICTURES -->
+        <button
+          class="desktop-icon"
+          data-desktop-id="pictures"
+          data-open="pictures"
+          style="--x: 21%; --y: 18%"
+        >
+          <img src="assets/pictures.png" alt="" draggable="false" />
+
+          <span>Pictures</span>
+        </button>
+
+        <!-- PROCESS -->
+        <button
+          class="desktop-icon"
+          data-desktop-id="process"
+          data-open="process"
+          style="--x: 16%; --y: 34%"
+        >
+          <img src="assets/folder.png" alt="" draggable="false" />
+
+          <span>Process</span>
+        </button>
+
+        <!-- SKETCHES -->
+        <button
+          class="desktop-icon"
+          data-desktop-id="sketches"
+          data-open="sketches"
+          style="--x: 86%; --y: 27%"
+        >
+          <img src="assets/folder.png" alt="" draggable="false" />
+
+          <span>Sketches</span>
+        </button>
+
+        <!-- README -->
+        <button
+          class="desktop-icon"
+          data-desktop-id="readme"
+          data-open="readme"
+          style="--x: 84%; --y: 51%"
+        >
+          <img src="assets/notepad.png" alt="" draggable="false" />
+
+          <span>README.txt</span>
+        </button>
+
+        <!-- RECYCLE BIN -->
+        <button
+          class="desktop-icon"
+          data-desktop-id="recycle"
+          data-open="recycle"
+          style="--x: 95.1%; --y: 89.5%"
+        >
+          <img src="assets/recycle-bin.png" alt="" draggable="false" />
+
+          <span>Recycle Bin</span>
+        </button>
+
+        <!-- OBLOR.EXE -->
+        <button
+          id="oblorExe"
+          class="desktop-icon"
+          data-desktop-id="oblor"
+          style="--x: 49%; --y: 38%"
+        >
+          <img src="assets/icon.png" alt="" draggable="false" />
+
+          <span>OBLOR.exe</span>
+        </button>
+
+        <!-- WELCOME -->
+        <section id="welcome" class="xp-notification" role="status">
+          <button class="xp-notification__close" aria-label="Close">+</button>
+
+          <div class="xp-notification__heading">
+            <img src="assets/info.png" alt="" />
+
+            <strong> Welcome to OBLOR </strong>
+          </div>
+
+          <p>
+            Hello. Welcome to OBLOR.<br />
+            The disk is loading... happy exploring.
+          </p>
+        </section>
+
+        <div id="windows"></div>
+      </main>
+    </div>
+
+    <!-- WINDOW TEMPLATE -->
+    <template id="windowTemplate">
+      <section class="xp-window" data-active="true">
+        <div class="xp-window__shell">
+          <header class="xp-titlebar">
+            <div class="xp-titlebar__title">
+              <img
+                class="xp-titlebar__icon"
+                src="assets/folder-small.png"
+                alt=""
+              />
+
+              <span></span>
+            </div>
+
+            <div class="xp-titlebar__controls">
+              <button data-action="minimize" aria-label="Minimize"></button>
+
+              <button data-action="maximize" aria-label="Maximize"></button>
+
+              <button data-action="close" aria-label="Close"></button>
+            </div>
+          </header>
+
+          <div class="xp-window__content"></div>
+        </div>
+      </section>
+    </template>
+
+    <script>
+      const BASE_WIDTH = 1920;
+      const BASE_HEIGHT = 1080;
+
+      const stage = document.getElementById("stage");
+
+      const desktop = document.getElementById("desktop");
+
+      const windowsHost = document.getElementById("windows");
+
+      const windowTemplate = document.getElementById("windowTemplate");
+
+      let stageScale = 1;
+      let topZ = 20;
+      let windowCount = 0;
+
+      /*
+    ==========================================
+    FRAME SCALE
+    ==========================================
+    */
+
+      function resizeStage() {
+        const scaleX = window.innerWidth / BASE_WIDTH;
+
+        const scaleY = window.innerHeight / BASE_HEIGHT;
+
+        stageScale = Math.min(1, scaleX * 0.92, scaleY * 0.92);
+
+        stage.style.setProperty("--stage-scale", stageScale);
+      }
+
+      resizeStage();
+
+      window.addEventListener("resize", resizeStage);
+
+      // Fade the complete desktop in from black when this page opens.
+      // Two animation frames ensure the browser paints the initial black state first.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          document.body.classList.add("page-ready");
+        });
+      });
+
+      /*
+    ==========================================
+    CONTENT
+    ==========================================
+    */
+
+      const folderData = {
+        process: {
+          title: "Process",
+          icon: "assets/folder-small.png",
+          type: "folder",
+
+          files: [
+            {
+              name: "development-notes.txt",
+              type: "text",
+              text: "Development notes for OBLOR will live here.",
+            },
+
+            {
+              name: "prototype-01.jpg",
+              type: "image",
+              src: "assets/wallpaper.jpg",
+            },
+          ],
+        },
+
+        sketches: {
+          title: "Sketches",
+          icon: "assets/folder-small.png",
+          type: "folder",
+
+          files: [
+            {
+              name: "sketch-01.jpg",
+              type: "image",
+              src: "assets/wallpaper.jpg",
+            },
+
+            {
+              name: "sketch-02.jpg",
+              type: "image",
+              src: "assets/wallpaper.jpg",
+            },
+          ],
+        },
+
+        pictures: {
+          title: "Pictures",
+          icon: "assets/pictures.png",
+          type: "folder",
+
+          files: [
+            {
+              name: "oblor-01.jpg",
+              type: "image",
+              src: "assets/wallpaper.jpg",
+            },
+
+            {
+              name: "oblor-02.jpg",
+              type: "image",
+              src: "assets/wallpaper.jpg",
+            },
+          ],
+        },
+
+        recycle: {
+          title: "Recycle Bin",
+          icon: "assets/recycle-bin.png",
+          type: "folder",
+
+          files: [
+            {
+              name: "???",
+              type: "text",
+              text: "You can put something strange here later.",
+            },
+          ],
+        },
+
+        readme: {
+          title: "README.txt",
+          icon: "assets/notepad.png",
+          type: "text",
+
+          text: `Welcome to OBLOR.
+
+This desktop is part of the project.
+
+Explore the folders, then launch OBLOR.exe.`,
+        },
+      };
+
+      /*
+    ==========================================
+    ACTIVE WINDOW
+    ==========================================
+    */
+
+      function setActive(win) {
+        document.querySelectorAll(".xp-window").forEach((item) => {
+          item.dataset.active = "false";
+        });
+
+        if (!win) return;
+
+        win.dataset.active = "true";
+
+        win.style.zIndex = ++topZ;
+      }
+
+      /*
+    ==========================================
+    DRAGGING
+    ==========================================
+    */
+
+      function makeDraggable(win, titlebar) {
+        let dragging = false;
+
+        let offsetX = 0;
+        let offsetY = 0;
+
+        titlebar.addEventListener("pointerdown", (event) => {
+          if (event.target.closest("button")) {
+            return;
+          }
+
+          if (win.dataset.maximized === "true") {
+            return;
+          }
+
+          dragging = true;
+
+          const windowRect = win.getBoundingClientRect();
+
+          offsetX = (event.clientX - windowRect.left) / stageScale;
+
+          offsetY = (event.clientY - windowRect.top) / stageScale;
+
+          titlebar.setPointerCapture(event.pointerId);
+
+          setActive(win);
+        });
+
+        titlebar.addEventListener("pointermove", (event) => {
+          if (!dragging) return;
+
+          const stageRect = stage.getBoundingClientRect();
+
+          let x = (event.clientX - stageRect.left) / stageScale - offsetX;
+
+          let y = (event.clientY - stageRect.top) / stageScale - offsetY;
+
+          const maxX = BASE_WIDTH - win.offsetWidth;
+
+          const maxY = BASE_HEIGHT - win.offsetHeight;
+
+          x = Math.max(0, Math.min(maxX, x));
+
+          y = Math.max(0, Math.min(maxY, y));
+
+          win.style.left = x + "px";
+
+          win.style.top = y + "px";
+        });
+
+        titlebar.addEventListener("pointerup", () => {
+          dragging = false;
+        });
+      }
+
+      /*
+    ==========================================
+    WINDOW CREATION
+    ==========================================
+    */
+
+      function createWindow({
+        title,
+        icon,
+        width = 720,
+        height = 500,
+        content,
+      }) {
+        const node = windowTemplate.content.firstElementChild.cloneNode(true);
+
+        ++windowCount;
+
+        node.style.width = width + "px";
+
+        node.style.height = height + "px";
+
+        const cascadeX = (windowCount - 1) * 18;
+
+        const cascadeY = (windowCount - 1) * 14;
+
+        node.style.left =
+          Math.max(20, (BASE_WIDTH - width) / 2 + cascadeX) + "px";
+
+        node.style.top =
+          Math.max(20, (BASE_HEIGHT - height) / 2 + cascadeY) + "px";
+
+        const titlebar = node.querySelector(".xp-titlebar");
+
+        node.querySelector(".xp-titlebar__icon").src = icon;
+
+        node.querySelector(".xp-titlebar__title span").textContent = title;
+
+        node.querySelector(".xp-window__content").append(content);
+
+        windowsHost.appendChild(node);
+
+        makeDraggable(node, titlebar);
+
+        node.addEventListener("pointerdown", () => setActive(node));
+
+        node
+          .querySelector('[data-action="close"]')
+          .addEventListener("click", () => node.remove());
+
+        node
+          .querySelector('[data-action="minimize"]')
+          .addEventListener("click", () => node.remove());
+
+        node
+          .querySelector('[data-action="maximize"]')
+          .addEventListener("click", () => toggleMaximize(node));
+
+        titlebar.addEventListener("dblclick", (event) => {
+          if (!event.target.closest("button")) {
+            toggleMaximize(node);
+          }
+        });
+
+        setActive(node);
+
+        return node;
+      }
+
+      /*
+    ==========================================
+    MAXIMIZE
+    ==========================================
+    */
+
+      function toggleMaximize(win) {
+        if (win.dataset.maximized === "true") {
+          const previous = JSON.parse(win.dataset.restore || "{}");
+
+          Object.assign(win.style, previous);
+
+          win.dataset.maximized = "false";
+        } else {
+          win.dataset.restore = JSON.stringify({
+            left: win.style.left,
+            top: win.style.top,
+            width: win.style.width,
+            height: win.style.height,
+          });
+
+          Object.assign(win.style, {
+            left: "0px",
+            top: "0px",
+            width: "1920px",
+            height: "1080px",
+          });
+
+          win.dataset.maximized = "true";
+        }
+      }
+
+      /*
+    ==========================================
+    FOLDER
+    ==========================================
+    */
+
+      function folderView(data) {
+        const wrap = document.createElement("div");
+
+        wrap.className = "folder-view";
+
+        data.files.forEach((file) => {
+          const button = document.createElement("button");
+
+          button.className = "file-item";
+
+          const icon =
+            file.type === "image"
+              ? "assets/jpg-file.png"
+              : "assets/notepad.png";
+
+          button.innerHTML = `
+            <img
+              src="${icon}"
+              alt=""
+              draggable="false"
+            >
+
+            <span>
+              ${file.name}
+            </span>
+          `;
+
+          button.addEventListener("dblclick", () => {
+            if (file.type === "image") {
+              openImage(file);
+            } else {
+              openText(file.name, file.text);
+            }
+          });
+
+          wrap.appendChild(button);
+        });
+
+        return wrap;
+      }
+
+      function openFolder(data) {
+        createWindow({
+          title: data.title,
+          icon: data.icon,
+          width: 860,
+          height: 600,
+          content: folderView(data),
+        });
+      }
+
+      /*
+    ==========================================
+    TEXT
+    ==========================================
+    */
+
+      function openText(title, text) {
+        const textarea = document.createElement("textarea");
+
+        textarea.className = "notepad-area";
+
+        textarea.value = text || "";
+
+        textarea.spellcheck = false;
+
+        createWindow({
+          title,
+          icon: "assets/notepad.png",
+          width: 800,
+          height: 580,
+          content: textarea,
+        });
+      }
+
+      /*
+    ==========================================
+    IMAGE
+    ==========================================
+    */
+
+      function openImage(file) {
+        const viewer = document.createElement("div");
+
+        viewer.className = "image-viewer";
+
+        viewer.innerHTML = `
+        <img
+          src="${file.src}"
+          alt="${file.name}"
+          draggable="false"
+        >
+      `;
+
+        createWindow({
+          title: file.name,
+          icon: "assets/jpg-file.png",
+          width: 1040,
+          height: 740,
+          content: viewer,
+        });
+      }
+
+      /*
+    ==========================================
+    DESKTOP ICONS
+    ==========================================
+    */
+
+      /*
+    ==========================================
+    DESKTOP ICON DRAGGING
+    ==========================================
+    */
+
+      const ICON_POSITIONS_KEY = "oblorDesktopIconPositions";
+
+      function loadIconPositions() {
+        try {
+          return JSON.parse(sessionStorage.getItem(ICON_POSITIONS_KEY) || "{}");
+        } catch {
+          return {};
+        }
+      }
+
+      function saveIconPosition(icon) {
+        const id = icon.dataset.desktopId;
+        if (!id) return;
+
+        const positions = loadIconPositions();
+        positions[id] = {
+          left: icon.style.left,
+          top: icon.style.top,
+        };
+
+        sessionStorage.setItem(ICON_POSITIONS_KEY, JSON.stringify(positions));
+      }
+
+      function restoreIconPositions() {
+        const positions = loadIconPositions();
+
+        document
+          .querySelectorAll(".desktop-icon[data-desktop-id]")
+          .forEach((icon) => {
+            const saved = positions[icon.dataset.desktopId];
+            if (!saved) return;
+
+            icon.style.left = saved.left;
+            icon.style.top = saved.top;
+          });
+      }
+
+      function makeDesktopIconDraggable(icon) {
+        let dragging = false;
+        let moved = false;
+        let startClientX = 0;
+        let startClientY = 0;
+        let startCenterX = 0;
+        let startCenterY = 0;
+
+        icon.addEventListener("pointerdown", (event) => {
+          if (event.button !== 0) return;
+
+          const stageRect = stage.getBoundingClientRect();
+          const iconRect = icon.getBoundingClientRect();
+
+          startClientX = event.clientX;
+          startClientY = event.clientY;
+
+          startCenterX =
+            (iconRect.left - stageRect.left + iconRect.width / 2) / stageScale;
+          startCenterY =
+            (iconRect.top - stageRect.top + iconRect.height / 2) / stageScale;
+
+          dragging = true;
+          moved = false;
+
+          icon.setPointerCapture(event.pointerId);
+        });
+
+        icon.addEventListener("pointermove", (event) => {
+          if (!dragging) return;
+
+          const dx = (event.clientX - startClientX) / stageScale;
+          const dy = (event.clientY - startClientY) / stageScale;
+
+          if (Math.hypot(dx, dy) > 4) {
+            moved = true;
+          }
+
+          if (!moved) return;
+
+          const halfWidth = icon.offsetWidth / 2;
+          const halfHeight = icon.offsetHeight / 2;
+
+          const x = Math.max(
+            halfWidth,
+            Math.min(BASE_WIDTH - halfWidth, startCenterX + dx),
+          );
+
+          const y = Math.max(
+            halfHeight,
+            Math.min(BASE_HEIGHT - halfHeight, startCenterY + dy),
+          );
+
+          icon.style.left = x + "px";
+          icon.style.top = y + "px";
+        });
+
+        function finishDrag(event) {
+          if (!dragging) return;
+
+          dragging = false;
+
+          try {
+            icon.releasePointerCapture(event.pointerId);
+          } catch {}
+
+          if (moved) {
+            icon.dataset.justDragged = "true";
+            saveIconPosition(icon);
+
+            setTimeout(() => {
+              delete icon.dataset.justDragged;
+            }, 250);
+          }
+        }
+
+        icon.addEventListener("pointerup", finishDrag);
+        icon.addEventListener("pointercancel", finishDrag);
+      }
+
+      restoreIconPositions();
+
+      document
+        .querySelectorAll(".desktop-icon[data-desktop-id]")
+        .forEach(makeDesktopIconDraggable);
+
+      // Windows XP-style desktop selection: every icon can be selected,
+      // including OBLOR.exe. Use pointerdown so the state appears immediately
+      // on the first click of a double-click.
+      document
+        .querySelectorAll(".desktop-icon[data-desktop-id]")
+        .forEach((icon) => {
+          icon.addEventListener("pointerdown", () => {
+            document.querySelectorAll(".desktop-icon").forEach((item) => {
+              item.dataset.selected = "false";
+            });
+
+            icon.dataset.selected = "true";
+          });
+        });
+
+      document.querySelectorAll(".desktop-icon[data-open]").forEach((icon) => {
+        icon.addEventListener("dblclick", () => {
+          if (icon.dataset.justDragged === "true") return;
+
+          const data = folderData[icon.dataset.open];
+
+          if (!data) return;
+
+          if (data.type === "folder") {
+            openFolder(data);
+          } else {
+            openText(data.title, data.text);
+          }
+        });
+      });
+
+      desktop.addEventListener("pointerdown", (event) => {
+        if (
+          !event.target.closest(".desktop-icon, .xp-window, .xp-notification")
+        ) {
+          document.querySelectorAll(".desktop-icon").forEach((icon) => {
+            icon.dataset.selected = "false";
+          });
+        }
+      });
+
+      /*
+    ==========================================
+    WELCOME
+    ==========================================
+    */
+
+      const welcome = document.getElementById("welcome");
+
+      const oblorExe = document.getElementById("oblorExe");
+
+      document
+        .querySelector(".xp-notification__close")
+        .addEventListener("click", () => {
+          welcome.classList.add("is-hidden");
+        });
+
+      const returnedFromGame =
+        new URLSearchParams(window.location.search).get("return") === "1";
+
+      const introSeen =
+        sessionStorage.getItem("oblorIntroSeen") === "1" || returnedFromGame;
+
+      if (returnedFromGame) {
+        sessionStorage.setItem("oblorIntroSeen", "1");
+
+        // Keep the address clean after returning from the game.
+        history.replaceState({}, "", window.location.pathname);
+      }
+
+      if (introSeen) {
+        welcome.classList.add("is-hidden");
+        oblorExe.classList.add("is-visible");
+      } else {
+        // Mark the intro as seen for this browser tab/session.
+        sessionStorage.setItem("oblorIntroSeen", "1");
+
+        setTimeout(() => {
+          welcome.classList.add("is-visible");
+        }, 450);
+
+        setTimeout(() => {
+          welcome.classList.add("is-hidden");
+        }, 4600);
+
+        // OBLOR.exe is already visible with the rest of the desktop.
+        // Keep this class for compatibility with older CSS/builds.
+        oblorExe.classList.add("is-visible");
+      }
+
+      /*
+    ==========================================
+    GAME
+    ==========================================
+    */
+
+      oblorExe.addEventListener("dblclick", () => {
+        if (oblorExe.dataset.justDragged === "true") return;
+
+        oblorExe.dataset.selected = "true";
+
+        setTimeout(() => {
+          window.location.href = "game/index.html";
+        }, 110);
+      });
+    </script>
+  </body>
+</html>

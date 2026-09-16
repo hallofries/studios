@@ -1,3 +1,11 @@
+:root {
+  --oblor-mobile-desktop: 0;
+}
+@media (max-width: 768px) {
+  :root {
+    --oblor-mobile-desktop: 1;
+  }
+}
 * {
   box-sizing: border-box;
 }
@@ -768,4 +776,247 @@ WELCOME
   transform: rotate(45deg);
 
   cursor: default;
+}
+
+/* ============================================================
+   MOBILE FAKE DESKTOP
+   Single-tap interactions, full-viewport wallpaper, touch-sized icons,
+   and phone-friendly windows. Desktop behavior is unchanged.
+   ============================================================ */
+html.mobile-desktop,
+html.mobile-desktop body {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+html.mobile-desktop body {
+  touch-action: manipulation;
+}
+
+html.mobile-desktop .oblor-stage {
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  transform: none;
+  transform-origin: left top;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+html.mobile-desktop .desktop {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  background-position: center center;
+  background-size: cover;
+}
+
+html.mobile-desktop .return-button {
+  top: max(10px, env(safe-area-inset-top));
+  min-width: 92px;
+  padding: 7px 10px 8px;
+  font-size: 12px;
+}
+
+/* The mobile desktop keeps the scattered XP feel but uses a readable layout. */
+html.mobile-desktop .desktop-icon {
+  width: 94px;
+  transform: translate(-50%, -50%);
+  touch-action: manipulation;
+}
+
+html.mobile-desktop .desktop-icon img {
+  width: 68px;
+  height: 60px;
+  margin: 4px auto 4px;
+  padding: 0 5px;
+}
+
+html.mobile-desktop .desktop-icon span {
+  max-width: 94px;
+  padding: 2px 3px 3px;
+  font-size: 13px;
+  line-height: 16px;
+}
+
+html.mobile-desktop .desktop-icon[data-desktop-id="pictures"] {
+  left: 26% !important;
+  top: 22% !important;
+}
+
+html.mobile-desktop .desktop-icon[data-desktop-id="process"] {
+  left: 19% !important;
+  top: 76% !important;
+}
+
+html.mobile-desktop .desktop-icon[data-desktop-id="sketches"] {
+  left: 78% !important;
+  top: 13% !important;
+}
+
+html.mobile-desktop .desktop-icon[data-desktop-id="readme"] {
+  left: 78% !important;
+  top: 66% !important;
+}
+
+html.mobile-desktop .desktop-icon[data-desktop-id="oblor"] {
+  left: 50% !important;
+  top: 43% !important;
+}
+
+html.mobile-desktop .desktop-icon[data-desktop-id="recycle"] {
+  left: 82% !important;
+  top: 89% !important;
+}
+
+/* Windows act like mobile sheets instead of draggable desktop windows. */
+html.mobile-desktop .xp-window {
+  left: 10px !important;
+  top: max(64px, calc(env(safe-area-inset-top) + 54px)) !important;
+  width: calc(100vw - 20px) !important;
+  height: calc(100vh - 84px) !important;
+  height: calc(100dvh - 84px - env(safe-area-inset-bottom)) !important;
+  min-width: 0;
+  min-height: 0;
+  padding: 3px;
+}
+
+html.mobile-desktop .xp-window.mobile-maximized {
+  left: 0 !important;
+  top: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  padding: 0;
+}
+
+html.mobile-desktop .xp-window__shell {
+  border-radius: 8px 8px 1px 1px;
+}
+
+html.mobile-desktop .xp-titlebar {
+  height: 44px;
+  margin: -4px -1px -1px;
+  gap: 8px;
+  font-size: 15px;
+  touch-action: manipulation;
+}
+
+html.mobile-desktop .xp-titlebar__icon {
+  width: 22px;
+  height: 22px;
+  margin: 0 7px;
+}
+
+html.mobile-desktop .xp-titlebar__controls [data-action="minimize"],
+html.mobile-desktop .xp-titlebar__controls [data-action="maximize"] {
+  display: none;
+}
+
+html.mobile-desktop .xp-titlebar__controls [data-action="close"] {
+  width: 38px;
+  height: 34px;
+}
+
+html.mobile-desktop .xp-window__content {
+  height: calc(100% - 39px);
+  -webkit-overflow-scrolling: touch;
+}
+
+html.mobile-desktop .folder-view {
+  padding: 12px;
+  display: block;
+}
+
+html.mobile-desktop .file-item {
+  width: 100%;
+  min-height: 76px;
+  padding: 7px 6px;
+  gap: 12px;
+  touch-action: manipulation;
+}
+
+html.mobile-desktop .file-item:active {
+  background: rgba(49, 106, 197, 0.16);
+}
+
+html.mobile-desktop .file-item img {
+  width: 58px;
+  height: 58px;
+  flex: 0 0 58px;
+}
+
+html.mobile-desktop .file-item span {
+  font-size: 16px;
+  line-height: 20px;
+}
+
+html.mobile-desktop .notepad-area {
+  padding: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+html.mobile-desktop .xp-notification {
+  width: calc(100vw - 30px);
+  max-width: 430px;
+  padding: 15px 16px 16px;
+  font-size: 14px;
+  line-height: 19px;
+}
+
+html.mobile-desktop .xp-notification p {
+  margin: 9px 0 0 40px;
+}
+
+html.mobile-desktop .xp-notification__heading img {
+  width: 28px;
+  height: 28px;
+}
+
+@media (orientation: landscape) and (max-height: 520px) {
+  html.mobile-desktop .desktop-icon {
+    width: 86px;
+  }
+
+  html.mobile-desktop .desktop-icon img {
+    width: 58px;
+    height: 50px;
+  }
+
+  html.mobile-desktop .desktop-icon span {
+    font-size: 12px;
+    line-height: 14px;
+  }
+
+  html.mobile-desktop .desktop-icon[data-desktop-id="pictures"] {
+    left: 11% !important;
+    top: 27% !important;
+  }
+  html.mobile-desktop .desktop-icon[data-desktop-id="process"] {
+    left: 27% !important;
+    top: 27% !important;
+  }
+  html.mobile-desktop .desktop-icon[data-desktop-id="oblor"] {
+    left: 50% !important;
+    top: 50% !important;
+  }
+  html.mobile-desktop .desktop-icon[data-desktop-id="sketches"] {
+    left: 73% !important;
+    top: 27% !important;
+  }
+  html.mobile-desktop .desktop-icon[data-desktop-id="readme"] {
+    left: 89% !important;
+    top: 27% !important;
+  }
+  html.mobile-desktop .desktop-icon[data-desktop-id="recycle"] {
+    left: 89% !important;
+    top: 77% !important;
+  }
 }

@@ -7,7 +7,19 @@
 
     <title>OBLOR</title>
 
-    <link rel="stylesheet" href="oblor.css" />
+    <script>
+      (() => {
+        const mobile =
+          window.matchMedia("(max-width: 768px)").matches ||
+          window.matchMedia("(pointer: coarse)").matches ||
+          navigator.maxTouchPoints > 0 ||
+          document.documentElement.clientWidth <= 768 ||
+          window.innerWidth <= 768;
+        if (mobile) document.documentElement.classList.add("mobile-desktop");
+      })();
+    </script>
+
+    <link rel="stylesheet" href="oblor.css?v=14" />
   </head>
 
   <body>
@@ -149,6 +161,22 @@
 
       const windowTemplate = document.getElementById("windowTemplate");
 
+      const CSS_MOBILE =
+        getComputedStyle(document.documentElement)
+          .getPropertyValue("--oblor-mobile-desktop")
+          .trim() === "1";
+
+      const IS_MOBILE =
+        CSS_MOBILE ||
+        document.documentElement.classList.contains("mobile-desktop") ||
+        window.matchMedia("(max-width: 768px)").matches ||
+        window.matchMedia("(pointer: coarse)").matches ||
+        navigator.maxTouchPoints > 0 ||
+        document.documentElement.clientWidth <= 768 ||
+        window.innerWidth <= 768;
+
+      if (IS_MOBILE) document.documentElement.classList.add("mobile-desktop");
+
       let stageScale = 1;
       let topZ = 20;
       let windowCount = 0;
@@ -160,12 +188,18 @@
     */
 
       function resizeStage() {
-        const scaleX = window.innerWidth / BASE_WIDTH;
+        if (IS_MOBILE) {
+          // On phones the fake desktop becomes a true viewport UI instead of a
+          // tiny scaled 1920x1080 monitor. CSS handles its responsive geometry.
+          stageScale = 1;
+          stage.style.setProperty("--stage-scale", 1);
+          return;
+        }
 
+        const scaleX = window.innerWidth / BASE_WIDTH;
         const scaleY = window.innerHeight / BASE_HEIGHT;
 
         stageScale = Math.min(1, scaleX * 0.92, scaleY * 0.92);
-
         stage.style.setProperty("--stage-scale", stageScale);
       }
 
@@ -300,6 +334,8 @@ Explore the folders, then launch OBLOR.exe.`,
     */
 
       function makeDraggable(win, titlebar) {
+        if (IS_MOBILE) return;
+
         let dragging = false;
 
         let offsetX = 0;
@@ -429,6 +465,11 @@ Explore the folders, then launch OBLOR.exe.`,
     */
 
       function toggleMaximize(win) {
+        if (IS_MOBILE) {
+          win.classList.toggle("mobile-maximized");
+          return;
+        }
+
         if (win.dataset.maximized === "true") {
           const previous = JSON.parse(win.dataset.restore || "{}");
 
@@ -487,13 +528,15 @@ Explore the folders, then launch OBLOR.exe.`,
             </span>
           `;
 
-          button.addEventListener("dblclick", () => {
+          const openFile = () => {
             if (file.type === "image") {
               openImage(file);
             } else {
               openText(file.name, file.text);
             }
-          });
+          };
+
+          button.addEventListener(IS_MOBILE ? "click" : "dblclick", openFile);
 
           wrap.appendChild(button);
         });
@@ -692,11 +735,13 @@ Explore the folders, then launch OBLOR.exe.`,
         icon.addEventListener("pointercancel", finishDrag);
       }
 
-      restoreIconPositions();
+      if (!IS_MOBILE) {
+        restoreIconPositions();
 
-      document
-        .querySelectorAll(".desktop-icon[data-desktop-id]")
-        .forEach(makeDesktopIconDraggable);
+        document
+          .querySelectorAll(".desktop-icon[data-desktop-id]")
+          .forEach(makeDesktopIconDraggable);
+      }
 
       // Windows XP-style desktop selection: every icon can be selected,
       // including OBLOR.exe. Use pointerdown so the state appears immediately
@@ -714,11 +759,10 @@ Explore the folders, then launch OBLOR.exe.`,
         });
 
       document.querySelectorAll(".desktop-icon[data-open]").forEach((icon) => {
-        icon.addEventListener("dblclick", () => {
-          if (icon.dataset.justDragged === "true") return;
+        const openDesktopItem = () => {
+          if (!IS_MOBILE && icon.dataset.justDragged === "true") return;
 
           const data = folderData[icon.dataset.open];
-
           if (!data) return;
 
           if (data.type === "folder") {
@@ -726,7 +770,9 @@ Explore the folders, then launch OBLOR.exe.`,
           } else {
             openText(data.title, data.text);
           }
-        });
+        };
+
+        icon.addEventListener(IS_MOBILE ? "click" : "dblclick", openDesktopItem);
       });
 
       desktop.addEventListener("pointerdown", (event) => {
@@ -748,6 +794,14 @@ Explore the folders, then launch OBLOR.exe.`,
       const welcome = document.getElementById("welcome");
 
       const oblorExe = document.getElementById("oblorExe");
+
+      if (IS_MOBILE) {
+        const welcomeText = welcome.querySelector("p");
+        if (welcomeText) {
+          welcomeText.innerHTML =
+            "Hello. Welcome to OBLOR.<br>Tap an icon to open it. Tap OBLOR.exe when you’re ready.";
+        }
+      }
 
       document
         .querySelector(".xp-notification__close")
@@ -794,15 +848,17 @@ Explore the folders, then launch OBLOR.exe.`,
     ==========================================
     */
 
-      oblorExe.addEventListener("dblclick", () => {
-        if (oblorExe.dataset.justDragged === "true") return;
+      const launchOblor = () => {
+        if (!IS_MOBILE && oblorExe.dataset.justDragged === "true") return;
 
         oblorExe.dataset.selected = "true";
 
         setTimeout(() => {
           window.location.href = "game/index.html";
-        }, 110);
-      });
+        }, IS_MOBILE ? 90 : 110);
+      };
+
+      oblorExe.addEventListener(IS_MOBILE ? "click" : "dblclick", launchOblor);
     </script>
   </body>
 </html>

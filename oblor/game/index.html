@@ -5,7 +5,7 @@
 
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
 
     <title>OBLOR</title>
@@ -313,10 +313,128 @@
         text-align: right;
         white-space: nowrap;
       }
+
+
+      /* ===========================================
+         MOBILE ORIENTATION GATE
+         Portrait phones can load in the background, but the game itself stays
+         blocked until the device is turned to landscape.
+         =========================================== */
+      #rotate-gate {
+        position: fixed;
+        inset: 0;
+        z-index: 200000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding:
+          max(28px, env(safe-area-inset-top))
+          max(28px, env(safe-area-inset-right))
+          max(28px, env(safe-area-inset-bottom))
+          max(28px, env(safe-area-inset-left));
+        background: #000;
+        color: #31f074;
+        font-family: "PxPlus IBM VGA8", "Courier New", monospace;
+        text-align: center;
+      }
+
+      #rotate-gate.is-visible {
+        display: flex;
+      }
+
+      .rotate-gate-inner {
+        width: min(330px, 88vw);
+      }
+
+      .rotate-phone {
+        position: relative;
+        width: 54px;
+        height: 88px;
+        margin: 0 auto 26px;
+        border: 3px solid #31f074;
+        border-radius: 4px;
+        transform: rotate(0deg);
+        animation: rotate-phone-cue 1.8s steps(2, end) infinite;
+      }
+
+      .rotate-phone::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 6px;
+        width: 7px;
+        height: 7px;
+        transform: translateX(-50%);
+        background: #31f074;
+      }
+
+      .rotate-gate-title {
+        margin: 0;
+        font-size: 24px;
+        line-height: 1.08;
+        font-weight: 400;
+      }
+
+      .rotate-gate-copy {
+        margin: 14px 0 0;
+        color: rgba(49, 240, 116, 0.78);
+        font-size: 15px;
+        line-height: 1.25;
+      }
+
+      @keyframes rotate-phone-cue {
+        0%, 45% { transform: rotate(0deg); }
+        55%, 100% { transform: rotate(90deg); }
+      }
+
+      html.is-mobile-game #game-stage {
+        border-radius: 0;
+        border-width: 2px;
+        box-shadow: none;
+      }
+
+      html.is-mobile-game #canvas {
+        border-radius: 0;
+      }
+
+      html.is-mobile-game .return-button {
+        left: max(8px, env(safe-area-inset-left));
+        top: max(8px, env(safe-area-inset-top));
+        transform: none;
+        min-width: 90px;
+        padding: 7px 10px 8px;
+        font-size: 12px;
+        z-index: 250000;
+      }
+
+      @media (max-width: 700px) {
+        .pixel-loader-title {
+          font-size: 20px;
+        }
+
+        .pixel-loader-percent {
+          width: 46px;
+          flex-basis: 46px;
+          font-size: 17px;
+        }
+
+        .pixel-loader-track {
+          height: 20px;
+          gap: 2px;
+        }
+      }
     </style>
   </head>
 
   <body>
+    <div id="rotate-gate" aria-live="polite" aria-label="Rotate phone to landscape">
+      <div class="rotate-gate-inner">
+        <div class="rotate-phone" aria-hidden="true"></div>
+        <p class="rotate-gate-title">TURN YOUR PHONE<br />TO LANDSCAPE</p>
+        <p class="rotate-gate-copy">OBLOR needs a wider screen to play.</p>
+      </div>
+    </div>
+
     <div id="oblor-loader" aria-live="polite" aria-label="Loading OBLOR">
       <div class="pixel-loader">
         <div class="pixel-loader-title">LOADING OBLOR...</div>
@@ -374,6 +492,15 @@
       const BASE_WIDTH = 1920;
       const BASE_HEIGHT = 1080;
 
+      const IS_MOBILE_GAME =
+        window.matchMedia("(pointer: coarse)").matches ||
+        navigator.maxTouchPoints > 0 ||
+        Math.min(window.innerWidth, window.innerHeight) <= 700;
+
+      if (IS_MOBILE_GAME) {
+        document.documentElement.classList.add("is-mobile-game");
+      }
+
       const stage = document.getElementById("game-stage");
 
       const canvas = document.getElementById("canvas");
@@ -388,7 +515,8 @@
         the frame on ALL sides.
       */
 
-        const stageScale = Math.min(1, scaleX * 0.92, scaleY * 0.92);
+        const marginFactor = IS_MOBILE_GAME ? 0.985 : 0.92;
+        const stageScale = Math.min(1, scaleX * marginFactor, scaleY * marginFactor);
 
         stage.style.setProperty("--stage-scale", stageScale);
       }
@@ -396,6 +524,22 @@
       resizeStage();
 
       window.addEventListener("resize", resizeStage);
+
+      const rotateGate = document.getElementById("rotate-gate");
+
+      function updateOrientationGate() {
+        const portrait = window.innerHeight > window.innerWidth;
+        rotateGate.classList.toggle("is-visible", IS_MOBILE_GAME && portrait);
+      }
+
+      updateOrientationGate();
+      window.addEventListener("resize", updateOrientationGate);
+      window.addEventListener("orientationchange", () => {
+        setTimeout(() => {
+          resizeStage();
+          updateOrientationGate();
+        }, 120);
+      });
 
       /*
     ===========================================

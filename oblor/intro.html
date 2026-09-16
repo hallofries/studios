@@ -2,28 +2,66 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <title>OBLOR — Insert Disc</title>
-    <link rel="stylesheet" href="intro.css" />
+    <script>
+      (() => {
+        const mobileLandscape = window.matchMedia(
+          "(orientation: landscape) and (max-width: 950px) and (max-height: 520px)",
+        ).matches;
+        const mobile =
+          mobileLandscape ||
+          window.matchMedia("(max-width: 768px)").matches ||
+          window.matchMedia("(pointer: coarse)").matches ||
+          navigator.maxTouchPoints > 0 ||
+          document.documentElement.clientWidth <= 768 ||
+          window.innerWidth <= 768;
+        document.documentElement.classList.toggle("mobile-layout", mobile);
+        document.documentElement.classList.toggle(
+          "mobile-landscape",
+          mobile && mobileLandscape,
+        );
+        document.documentElement.classList.toggle(
+          "mobile-portrait",
+          mobile && !mobileLandscape,
+        );
+      })();
+    </script>
+    <link rel="stylesheet" href="intro.css?v=17" />
   </head>
   <body>
     <!-- Main site menu: intentionally only present on intro.html. -->
     <input type="checkbox" id="introMenuToggle" class="intro-menu-toggle" />
-    <label for="introMenuToggle" class="intro-menu-button" aria-label="Open site menu">
+    <label
+      for="introMenuToggle"
+      class="intro-menu-button"
+      aria-label="Open site menu"
+    >
       <img src="../image/menu2.png" alt="Menu" draggable="false" />
     </label>
     <div class="intro-menu-overlay" aria-hidden="true"></div>
     <div class="intro-menu-item intro-menu-home">
-      <a href="../index.html"><img src="../image/home.png" alt="Home" draggable="false" /></a>
+      <a href="../index.html"
+        ><img src="../image/home.png" alt="Home" draggable="false"
+      /></a>
     </div>
     <div class="intro-menu-item intro-menu-about">
-      <a href="../aboutme.html"><img src="../image/about.png" alt="About" draggable="false" /></a>
+      <a href="../aboutme.html"
+        ><img src="../image/about.png" alt="About" draggable="false"
+      /></a>
     </div>
     <div class="intro-menu-item intro-menu-portfolio">
-      <a href="../portf.html"><img src="../image/portfolio.png" alt="Portfolio" draggable="false" /></a>
+      <a href="../portf.html"
+        ><img src="../image/portfolio.png" alt="Portfolio" draggable="false"
+      /></a>
     </div>
     <div class="intro-menu-item intro-menu-contact">
-      <a href="../contactme.html"><img src="../image/contact.png" alt="Contact" draggable="false" /></a>
+      <a href="../contactme.html"
+        ><img src="../image/contact.png" alt="Contact" draggable="false"
+      /></a>
     </div>
 
     <!--
@@ -41,13 +79,27 @@
 
       <!-- PC + note are one group so they always preserve the same relative placement. -->
       <section id="pcGroup" class="pc-group" aria-label="Computer">
-        <img
-          id="pcImage"
-          class="pc-image"
-          src="assets/intro/pc.png"
-          alt=""
-          draggable="false"
-        />
+        <picture>
+          <source
+            media="(orientation: landscape) and (max-width: 950px) and (max-height: 520px)"
+            srcset="assets/intro/pc-cd-open.png"
+          />
+          <source
+            media="(pointer: coarse)"
+            srcset="assets/intro/pc-cd-open.png"
+          />
+          <source
+            media="(max-width: 768px)"
+            srcset="assets/intro/pc-cd-open.png"
+          />
+          <img
+            id="pcImage"
+            class="pc-image"
+            src="assets/intro/pc.png"
+            alt=""
+            draggable="false"
+          />
+        </picture>
 
         <img
           id="noteImage"
@@ -62,6 +114,10 @@
 
         <!-- Live HTML interface positioned over the CRT. -->
         <form id="passcodeForm" class="monitor-ui" autocomplete="off">
+          <p id="mobileMonitorPrompt" class="mobile-monitor-prompt">
+            Put the disk<br />in CD-ROM!
+          </p>
+
           <div id="passcodeContent" class="passcode-content">
             <p class="monitor-prompt">Enter passcode to<br />open CD-ROM</p>
 
@@ -77,7 +133,11 @@
                 maxlength="24"
                 aria-describedby="passcodeError"
               />
-              <span id="passcodeMask" class="passcode-mask" aria-hidden="true"></span>
+              <span
+                id="passcodeMask"
+                class="passcode-mask"
+                aria-hidden="true"
+              ></span>
             </label>
 
             <p id="passcodeError" class="passcode-error" aria-live="polite">
@@ -85,9 +145,14 @@
             </p>
           </div>
 
-          <div id="loadingSpinner" class="xp-spinner" aria-label="Loading" hidden>
-            <span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span>
+          <div
+            id="loadingSpinner"
+            class="xp-spinner"
+            aria-label="Loading"
+            hidden
+          >
+            <span></span><span></span><span></span><span></span> <span></span
+            ><span></span><span></span><span></span>
           </div>
         </form>
       </section>
@@ -148,6 +213,6 @@
 
     <div id="fadeOverlay" class="fade-overlay" aria-hidden="true"></div>
 
-    <script src="intro.js"></script>
+    <script src="intro.js?v=17"></script>
   </body>
 </html>

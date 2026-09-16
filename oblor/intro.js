@@ -1,43 +1,74 @@
 (() => {
   "use strict";
 
-  const BASE_WIDTH = 1920;
-  const BASE_HEIGHT = 1080;
+  const DESKTOP = {
+    width: 1920,
+    height: 1080,
+    pc: { x: 162, y: 197, width: 1578, height: 1052 },
+    dropZone: { x: 162, y: 197, width: 789, height: 1052 },
+    trayTarget: { x: 310, y: 425 },
+    cdSize: { width: 228, height: 231 },
+    spawn: { x: 1544 + 131.5 - 114, y: 738 + 144 - 115.5 },
+  };
+
+  const MOBILE_PORTRAIT = {
+    width: 390,
+    height: 844,
+    // Open tray target in the 390 x 844 portrait Figma frame.
+    dropZone: { x: 0, y: 315, width: 135, height: 105 },
+    trayTarget: { x: -7, y: 315 },
+    cdSize: { width: 126, height: 127 },
+    spawn: { x: 231, y: 461 },
+  };
+
+  const MOBILE_LANDSCAPE = {
+    width: 844,
+    height: 390,
+    // Same physical tray, remapped to the 844 x 390 landscape composition.
+    dropZone: { x: 170, y: 170, width: 138, height: 108 },
+    trayTarget: { x: 145, y: 172 },
+    cdSize: { width: 111, height: 113 },
+    // Figma gives the disc size; this position matches the supplied landscape frame.
+    spawn: { x: 620, y: 126 },
+  };
+
   const CORRECT_PASSCODE = "oblor11";
   const INTRO_COMPLETED_KEY = "oblor:intro-completed";
   const INTRO_COMPLETED_AT_KEY = "oblor:intro-completed-at";
 
-  const PC = {
-    x: 162,
-    y: 197,
-    width: 1578,
-    height: 1052,
-  };
+  const mobileLandscapeQuery = window.matchMedia(
+    "(orientation: landscape) and (max-width: 950px) and (max-height: 520px)",
+  );
 
-  // The logical insertion zone is the LEFT HALF of the full PC image.
-  const DROP_ZONE = {
-    x: PC.x,
-    y: PC.y,
-    width: PC.width / 2,
-    height: PC.height,
-  };
+  const cssMobileMode =
+    getComputedStyle(document.documentElement)
+      .getPropertyValue("--oblor-mobile")
+      .trim() === "1";
 
-  // Visual target near the open tray. Easy to tweak if your exported PC asset shifts.
-  const TRAY_TARGET = {
-    x: 310,
-    y: 425,
-  };
+  const isMobile =
+    mobileLandscapeQuery.matches ||
+    cssMobileMode ||
+    document.documentElement.classList.contains("mobile-layout") ||
+    window.matchMedia("(max-width: 768px)").matches ||
+    window.matchMedia("(pointer: coarse)").matches ||
+    navigator.maxTouchPoints > 0 ||
+    document.documentElement.clientWidth <= 768 ||
+    window.innerWidth <= 768;
 
-  const CD_SIZE = {
-    width: 228,
-    height: 231,
-  };
+  if (isMobile) document.documentElement.classList.add("mobile-layout");
+
+  let layout = isMobile
+    ? mobileLandscapeQuery.matches
+      ? MOBILE_LANDSCAPE
+      : MOBILE_PORTRAIT
+    : DESKTOP;
 
   const stage = document.getElementById("introStage");
   const pcImage = document.getElementById("pcImage");
   const noteImage = document.getElementById("noteImage");
   const monitorUi = document.getElementById("passcodeForm");
   const passcodeContent = document.getElementById("passcodeContent");
+  const mobileMonitorPrompt = document.getElementById("mobileMonitorPrompt");
   const passcodeInput = document.getElementById("passcodeInput");
   const passcodeMask = document.getElementById("passcodeMask");
   const loadingSpinner = document.getElementById("loadingSpinner");
@@ -47,15 +78,15 @@
   const skipIntroButton = document.getElementById("skipIntroButton");
 
   let stageScale = 1;
-  let unlocked = false;
+  let unlocked = isMobile;
   let cdSpawned = false;
   let cdInserted = false;
 
   let cdMode = "hidden"; // hidden | floating | dragging | inserting | inserted
   let cdX = 0;
   let cdY = 0;
-  let cdVx = -34;
-  let cdVy = -23;
+  let cdVx = isMobile ? 0 : -34;
+  let cdVy = isMobile ? 0 : -23;
   let cdRotation = -4;
   let dragOffsetX = 0;
   let dragOffsetY = 0;
@@ -63,12 +94,8 @@
   let lastAnimationTime = performance.now();
   let floatTime = 0;
 
-
   // ------------------------------------------------------------
   // RETURNING VISITOR MEMORY
-  // localStorage survives closing/reopening the browser and later
-  // visits on the same browser + domain, unless site data is cleared.
-  // We only mark completion after the CD has actually been inserted.
   // ------------------------------------------------------------
   function hasCompletedIntroBefore() {
     try {
@@ -103,21 +130,70 @@
   skipIntroButton.addEventListener("click", goToDesktop);
 
   // ------------------------------------------------------------
-  // FULL VIEWPORT COVER SCALE
+  // MOBILE START STATE
+  // No passcode on phones: the open tray is visible immediately.
+  // ------------------------------------------------------------
+  if (isMobile) {
+    pcImage.src = "assets/intro/pc-cd-open.png";
+    noteImage.hidden = true;
+    passcodeContent.hidden = true;
+    mobileMonitorPrompt.hidden = false;
+    monitorUi.classList.add("is-unlocked");
+  } else {
+    mobileMonitorPrompt.hidden = true;
+  }
+
+  // ------------------------------------------------------------
+  // RESPONSIVE STAGE SCALE
   // ------------------------------------------------------------
   function resizeStage() {
-    const scaleX = window.innerWidth / BASE_WIDTH;
-    const scaleY = window.innerHeight / BASE_HEIGHT;
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
 
-    // Cover the viewport. Keep the composition mostly bottom-anchored,
-    // but shift the crop 15% upward: 85% of any vertical overflow is
-    // cropped from the top and 15% from the bottom. This keeps the desk
-    // visible while revealing a little more of the upper room.
+    if (isMobile) {
+      const landscape = mobileLandscapeQuery.matches;
+      const nextLayout = landscape ? MOBILE_LANDSCAPE : MOBILE_PORTRAIT;
+      const orientationChanged = layout !== nextLayout;
+      layout = nextLayout;
+
+      document.documentElement.classList.toggle("mobile-landscape", landscape);
+      document.documentElement.classList.toggle("mobile-portrait", !landscape);
+
+      const scaleX = viewportWidth / layout.width;
+      const scaleY = viewportHeight / layout.height;
+
+      // Both Figma compositions fill the phone viewport. Small aspect-ratio
+      // differences are cropped at the outer edge rather than letterboxed.
+      stageScale = Math.max(scaleX, scaleY);
+
+      const renderedWidth = layout.width * stageScale;
+      const renderedHeight = layout.height * stageScale;
+      const stageLeft = (viewportWidth - renderedWidth) / 2;
+      const stageTop = (viewportHeight - renderedHeight) / 2;
+
+      stage.style.setProperty("--stage-scale", stageScale);
+      stage.style.setProperty("--stage-left", `${stageLeft}px`);
+      stage.style.setProperty("--stage-top", `${stageTop}px`);
+
+      // If the phone rotates after the disc was spawned, move the floating disc
+      // to the corresponding Figma position in the new coordinate system.
+      if (orientationChanged && cdSpawned && cdMode === "floating") {
+        cdX = layout.spawn.x;
+        cdY = layout.spawn.y;
+        renderCd();
+      }
+      return;
+    }
+
+    const scaleX = viewportWidth / DESKTOP.width;
+    const scaleY = viewportHeight / DESKTOP.height;
+
+    // Desktop keeps the established cover crop with the slight upward shift.
     stageScale = Math.max(scaleX, scaleY);
-    const renderedWidth = BASE_WIDTH * stageScale;
-    const renderedHeight = BASE_HEIGHT * stageScale;
-    const stageLeft = (window.innerWidth - renderedWidth) / 2;
-    const verticalOverflow = Math.max(0, renderedHeight - window.innerHeight);
+    const renderedWidth = DESKTOP.width * stageScale;
+    const renderedHeight = DESKTOP.height * stageScale;
+    const stageLeft = (viewportWidth - renderedWidth) / 2;
+    const verticalOverflow = Math.max(0, renderedHeight - viewportHeight);
     const stageBottom = -(verticalOverflow * 0.15);
 
     stage.style.setProperty("--stage-scale", stageScale);
@@ -127,6 +203,7 @@
 
   resizeStage();
   window.addEventListener("resize", resizeStage);
+  window.visualViewport?.addEventListener("resize", resizeStage);
 
   // ------------------------------------------------------------
   // PRELOAD INSTANT-SWAP ASSETS
@@ -135,18 +212,19 @@
     "assets/intro/pc-cd-open.png",
     "assets/intro/note-state2.png",
     "assets/intro/floating-cd.png",
+    "assets/intro/mobile-bg.png",
   ].forEach((src) => {
     const image = new Image();
     image.src = src;
   });
 
   // ------------------------------------------------------------
-  // NOTE: state 1 -> state 2 ONCE, immediate swap, never toggles back.
+  // DESKTOP NOTE: state 1 -> state 2 ONCE
   // ------------------------------------------------------------
   let noteRevealed = false;
 
   function revealNote() {
-    if (noteRevealed) return;
+    if (isMobile || noteRevealed) return;
     noteRevealed = true;
     noteImage.src = "assets/intro/note-state2.png";
     noteImage.classList.add("is-revealed");
@@ -163,7 +241,7 @@
   });
 
   // ------------------------------------------------------------
-  // PASSCODE
+  // DESKTOP PASSCODE
   // ------------------------------------------------------------
   function updatePasscodeMask() {
     passcodeMask.textContent = "*".repeat(passcodeInput.value.length);
@@ -181,7 +259,7 @@
 
   monitorUi.addEventListener("submit", (event) => {
     event.preventDefault();
-    if (unlocked || cdInserted) return;
+    if (isMobile || unlocked || cdInserted) return;
 
     const value = passcodeInput.value.trim().toLowerCase();
 
@@ -201,9 +279,6 @@
     monitorUi.classList.remove("is-error");
     monitorUi.classList.add("is-unlocked");
     passcodeInput.disabled = true;
-
-    // Immediate PC replacement — intentionally no transition.
-    // The note is independent and only changes when the user clicks it.
     pcImage.src = "assets/intro/pc-cd-open.png";
   }
 
@@ -216,12 +291,11 @@
     cdSpawned = true;
     oblorDiskButton.classList.add("is-used");
 
-    // Start close to the OBLOR case, then let it drift around the room.
-    cdX = 1544 + 131.5 - CD_SIZE.width / 2;
-    cdY = 738 + 144 - CD_SIZE.height / 2;
-    cdVx = -42;
-    cdVy = -28;
-    cdRotation = -5;
+    cdX = layout.spawn.x;
+    cdY = layout.spawn.y;
+    cdVx = isMobile ? 0 : -42;
+    cdVy = isMobile ? 0 : -28;
+    cdRotation = isMobile ? -4 : -5;
     floatTime = 0;
     lastAnimationTime = performance.now();
 
@@ -245,33 +319,42 @@
 
     if (cdMode === "floating") {
       floatTime += dt;
-      cdX += cdVx * dt;
-      cdY += cdVy * dt;
 
-      const marginX = 65;
-      const marginY = 65;
-      const maxX = BASE_WIDTH - CD_SIZE.width - marginX;
-      const maxY = BASE_HEIGHT - CD_SIZE.height - marginY;
+      if (isMobile) {
+        // Keep the disc where the Figma composition puts it; only a tiny bob says
+        // "this is draggable" without making touch interaction frustrating.
+        const bob = Math.sin(floatTime * 2.2) * 2.2;
+        const rotate = Math.sin(floatTime * 1.35) * 1.5;
+        renderCd(bob, rotate);
+      } else {
+        cdX += cdVx * dt;
+        cdY += cdVy * dt;
 
-      if (cdX <= marginX) {
-        cdX = marginX;
-        cdVx = Math.abs(cdVx);
-      } else if (cdX >= maxX) {
-        cdX = maxX;
-        cdVx = -Math.abs(cdVx);
+        const marginX = 65;
+        const marginY = 65;
+        const maxX = DESKTOP.width - DESKTOP.cdSize.width - marginX;
+        const maxY = DESKTOP.height - DESKTOP.cdSize.height - marginY;
+
+        if (cdX <= marginX) {
+          cdX = marginX;
+          cdVx = Math.abs(cdVx);
+        } else if (cdX >= maxX) {
+          cdX = maxX;
+          cdVx = -Math.abs(cdVx);
+        }
+
+        if (cdY <= marginY) {
+          cdY = marginY;
+          cdVy = Math.abs(cdVy);
+        } else if (cdY >= maxY) {
+          cdY = maxY;
+          cdVy = -Math.abs(cdVy);
+        }
+
+        const bob = Math.sin(floatTime * 2.2) * 7;
+        const rotate = Math.sin(floatTime * 1.45) * 4;
+        renderCd(bob, rotate);
       }
-
-      if (cdY <= marginY) {
-        cdY = marginY;
-        cdVy = Math.abs(cdVy);
-      } else if (cdY >= maxY) {
-        cdY = maxY;
-        cdVy = -Math.abs(cdVy);
-      }
-
-      const bob = Math.sin(floatTime * 2.2) * 7;
-      const rotate = Math.sin(floatTime * 1.45) * 4;
-      renderCd(bob, rotate);
     }
 
     requestAnimationFrame(animateCd);
@@ -280,7 +363,7 @@
   requestAnimationFrame(animateCd);
 
   // ------------------------------------------------------------
-  // DRAGGING IN 1920x1080 DESIGN COORDINATES
+  // DRAGGING IN CURRENT DESIGN COORDINATES
   // ------------------------------------------------------------
   function clientToStage(clientX, clientY) {
     const rect = stage.getBoundingClientRect();
@@ -318,20 +401,21 @@
   });
 
   function pointIsInDropZone(x, y) {
+    const zone = layout.dropZone;
     return (
-      x >= DROP_ZONE.x &&
-      x <= DROP_ZONE.x + DROP_ZONE.width &&
-      y >= DROP_ZONE.y &&
-      y <= DROP_ZONE.y + DROP_ZONE.height
+      x >= zone.x &&
+      x <= zone.x + zone.width &&
+      y >= zone.y &&
+      y <= zone.y + zone.height
     );
   }
 
   function finishDrag(event) {
     if (cdMode !== "dragging" || event.pointerId !== dragPointerId) return;
 
-    const cdCenterX = cdX + CD_SIZE.width / 2;
-    const cdCenterY = cdY + CD_SIZE.height / 2;
-    const insidePcLeftSide = pointIsInDropZone(cdCenterX, cdCenterY);
+    const cdCenterX = cdX + layout.cdSize.width / 2;
+    const cdCenterY = cdY + layout.cdSize.height / 2;
+    const insideTrayArea = pointIsInDropZone(cdCenterX, cdCenterY);
 
     floatingCd.classList.remove("is-dragging");
 
@@ -341,16 +425,16 @@
 
     dragPointerId = null;
 
-    if (insidePcLeftSide && unlocked) {
+    if (insideTrayArea && unlocked) {
       insertCd();
       return;
     }
 
-    // Wrong place OR CD-ROM still locked: just resume floating.
-    // No extra UI copy is added; the open/closed tray already communicates state.
     cdMode = "floating";
-    cdVx = cdVx === 0 ? -35 : cdVx;
-    cdVy = cdVy === 0 ? -22 : cdVy;
+    if (!isMobile) {
+      cdVx = cdVx === 0 ? -35 : cdVx;
+      cdVy = cdVy === 0 ? -22 : cdVy;
+    }
     lastAnimationTime = performance.now();
   }
 
@@ -358,7 +442,7 @@
   floatingCd.addEventListener("pointercancel", finishDrag);
 
   // ------------------------------------------------------------
-  // INSERT CD -> SPINNER -> CURRENT index.html
+  // INSERT CD -> SPINNER -> DESKTOP
   // ------------------------------------------------------------
   function insertCd() {
     if (cdInserted) return;
@@ -369,8 +453,8 @@
 
     const fromX = cdX;
     const fromY = cdY;
-    const toX = TRAY_TARGET.x;
-    const toY = TRAY_TARGET.y;
+    const toX = layout.trayTarget.x;
+    const toY = layout.trayTarget.y;
 
     const animation = floatingCd.animate(
       [
@@ -383,12 +467,12 @@
         {
           left: `${toX}px`,
           top: `${toY}px`,
-          transform: "rotate(-4deg) scale(0.58)",
-          opacity: 0.2,
+          transform: `rotate(-4deg) scale(${isMobile ? 0.46 : 0.58})`,
+          opacity: 0.18,
         },
       ],
       {
-        duration: 380,
+        duration: isMobile ? 420 : 380,
         easing: "cubic-bezier(.2,.8,.2,1)",
         fill: "forwards",
       },
@@ -404,16 +488,12 @@
   }
 
   function showLoadingState() {
-    // Reaching this point means the visitor actually completed the interaction:
-    // correct passcode + successful CD insertion. Remember that for later visits.
     rememberIntroCompletion();
 
-    // The passcode UI disappears the moment the CD has finished going in.
     passcodeContent.hidden = true;
+    mobileMonitorPrompt.hidden = true;
     loadingSpinner.hidden = false;
 
-    // Let the green XP-style spinner run briefly, then fade the whole room
-    // to black and navigate to the separate desktop page.
     setTimeout(() => {
       goToDesktop();
     }, 1900);

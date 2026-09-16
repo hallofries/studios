@@ -6,7 +6,9 @@
 
 @font-face {
   font-family: "PxPlus IBM VGA8";
-  src: url("assets/intro/PxPlus_IBM_VGA8.ttf") format("truetype");
+  src:
+    url("assets/intro/PxPlus IBM VGA8.ttf") format("truetype"),
+    url("assets/intro/PxPlus_IBM_VGA8.ttf") format("truetype");
   font-display: swap;
 }
 
@@ -21,6 +23,7 @@
   --crt-red: #ff4635;
   --design-width: 1920;
   --design-height: 1080;
+  --oblor-mobile: 0;
 }
 
 * {
@@ -46,7 +49,6 @@ button,
 input {
   font: inherit;
 }
-
 
 /* ============================================================
    MAIN SITE MENU — INTRO PAGE ONLY
@@ -289,6 +291,17 @@ input {
   text-align: center;
 }
 
+.mobile-monitor-prompt {
+  display: none;
+  margin: 0;
+  color: var(--crt-green);
+  font-family: "PxPlus IBM VGA8", "Courier New", monospace;
+  font-weight: 400;
+  text-align: center;
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: none;
+}
+
 .passcode-content {
   position: relative;
   width: 100%;
@@ -407,18 +420,48 @@ input {
   animation: xp-spinner-fade 0.8s linear infinite;
 }
 
-.xp-spinner span:nth-child(1) { transform: rotate(0deg); animation-delay: -0.70s; }
-.xp-spinner span:nth-child(2) { transform: rotate(45deg); animation-delay: -0.60s; }
-.xp-spinner span:nth-child(3) { transform: rotate(90deg); animation-delay: -0.50s; }
-.xp-spinner span:nth-child(4) { transform: rotate(135deg); animation-delay: -0.40s; }
-.xp-spinner span:nth-child(5) { transform: rotate(180deg); animation-delay: -0.30s; }
-.xp-spinner span:nth-child(6) { transform: rotate(225deg); animation-delay: -0.20s; }
-.xp-spinner span:nth-child(7) { transform: rotate(270deg); animation-delay: -0.10s; }
-.xp-spinner span:nth-child(8) { transform: rotate(315deg); animation-delay: 0s; }
+.xp-spinner span:nth-child(1) {
+  transform: rotate(0deg);
+  animation-delay: -0.7s;
+}
+.xp-spinner span:nth-child(2) {
+  transform: rotate(45deg);
+  animation-delay: -0.6s;
+}
+.xp-spinner span:nth-child(3) {
+  transform: rotate(90deg);
+  animation-delay: -0.5s;
+}
+.xp-spinner span:nth-child(4) {
+  transform: rotate(135deg);
+  animation-delay: -0.4s;
+}
+.xp-spinner span:nth-child(5) {
+  transform: rotate(180deg);
+  animation-delay: -0.3s;
+}
+.xp-spinner span:nth-child(6) {
+  transform: rotate(225deg);
+  animation-delay: -0.2s;
+}
+.xp-spinner span:nth-child(7) {
+  transform: rotate(270deg);
+  animation-delay: -0.1s;
+}
+.xp-spinner span:nth-child(8) {
+  transform: rotate(315deg);
+  animation-delay: 0s;
+}
 
 @keyframes xp-spinner-fade {
-  0%, 18% { opacity: 1; }
-  75%, 100% { opacity: 0.12; }
+  0%,
+  18% {
+    opacity: 1;
+  }
+  75%,
+  100% {
+    opacity: 0.12;
+  }
 }
 
 /* ============================================================
@@ -454,7 +497,7 @@ input {
   position: absolute;
   left: 25px;
   top: 15px;
-  width: 263px;
+  width: 248px;
   height: 288px;
   margin: 0;
   padding: 0;
@@ -490,8 +533,7 @@ input {
   z-index: 3;
   pointer-events: none;
   opacity: 0;
-  filter:
-    drop-shadow(0 0 8px rgba(255, 238, 148, 0.95))
+  filter: drop-shadow(0 0 8px rgba(255, 238, 148, 0.95))
     drop-shadow(0 0 18px rgba(255, 234, 118, 0.72));
 }
 
@@ -566,8 +608,7 @@ input {
 
 .floating-cd.is-dragging {
   cursor: grabbing;
-  filter:
-    drop-shadow(0 9px 12px rgba(0, 0, 0, 0.4))
+  filter: drop-shadow(0 9px 12px rgba(0, 0, 0, 0.4))
     drop-shadow(0 0 7px rgba(255, 239, 153, 0.35));
 }
 
@@ -598,7 +639,6 @@ input {
 .fade-overlay.is-active {
   opacity: 1;
 }
-
 
 /* ============================================================
    RETURNING-VISITOR SKIP BUTTON
@@ -643,5 +683,357 @@ input {
 }
 
 @keyframes skip-intro-appear {
-  to { opacity: 1; }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ============================================================
+   MOBILE INTRO — 390 x 844 FIGMA COORDINATE SYSTEM
+   The mobile page intentionally skips the passcode step: the tray is
+   already open and the visitor only needs to tap the OBLOR case and drag
+   the disc into the CD-ROM.
+   ============================================================ */
+html.mobile-layout .intro-stage {
+  left: var(--stage-left, 0px);
+  top: var(--stage-top, 0px);
+  bottom: auto;
+  width: 390px;
+  height: 844px;
+  transform: scale(var(--stage-scale));
+  transform-origin: left top;
+  border: 0;
+}
+
+html.mobile-layout .room-background {
+  inset: 0;
+  width: 390px;
+  height: 844px;
+  content: url("assets/intro/mobile-bg.png");
+  object-fit: fill;
+}
+
+/* Figma: PC x -99, y 159, w 687.92, h 458.67 */
+html.mobile-layout .pc-group {
+  left: -99px;
+  top: 159px;
+  width: 687.92px;
+  height: 458.67px;
+}
+
+html.mobile-layout .pc-image {
+  width: 687.92px;
+  height: 458.67px;
+}
+
+html.mobile-layout .passcode-note,
+html.mobile-layout .passcode-content {
+  display: none !important;
+}
+
+/* Screen copy from the mobile Figma frame. */
+html.mobile-layout .monitor-ui {
+  left: 268px;
+  top: 143px;
+  width: 220px;
+  min-height: 95px;
+}
+
+html.mobile-layout .mobile-monitor-prompt:not([hidden]) {
+  display: block;
+  margin: 0;
+  color: var(--crt-green);
+  font-size: 25px;
+  line-height: 25px;
+  letter-spacing: 0;
+}
+
+html.mobile-layout .xp-spinner {
+  left: 50%;
+  top: 8px;
+  width: 58px;
+  height: 58px;
+}
+
+/* Figma: disks x 187, y 607, w 314, h 213 */
+html.mobile-layout .disk-stack-group {
+  left: 187px;
+  top: 607px;
+  width: 314px;
+  height: 213px;
+}
+
+html.mobile-layout .disk-stack-image {
+  width: 314px;
+  height: 213px;
+}
+
+/* Figma: OBLOR case x 201, y 616, w 155, h 169.
+   Relative to the mobile disk group: x 14, y 9. */
+html.mobile-layout .oblor-disk-button,
+html.mobile-layout .oblor-disk-image,
+html.mobile-layout .oblor-disk-glow {
+  left: 14px;
+  top: 9px;
+  width: 155px;
+  height: 169px;
+}
+
+html.mobile-layout .oblor-disk-glow::before {
+  background-size: 155px 169px;
+}
+
+/* Touch has no hover state; keep the Figma composition clean. */
+html.mobile-layout .oblor-disk-glow,
+html.mobile-layout .get-cd-hint {
+  display: none !important;
+}
+
+html.mobile-layout .oblor-disk-button {
+  touch-action: manipulation;
+}
+
+/* Figma floating disc: 126 x 127. Position is set in JS to x 231, y 461. */
+html.mobile-layout .floating-cd {
+  width: 126px;
+  height: 127px;
+  filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.34));
+}
+
+html.mobile-layout .floating-cd.is-dragging {
+  filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.38))
+    drop-shadow(0 0 5px rgba(255, 239, 153, 0.28));
+}
+
+/* Logical mobile drop target over the already-open tray. */
+html.mobile-layout .cd-drop-zone {
+  left: 0;
+  top: 315px;
+  width: 135px;
+  height: 105px;
+}
+
+html.mobile-layout .skip-intro-button {
+  left: max(12px, env(safe-area-inset-left));
+  bottom: max(12px, env(safe-area-inset-bottom));
+  padding: 7px 8px 6px;
+  font-size: 12px;
+}
+
+/* Preserve the existing site menu, just make sure its touch targets stay above
+   the interactive room. */
+html.mobile-layout .intro-menu-button,
+html.mobile-layout .intro-menu-item,
+html.mobile-layout .intro-menu-overlay {
+  touch-action: manipulation;
+}
+
+/* ============================================================
+   V14 MOBILE FALLBACK
+   Chrome DevTools can report desktop pointer characteristics while a 390px
+   responsive viewport is active. These rules therefore do NOT depend on the
+   JS-added .mobile-layout class. Width alone is enough to render the Figma
+   mobile composition, while .mobile-layout still covers real touch tablets.
+   ============================================================ */
+@media (max-width: 768px) {
+  :root {
+    --oblor-mobile: 1;
+  }
+
+  .intro-stage {
+    left: var(--stage-left, 0px);
+    top: var(--stage-top, 0px);
+    bottom: auto;
+    width: 390px;
+    height: 844px;
+    transform: scale(var(--stage-scale));
+    transform-origin: left top;
+    border: 0;
+  }
+
+  .room-background {
+    inset: 0;
+    width: 390px;
+    height: 844px;
+    content: url("assets/intro/mobile-bg.png");
+    object-fit: fill;
+  }
+
+  .pc-group {
+    left: -99px;
+    top: 159px;
+    width: 687.92px;
+    height: 458.67px;
+  }
+
+  .pc-image {
+    width: 687.92px;
+    height: 458.67px;
+  }
+
+  .passcode-note,
+  .passcode-content {
+    display: none !important;
+  }
+
+  .monitor-ui {
+    left: 268px;
+    top: 143px;
+    width: 220px;
+    min-height: 95px;
+  }
+
+  .mobile-monitor-prompt:not([hidden]) {
+    display: block;
+    margin: 0;
+    color: var(--crt-green);
+    font-size: 25px;
+    line-height: 25px;
+    letter-spacing: 0;
+  }
+
+  .xp-spinner {
+    left: 50%;
+    top: 8px;
+    width: 58px;
+    height: 58px;
+  }
+
+  .disk-stack-group {
+    left: 187px;
+    top: 607px;
+    width: 314px;
+    height: 213px;
+  }
+
+  .disk-stack-image {
+    width: 314px;
+    height: 213px;
+  }
+
+  .oblor-disk-button,
+  .oblor-disk-image,
+  .oblor-disk-glow {
+    left: 14px;
+    top: 9px;
+    width: 155px;
+    height: 169px;
+  }
+
+  .oblor-disk-glow::before {
+    background-size: 155px 169px;
+  }
+
+  .oblor-disk-glow,
+  .get-cd-hint {
+    display: none !important;
+  }
+
+  .oblor-disk-button {
+    touch-action: manipulation;
+  }
+
+  .floating-cd {
+    width: 126px;
+    height: 127px;
+    filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.34));
+  }
+
+  .floating-cd.is-dragging {
+    filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.38))
+      drop-shadow(0 0 5px rgba(255, 239, 153, 0.28));
+  }
+
+  .cd-drop-zone {
+    left: 0;
+    top: 315px;
+    width: 135px;
+    height: 105px;
+  }
+
+  .skip-intro-button {
+    left: max(12px, env(safe-area-inset-left));
+    bottom: max(12px, env(safe-area-inset-bottom));
+    padding: 7px 8px 6px;
+    font-size: 12px;
+  }
+
+  .intro-menu-button,
+  .intro-menu-item,
+  .intro-menu-overlay {
+    touch-action: manipulation;
+  }
+}
+
+/* ============================================================
+   V15 MOBILE POLISH
+   - OBLOR case keeps a subtle pale-yellow glow before interaction
+   - "click!" hint is always visible above the case on mobile
+   - both disappear as soon as the case is tapped
+   - spinner is nudged left/up to visually center it on the CRT
+   ============================================================ */
+html.mobile-layout .oblor-disk-glow {
+  display: block !important;
+  opacity: 0.82;
+  filter: drop-shadow(0 0 5px rgba(255, 238, 148, 0.82))
+    drop-shadow(0 0 11px rgba(255, 234, 118, 0.48));
+}
+
+html.mobile-layout .get-cd-hint {
+  display: block !important;
+  left: 91.5px;
+  top: -18px;
+  width: 155px;
+  opacity: 1;
+  font-size: 0;
+  transform: translateX(-50%) rotate(5deg);
+}
+
+html.mobile-layout .get-cd-hint::after {
+  content: "click!";
+  font-family: "Oblorian", "W95F", cursive;
+  font-size: 21px;
+  line-height: 1;
+  color: #fff0a5;
+  white-space: nowrap;
+  text-shadow: none;
+}
+
+html.mobile-layout .xp-spinner {
+  left: calc(50% - 22px);
+  top: -2px;
+}
+
+@media (max-width: 768px) {
+  .oblor-disk-glow {
+    display: block !important;
+    opacity: 0.82;
+    filter: drop-shadow(0 0 5px rgba(255, 238, 148, 0.82))
+      drop-shadow(0 0 11px rgba(255, 234, 118, 0.48));
+  }
+
+  .get-cd-hint {
+    display: block !important;
+    left: 91.5px;
+    top: -18px;
+    width: 155px;
+    opacity: 1;
+    font-size: 0;
+    transform: translateX(-50%) rotate(5deg);
+  }
+
+  .get-cd-hint::after {
+    content: "click!";
+    font-family: "Oblorian", "W95F", cursive;
+    font-size: 21px;
+    line-height: 1;
+    color: #fff0a5;
+    white-space: nowrap;
+    text-shadow: none;
+  }
+
+  .xp-spinner {
+    left: calc(50% - 20px);
+    top: -2px;
+  }
 }

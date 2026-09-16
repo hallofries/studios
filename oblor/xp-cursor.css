@@ -1,0 +1,72 @@
+/* OBLOR fake desktop — use the real XP-style PNG cursors the user added.
+   This stylesheet is intentionally loaded AFTER oblor.css so the fake OS
+   gets its own cursor language without affecting intro.html or the main site. */
+
+:root {
+  --xp-arrow: url("cursors/default_arrow.png") 0 0;
+  --xp-hand: url("cursors/default_link.png") 6 1;
+  --xp-text: url("cursors/default_ibeam.png") 8 10;
+  --xp-wait: url("cursors/default_wait.png") 8 9;
+  --xp-move: url("cursors/default_move.png") 10 10;
+  --xp-resize-ew: url("cursors/hwe.png") 10 10;
+  --xp-resize-ns: url("cursors/hns.png") 10 10;
+  --xp-resize-nesw: url("cursors/hnesw.png") 10 10;
+  --xp-resize-nwse: url("cursors/hnwse.png") 10 10;
+  --xp-crosshair: url("cursors/cross.png") 10 10;
+  --xp-forbidden: url("cursors/default_no.png") 10 10;
+  --xp-help: url("cursors/default_helpsel.png") 0 0;
+  --xp-pen: url("cursors/default_pen.png") 1 18;
+}
+
+/* XP itself generally keeps the arrow over desktop icons and ordinary buttons. */
+html:not(.mobile-desktop),
+html:not(.mobile-desktop) body,
+html:not(.mobile-desktop) .oblor-stage,
+html:not(.mobile-desktop) .desktop,
+html:not(.mobile-desktop) button,
+html:not(.mobile-desktop) .desktop-icon,
+html:not(.mobile-desktop) .file-item,
+html:not(.mobile-desktop) .xp-window,
+html:not(.mobile-desktop) .xp-titlebar,
+html:not(.mobile-desktop) .xp-titlebar__controls button,
+html:not(.mobile-desktop) .xp-notification,
+html:not(.mobile-desktop) .xp-notification__close {
+  cursor: var(--xp-arrow), default !important;
+}
+
+/* Actual web navigation can use the classic pointing hand. */
+html:not(.mobile-desktop) a,
+html:not(.mobile-desktop) .return-button {
+  cursor: var(--xp-hand), pointer !important;
+}
+
+/* Text-editing state. */
+html:not(.mobile-desktop) textarea,
+html:not(.mobile-desktop) input[type="text"],
+html:not(.mobile-desktop) input[type="search"],
+html:not(.mobile-desktop) .notepad-area {
+  cursor: var(--xp-text), text !important;
+}
+
+/* Window drag state. Normal titlebar = arrow; while the script is actively
+   dragging a window we expose the four-way move cursor. */
+html:not(.mobile-desktop) body.xp-window-dragging,
+html:not(.mobile-desktop) body.xp-window-dragging * {
+  cursor: var(--xp-move), move !important;
+}
+
+/* Busy state used for the tiny handoff between OBLOR.exe and the game loader. */
+html:not(.mobile-desktop) body.xp-busy,
+html:not(.mobile-desktop) body.xp-busy * {
+  cursor: var(--xp-wait), wait !important;
+}
+
+/* Reusable classes if you add resize handles / special controls later. */
+html:not(.mobile-desktop) .xp-cursor-ew { cursor: var(--xp-resize-ew), ew-resize !important; }
+html:not(.mobile-desktop) .xp-cursor-ns { cursor: var(--xp-resize-ns), ns-resize !important; }
+html:not(.mobile-desktop) .xp-cursor-nesw { cursor: var(--xp-resize-nesw), nesw-resize !important; }
+html:not(.mobile-desktop) .xp-cursor-nwse { cursor: var(--xp-resize-nwse), nwse-resize !important; }
+html:not(.mobile-desktop) .xp-cursor-crosshair { cursor: var(--xp-crosshair), crosshair !important; }
+html:not(.mobile-desktop) .xp-cursor-forbidden { cursor: var(--xp-forbidden), not-allowed !important; }
+html:not(.mobile-desktop) .xp-cursor-help { cursor: var(--xp-help), help !important; }
+html:not(.mobile-desktop) .xp-cursor-pen { cursor: var(--xp-pen), copy !important; }

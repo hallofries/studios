@@ -1037,3 +1037,74 @@ html.mobile-layout .xp-spinner {
     top: -2px;
   }
 }
+
+/* ============================================================
+   PORTFOLIO BACK BUTTON — DESKTOP ONLY
+   Figma: x 70, y 70, 154 × 149
+============================================================ */
+.portfolio-back-button {
+  display: none;
+}
+
+@media (min-width: 769px) and (pointer: fine) {
+  .portfolio-back-button {
+    position: fixed;
+    top: 35px;
+    left: 70px;
+    width: 154px;
+    height: 149px;
+    z-index: 16000;
+    display: block;
+    text-decoration: none;
+  }
+
+  .portfolio-back-button img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
+    transition: transform 0.22s ease;
+  }
+
+  .portfolio-back-button:hover img,
+  .portfolio-back-button:focus-visible img {
+    transform: scale(1.05) rotate(-2deg);
+  }
+}
+
+/* ============================================================
+   PASSCODE FOCUS CARET
+   Keep the real input caret hidden so the masked stars stay perfectly
+   centered. This fake VGA-style caret appears when the field is focused
+   and sits immediately after the centered mask text.
+   ============================================================ */
+.passcode-mask {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.passcode-field:focus-within .passcode-mask::after {
+  content: "|";
+  display: inline-block;
+  margin-left: 2px;
+  color: currentColor;
+  font-family: "PxPlus IBM VGA8", "Courier New", monospace;
+  font-size: 30px;
+  line-height: 1;
+  transform: translateY(-1px);
+  animation: passcode-caret-blink 0.85s steps(1, end) infinite;
+}
+
+@keyframes passcode-caret-blink {
+  0%,
+  48% {
+    opacity: 1;
+  }
+  49%,
+  100% {
+    opacity: 0;
+  }
+}

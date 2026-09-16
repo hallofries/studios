@@ -30,7 +30,8 @@
         );
       })();
     </script>
-    <link rel="stylesheet" href="intro.css?v=17" />
+    <link rel="stylesheet" href="intro.css?v=22" />
+    <link rel="stylesheet" href="../cursor.css?v=1" />
   </head>
   <body>
     <!-- Main site menu: intentionally only present on intro.html. -->
@@ -63,6 +64,19 @@
         ><img src="../image/contact.png" alt="Contact" draggable="false"
       /></a>
     </div>
+
+    <!-- Desktop-only quick return to the OBLOR preview in the portfolio. -->
+    <a
+      class="portfolio-back-button"
+      href="../portf.html#portfolio-oblor"
+      aria-label="Back to OBLOR in portfolio"
+    >
+      <img
+        src="../image/portfolio-back.png"
+        alt="Back to portfolio"
+        draggable="false"
+      />
+    </a>
 
     <!--
       SEPARATE OBLOR INTRO PAGE.
@@ -193,7 +207,7 @@
       <!-- Spawned after the OBLOR case is clicked. -->
       <img
         id="floatingCd"
-        class="floating-cd"
+        class="floating-cd grabbable"
         src="assets/intro/floating-cd.png"
         alt="OBLOR CD"
         draggable="false"
@@ -213,6 +227,6 @@
 
     <div id="fadeOverlay" class="fade-overlay" aria-hidden="true"></div>
 
-    <script src="intro.js?v=17"></script>
+    <script src="intro.js?v=23"></script>
   </body>
 </html>

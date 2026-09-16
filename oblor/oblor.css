@@ -291,8 +291,8 @@ DESKTOP ICONS
 }
 
 .desktop-icon--delayed {
-  opacity: 1;
-  pointer-events: auto;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .desktop-icon--delayed.is-visible {

@@ -19,7 +19,8 @@
       })();
     </script>
 
-    <link rel="stylesheet" href="oblor.css?v=14" />
+    <link rel="stylesheet" href="oblor.css?v=23" />
+    <link rel="stylesheet" href="xp-cursor.css?v=20" />
   </head>
 
   <body>
@@ -91,7 +92,7 @@
         <!-- OBLOR.EXE -->
         <button
           id="oblorExe"
-          class="desktop-icon"
+          class="desktop-icon desktop-icon--delayed"
           data-desktop-id="oblor"
           style="--x: 49%; --y: 38%"
         >
@@ -351,6 +352,7 @@ Explore the folders, then launch OBLOR.exe.`,
           }
 
           dragging = true;
+          document.body.classList.add("xp-window-dragging");
 
           const windowRect = win.getBoundingClientRect();
 
@@ -387,6 +389,7 @@ Explore the folders, then launch OBLOR.exe.`,
 
         titlebar.addEventListener("pointerup", () => {
           dragging = false;
+          document.body.classList.remove("xp-window-dragging");
         });
       }
 
@@ -812,6 +815,13 @@ Explore the folders, then launch OBLOR.exe.`,
       const returnedFromGame =
         new URLSearchParams(window.location.search).get("return") === "1";
 
+      // intro.html sets this immediately before sending the visitor here.
+      // It lets the desktop entrance sequence play even if the tab has already
+      // visited index.html earlier during testing.
+      const arrivedFromIntro =
+        sessionStorage.getItem("oblorDesktopEntrance") === "1";
+      sessionStorage.removeItem("oblorDesktopEntrance");
+
       const introSeen =
         sessionStorage.getItem("oblorIntroSeen") === "1" || returnedFromGame;
 
@@ -822,11 +832,13 @@ Explore the folders, then launch OBLOR.exe.`,
         history.replaceState({}, "", window.location.pathname);
       }
 
-      if (introSeen) {
+      // Coming back from the actual game should be instant. Otherwise, the
+      // first desktop entrance (and every entrance from intro.html) gets the
+      // original welcome -> OBLOR.exe reveal sequence.
+      if (returnedFromGame || (introSeen && !arrivedFromIntro)) {
         welcome.classList.add("is-hidden");
         oblorExe.classList.add("is-visible");
       } else {
-        // Mark the intro as seen for this browser tab/session.
         sessionStorage.setItem("oblorIntroSeen", "1");
 
         setTimeout(() => {
@@ -837,9 +849,11 @@ Explore the folders, then launch OBLOR.exe.`,
           welcome.classList.add("is-hidden");
         }, 4600);
 
-        // OBLOR.exe is already visible with the rest of the desktop.
-        // Keep this class for compatibility with older CSS/builds.
-        oblorExe.classList.add("is-visible");
+        // Restore the original delayed reveal: OBLOR.exe appears shortly
+        // after the welcome notification leaves. It appears instantly, no fade.
+        setTimeout(() => {
+          oblorExe.classList.add("is-visible");
+        }, 5300);
       }
 
       /*
@@ -854,6 +868,7 @@ Explore the folders, then launch OBLOR.exe.`,
         oblorExe.dataset.selected = "true";
 
         setTimeout(() => {
+          if (!IS_MOBILE) document.body.classList.add("xp-busy");
           window.location.href = "game/index.html";
         }, IS_MOBILE ? 90 : 110);
       };

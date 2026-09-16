@@ -118,6 +118,12 @@
     skipIntroButton.hidden = true;
     fadeOverlay.classList.add("is-active");
 
+    // Tell index.html this is a fresh entrance from the room so it can replay
+    // the welcome sequence and reveal OBLOR.exe a few seconds later.
+    try {
+      sessionStorage.setItem("oblorDesktopEntrance", "1");
+    } catch (_error) {}
+
     setTimeout(() => {
       window.location.href = "index.html";
     }, 520);
@@ -385,7 +391,7 @@
     dragOffsetX = point.x - cdX;
     dragOffsetY = point.y - cdY;
 
-    floatingCd.classList.add("is-dragging");
+    floatingCd.classList.add("is-dragging", "grabbing");
     floatingCd.setPointerCapture(event.pointerId);
     renderCd();
   });
@@ -417,7 +423,7 @@
     const cdCenterY = cdY + layout.cdSize.height / 2;
     const insideTrayArea = pointIsInDropZone(cdCenterX, cdCenterY);
 
-    floatingCd.classList.remove("is-dragging");
+    floatingCd.classList.remove("is-dragging", "grabbing");
 
     try {
       floatingCd.releasePointerCapture(event.pointerId);

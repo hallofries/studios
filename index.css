@@ -202,7 +202,7 @@ body::after {
 
 #volumeButton {
   position: fixed;
-  bottom: 30px;
+  top: 30px;
   left: 30px;
   width: 100px;
   height: auto;

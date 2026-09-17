@@ -118,7 +118,7 @@
       />
     </div>
 
-    <div class="portfolio-item item-oblor project" data-project="oblor">
+    <div id="portfolio-oblor" class="portfolio-item item-oblor project" data-project="oblor">
       <img
         class="thumb-default"
         src="image/oblor/thumb.png"
@@ -167,6 +167,7 @@
 
     <!-- Illustrated Calendar -->
     <a
+      id="portfolio-calendar"
       class="portfolio-item item-calendar project"
       href="calendar.html"
       aria-label="Open illustrated calendar project"
@@ -341,6 +342,19 @@
       };
 
       document.addEventListener("DOMContentLoaded", function () {
+        // Deep-project return links (calendar / OBLOR) land with the matching
+        // portfolio preview centered in the viewport instead of at the page top.
+        const returnTargets = new Set(["#portfolio-oblor", "#portfolio-calendar"]);
+        function centerReturnTarget() {
+          if (!returnTargets.has(window.location.hash)) return;
+          const target = document.querySelector(window.location.hash);
+          if (!target) return;
+          target.scrollIntoView({ behavior: "auto", block: "center", inline: "nearest" });
+        }
+        if (returnTargets.has(window.location.hash)) {
+          requestAnimationFrame(() => requestAnimationFrame(centerReturnTarget));
+          window.addEventListener("load", centerReturnTarget, { once: true });
+        }
         const backgroundMusic = document.getElementById("backgroundMusic");
         const scrollSound = document.getElementById("scrollSound");
         const volumeButton = document.getElementById("volumeButton");

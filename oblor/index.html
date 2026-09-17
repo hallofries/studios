@@ -19,8 +19,8 @@
       })();
     </script>
 
-    <link rel="stylesheet" href="oblor.css?v=23" />
-    <link rel="stylesheet" href="xp-cursor.css?v=20" />
+    <link rel="stylesheet" href="oblor.css?v=28" />
+    <link rel="stylesheet" href="xp-cursor.css?v=25" />
   </head>
 
   <body>
@@ -183,10 +183,10 @@
       let windowCount = 0;
 
       /*
-    ==========================================
-    FRAME SCALE
-    ==========================================
-    */
+              ==========================================
+              FRAME SCALE
+              ==========================================
+              */
 
       function resizeStage() {
         if (IS_MOBILE) {
@@ -217,12 +217,32 @@
       });
 
       /*
-    ==========================================
-    CONTENT
-    ==========================================
-    */
+              ==========================================
+              CONTENT
+              ==========================================
+              */
 
       const folderData = {
+        pictures: {
+          title: "Pictures",
+          icon: "assets/pictures.png",
+          type: "folder",
+
+          files: [
+            {
+              name: "bliss.png",
+              type: "image",
+              src: "assets/pictures/bliss.png",
+            },
+
+            {
+              name: "CD.png",
+              type: "image",
+              src: "assets/pictures/CD.webp",
+            },
+          ],
+        },
+
         process: {
           title: "Process",
           icon: "assets/folder-small.png",
@@ -230,15 +250,53 @@
 
           files: [
             {
-              name: "development-notes.txt",
-              type: "text",
-              text: "Development notes for OBLOR will live here.",
+              name: "before & after.png",
+              type: "image",
+              src: "assets/process/before-after.png",
             },
 
             {
-              name: "prototype-01.jpg",
+              name: "interaction.png",
               type: "image",
-              src: "assets/wallpaper.jpg",
+              src: "assets/process/interaction.jpg",
+            },
+
+            {
+              name: "HOW IT STARTED.txt",
+              type: "text",
+              text: `HOW IT STARTED
+
+Oblor began with a very simple idea: a dark house, somewhere far away, and the feeling of bringing warmth back into it.
+
+I was interested in what would happen if progress in a game was not represented by points, upgrades or achievements, but by the world itself becoming more alive.
+
+That became the central rule of the project: curiosity creates change.
+
+The player explores, notices something, interacts with it, and the house responds. Light appears. Frost begins to thaw. A room becomes warmer. Small changes accumulate until the space no longer feels the way it did when you first entered.
+
+From there I started developing the house room by room — the entrance, kitchen, living room, and the smaller objects inside them. I experimented with framing, texture, lighting, and the intimacy of ordinary objects.
+
+The visual direction became a mixture of handmade textures, illustration, old digital interfaces, and the strange comfort of early computer games.
+
+A lot of the project grew through experimentation rather than from a fixed plan. The rough drawings came first. The world slowly became more structured afterwards.`,
+            },
+
+            {
+              name: "MAKING OBLOR.txt",
+              type: "text",
+              text: `MAKING OBLOR
+
+Oblor was my first attempt at building an interactive game.
+
+Before starting it, my coding experience was mostly limited to basic HTML and CSS. I had never worked with Godot or GDScript before, but I really wanted to find a way to bring the idea to life.
+
+I built the prototype while learning the engine as I went, using experimentation and AI-assisted coding to turn the visual and narrative ideas into something playable and interactive.
+
+Because of that, the development process was very iterative. I would design an interaction visually, sketch it out, think about what I wanted the player to feel, and then work backwards until I understood how to make it function.
+
+The project became an unusual mixture of illustration, graphic design, worldbuilding, writing, and learning enough game development to connect all of those things together.
+
+The current version is still a prototype rather than a finished game, but making it made me much more curious about games as an artistic medium, and I would love to continue developing Oblor further.`,
             },
           ],
         },
@@ -250,35 +308,39 @@
 
           files: [
             {
-              name: "sketch-01.jpg",
+              name: "first-sketch.png",
               type: "image",
-              src: "assets/wallpaper.jpg",
+              src: "assets/sketches/first-sketch.png",
             },
 
             {
-              name: "sketch-02.jpg",
+              name: "interaction-sketch.png",
               type: "image",
-              src: "assets/wallpaper.jpg",
-            },
-          ],
-        },
-
-        pictures: {
-          title: "Pictures",
-          icon: "assets/pictures.png",
-          type: "folder",
-
-          files: [
-            {
-              name: "oblor-01.jpg",
-              type: "image",
-              src: "assets/wallpaper.jpg",
+              src: "assets/sketches/interaction-sketch.png",
             },
 
             {
-              name: "oblor-02.jpg",
+              name: "interaction-sketch-2.png",
               type: "image",
-              src: "assets/wallpaper.jpg",
+              src: "assets/sketches/interaction-sketch-2.png",
+            },
+
+            {
+              name: "scenes-sketches.png",
+              type: "image",
+              src: "assets/sketches/scenes-sketches.png",
+            },
+
+            {
+              name: "storyboard.png",
+              type: "image",
+              src: "assets/sketches/storyboard.png",
+            },
+
+            {
+              name: "the-house-sketches.png",
+              type: "image",
+              src: "assets/sketches/the-house-sketches.png",
             },
           ],
         },
@@ -287,14 +349,7 @@
           title: "Recycle Bin",
           icon: "assets/recycle-bin.png",
           type: "folder",
-
-          files: [
-            {
-              name: "???",
-              type: "text",
-              text: "You can put something strange here later.",
-            },
-          ],
+          files: [],
         },
 
         readme: {
@@ -302,19 +357,30 @@
           icon: "assets/notepad.png",
           type: "text",
 
-          text: `Welcome to OBLOR.
+          text: `OBLOR
+a short game about warmth, memory, and returning life to a frozen house
 
-This desktop is part of the project.
+Oblor is a short first-person experience about returning warmth to a frozen house.
 
-Explore the folders, then launch OBLOR.exe.`,
+You arrive on a cold, silent moon. In front of you stands a house that feels familiar, but not fully remembered. It does not call for attention. The air is quiet. Nothing moves unless you do.
+
+Inside, small objects hold fragments of a past life. A scarf left on a hook. A kettle gone cold. A music box that no longer plays. When you touch them, something shifts. Frost recedes. Light grows warmer. Sound deepens. The house begins to breathe again.
+
+There are no enemies and no failures. You cannot lose. Progress comes through curiosity, slowness, and attention. Hold the lamp and breathe with it. Tune a melody back into place. Repair a photograph. Clear a window and listen to what returns.
+
+As each room slowly restores itself, the house reveals what it once was — and what it can become again. Warmth spreads across the floorboards. The air fills with sound. Vines reach toward light. What began as a frozen shell becomes something alive.
+
+Oblor began as a university project and currently exists as a playable prototype. I would eventually like to develop it into a complete artistic game.
+
+double-click OBLOR.exe to play.`,
         },
       };
 
       /*
-    ==========================================
-    ACTIVE WINDOW
-    ==========================================
-    */
+              ==========================================
+              ACTIVE WINDOW
+              ==========================================
+              */
 
       function setActive(win) {
         document.querySelectorAll(".xp-window").forEach((item) => {
@@ -329,10 +395,10 @@ Explore the folders, then launch OBLOR.exe.`,
       }
 
       /*
-    ==========================================
-    DRAGGING
-    ==========================================
-    */
+              ==========================================
+              DRAGGING
+              ==========================================
+              */
 
       function makeDraggable(win, titlebar) {
         if (IS_MOBILE) return;
@@ -343,7 +409,12 @@ Explore the folders, then launch OBLOR.exe.`,
         let offsetY = 0;
 
         titlebar.addEventListener("pointerdown", (event) => {
-          if (event.target.closest("button")) {
+          // Never begin dragging from the window-controls area.
+          // Checking the whole controls container is more reliable than checking
+          // only the button element, especially when the XP control graphics
+          // extend beyond the button's visual box.
+          if (event.target.closest(".xp-titlebar__controls")) {
+            event.stopPropagation();
             return;
           }
 
@@ -394,10 +465,10 @@ Explore the folders, then launch OBLOR.exe.`,
       }
 
       /*
-    ==========================================
-    WINDOW CREATION
-    ==========================================
-    */
+              ==========================================
+              WINDOW CREATION
+              ==========================================
+              */
 
       function createWindow({
         title,
@@ -425,6 +496,7 @@ Explore the folders, then launch OBLOR.exe.`,
           Math.max(20, (BASE_HEIGHT - height) / 2 + cascadeY) + "px";
 
         const titlebar = node.querySelector(".xp-titlebar");
+        const dragHandle = node.querySelector(".xp-titlebar__title");
 
         node.querySelector(".xp-titlebar__icon").src = icon;
 
@@ -434,26 +506,151 @@ Explore the folders, then launch OBLOR.exe.`,
 
         windowsHost.appendChild(node);
 
-        makeDraggable(node, titlebar);
+        makeDraggable(node, dragHandle);
 
         node.addEventListener("pointerdown", () => setActive(node));
 
-        node
-          .querySelector('[data-action="close"]')
-          .addEventListener("click", () => node.remove());
+        const controls = node.querySelector(".xp-titlebar__controls");
+        const minimizeButton = node.querySelector('[data-action="minimize"]');
+        const maximizeButton = node.querySelector('[data-action="maximize"]');
+        const closeButton = node.querySelector('[data-action="close"]');
+        const controlButtons = [minimizeButton, maximizeButton, closeButton];
 
-        node
-          .querySelector('[data-action="minimize"]')
-          .addEventListener("click", () => node.remove());
+        // The custom XP arrow is visually much larger than its one-pixel
+        // browser hotspot. A transparent "comfort zone" sits over the window
+        // controls so they react as soon as the visible cursor reaches them,
+        // instead of forcing the tiny hotspot to land inside a 32px button.
+        const controlDeck = document.createElement("div");
+        controlDeck.className = "xp-titlebar__control-deck";
+        controlDeck.setAttribute("aria-hidden", "true");
+        node.appendChild(controlDeck);
 
-        node
-          .querySelector('[data-action="maximize"]')
-          .addEventListener("click", () => toggleMaximize(node));
+        let armedControl = null;
 
-        titlebar.addEventListener("dblclick", (event) => {
-          if (!event.target.closest("button")) {
-            toggleMaximize(node);
+        function nearestControl(event) {
+          let nearest = null;
+          let nearestDistance = Infinity;
+
+          controlButtons.forEach((button) => {
+            const rect = button.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const dx = event.clientX - centerX;
+            const dy = event.clientY - centerY;
+            const distance = Math.hypot(dx, dy);
+
+            if (distance < nearestDistance) {
+              nearestDistance = distance;
+              nearest = button;
+            }
+          });
+
+          // Keep the forgiving zone proportional to the rendered window.
+          // Add a few screen pixels because the cursor itself is not scaled
+          // with the fake 1920x1080 desktop.
+          const maxDistance = 34 * stageScale + 13;
+          return nearestDistance <= maxDistance ? nearest : null;
+        }
+
+        function paintControlHover(button) {
+          controlButtons.forEach((item) => {
+            item.classList.toggle("is-proximity-hover", item === button);
+            item.classList.toggle(
+              "is-proximity-pressed",
+              armedControl !== null && item === armedControl && item === button,
+            );
+          });
+        }
+
+        function clearControlState() {
+          controlButtons.forEach((item) => {
+            item.classList.remove("is-proximity-hover", "is-proximity-pressed");
+          });
+        }
+
+        controlDeck.addEventListener("pointermove", (event) => {
+          event.stopPropagation();
+          paintControlHover(nearestControl(event));
+        });
+
+        controlDeck.addEventListener("pointerdown", (event) => {
+          if (event.button !== 0) return;
+
+          event.preventDefault();
+          event.stopPropagation();
+
+          armedControl = nearestControl(event);
+          paintControlHover(armedControl);
+
+          if (armedControl) {
+            try {
+              controlDeck.setPointerCapture(event.pointerId);
+            } catch {}
           }
+
+          setActive(node);
+        });
+
+        controlDeck.addEventListener("pointerup", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+
+          const releasedOn = nearestControl(event);
+          const shouldActivate = armedControl && releasedOn === armedControl;
+          const target = armedControl;
+
+          try {
+            controlDeck.releasePointerCapture(event.pointerId);
+          } catch {}
+
+          armedControl = null;
+          paintControlHover(releasedOn);
+
+          if (shouldActivate && target && node.isConnected) {
+            target.click();
+          }
+        });
+
+        controlDeck.addEventListener("pointercancel", () => {
+          armedControl = null;
+          clearControlState();
+        });
+
+        controlDeck.addEventListener("pointerleave", (event) => {
+          if (!armedControl) {
+            clearControlState();
+          }
+          event.stopPropagation();
+        });
+
+        controlDeck.addEventListener("dblclick", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+        });
+
+        // Keep native button activation for keyboard users.
+        closeButton.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          node.remove();
+        });
+
+        minimizeButton.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          // There is no taskbar in this stripped-back desktop, so minimizing
+          // closes the window just like the previous implementation.
+          node.remove();
+        });
+
+        maximizeButton.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          toggleMaximize(node);
+        });
+
+        dragHandle.addEventListener("dblclick", () => {
+          toggleMaximize(node);
         });
 
         setActive(node);
@@ -462,10 +659,10 @@ Explore the folders, then launch OBLOR.exe.`,
       }
 
       /*
-    ==========================================
-    MAXIMIZE
-    ==========================================
-    */
+              ==========================================
+              MAXIMIZE
+              ==========================================
+              */
 
       function toggleMaximize(win) {
         if (IS_MOBILE) {
@@ -499,17 +696,17 @@ Explore the folders, then launch OBLOR.exe.`,
       }
 
       /*
-    ==========================================
-    FOLDER
-    ==========================================
-    */
+              ==========================================
+              FOLDER
+              ==========================================
+              */
 
       function folderView(data) {
         const wrap = document.createElement("div");
 
         wrap.className = "folder-view";
 
-        data.files.forEach((file) => {
+        data.files.forEach((file, fileIndex) => {
           const button = document.createElement("button");
 
           button.className = "file-item";
@@ -520,20 +717,24 @@ Explore the folders, then launch OBLOR.exe.`,
               : "assets/notepad.png";
 
           button.innerHTML = `
-            <img
-              src="${icon}"
-              alt=""
-              draggable="false"
-            >
+                      <img
+                        src="${icon}"
+                        alt=""
+                        draggable="false"
+                      >
 
-            <span>
-              ${file.name}
-            </span>
-          `;
+                      <span>
+                        ${file.name}
+                      </span>
+                    `;
 
           const openFile = () => {
             if (file.type === "image") {
-              openImage(file);
+              const imageFiles = data.files.filter(
+                (item) => item.type === "image",
+              );
+              const imageIndex = imageFiles.indexOf(file);
+              openImage(file, imageFiles, imageIndex);
             } else {
               openText(file.name, file.text);
             }
@@ -558,18 +759,24 @@ Explore the folders, then launch OBLOR.exe.`,
       }
 
       /*
-    ==========================================
-    TEXT
-    ==========================================
-    */
+              ==========================================
+              TEXT
+              ==========================================
+              */
+
+      function normalizeTextFile(text) {
+        return String(text || "")
+          .replace(/\r\n?/g, "\n")
+          .replace(/[ \t]+\n/g, "\n")
+          .replace(/\n{3,}/g, "\n\n")
+          .trim();
+      }
 
       function openText(title, text) {
         const textarea = document.createElement("textarea");
 
         textarea.className = "notepad-area";
-
-        textarea.value = text || "";
-
+        textarea.value = normalizeTextFile(text);
         textarea.spellcheck = false;
 
         createWindow({
@@ -582,44 +789,391 @@ Explore the folders, then launch OBLOR.exe.`,
       }
 
       /*
-    ==========================================
-    IMAGE
-    ==========================================
-    */
+              ==========================================
+              IMAGE
+              ==========================================
+              */
 
-      function openImage(file) {
+      function openImage(file, imageFiles = [file], startIndex = 0) {
         const viewer = document.createElement("div");
-
         viewer.className = "image-viewer";
+        viewer.tabIndex = 0;
 
-        viewer.innerHTML = `
-        <img
-          src="${file.src}"
-          alt="${file.name}"
-          draggable="false"
-        >
-      `;
+        const canvas = document.createElement("div");
+        canvas.className = "image-viewer__canvas";
 
-        createWindow({
+        const image = document.createElement("img");
+        image.draggable = false;
+
+        canvas.appendChild(image);
+        viewer.appendChild(canvas);
+
+        const toolbar = document.createElement("div");
+        toolbar.className = "image-viewer__toolbar";
+        toolbar.innerHTML = `
+          <button type="button" data-viewer-action="previous" aria-label="Previous image">‹</button>
+          <button type="button" data-viewer-action="zoom-out" aria-label="Zoom out">−</button>
+          <span class="image-viewer__zoom-label" aria-live="polite">100%</span>
+          <button type="button" data-viewer-action="zoom-in" aria-label="Zoom in">+</button>
+          <button type="button" data-viewer-action="fit" aria-label="Fit image">Fit</button>
+          <button type="button" data-viewer-action="next" aria-label="Next image">›</button>
+        `;
+        viewer.appendChild(toolbar);
+
+        const zoomLabel = toolbar.querySelector(".image-viewer__zoom-label");
+
+        let currentIndex = Math.max(0, startIndex);
+        let imageWindow = null;
+
+        // zoom = 1 means "fit image in the viewer".
+        let zoom = 1;
+        let baseWidth = 1;
+        let baseHeight = 1;
+
+        // Pan is measured in VIEWER pixels from the centered position.
+        // This makes left/right and up/down perfectly symmetrical.
+        let panX = 0;
+        let panY = 0;
+
+        let isPanning = false;
+        let panPointerId = null;
+        let dragStartX = 0;
+        let dragStartY = 0;
+        let dragStartPanX = 0;
+        let dragStartPanY = 0;
+
+        const MIN_ZOOM = 1;
+        const MAX_ZOOM = 5;
+        const ZOOM_STEP = 0.25;
+
+        function calculateBaseSize() {
+          if (!image.naturalWidth || !image.naturalHeight) return;
+
+          // Leave a little breathing room around the fitted image.
+          const availableWidth = Math.max(1, viewer.clientWidth - 44);
+          const availableHeight = Math.max(1, viewer.clientHeight - 44);
+
+          const fitScale = Math.min(
+            1,
+            availableWidth / image.naturalWidth,
+            availableHeight / image.naturalHeight,
+          );
+
+          baseWidth = Math.max(1, image.naturalWidth * fitScale);
+          baseHeight = Math.max(1, image.naturalHeight * fitScale);
+
+          image.style.width = baseWidth + "px";
+          image.style.height = baseHeight + "px";
+        }
+
+        function getPanBounds() {
+          const scaledWidth = baseWidth * zoom;
+          const scaledHeight = baseHeight * zoom;
+
+          return {
+            x: Math.max(0, (scaledWidth - viewer.clientWidth) / 2 + 22),
+            y: Math.max(0, (scaledHeight - viewer.clientHeight) / 2 + 22),
+          };
+        }
+
+        function clampPan() {
+          const bounds = getPanBounds();
+
+          panX = Math.max(-bounds.x, Math.min(bounds.x, panX));
+          panY = Math.max(-bounds.y, Math.min(bounds.y, panY));
+        }
+
+        function updateZoomLabel() {
+          zoomLabel.textContent = Math.round(zoom * 100) + "%";
+        }
+
+        function renderImage() {
+          clampPan();
+
+          image.style.transform =
+            `translate(-50%, -50%) ` +
+            `translate3d(${panX}px, ${panY}px, 0) ` +
+            `scale(${zoom})`;
+
+          const zoomed = zoom > 1.001;
+          viewer.classList.toggle("is-zoomed", zoomed);
+
+          if (!zoomed) {
+            panX = 0;
+            panY = 0;
+            image.style.transform =
+              "translate(-50%, -50%) translate3d(0px, 0px, 0) scale(1)";
+          }
+
+          updateZoomLabel();
+        }
+
+        function setZoom(
+          nextZoom,
+          {
+            anchorX = viewer.clientWidth / 2,
+            anchorY = viewer.clientHeight / 2,
+            keepAnchor = true,
+          } = {},
+        ) {
+          const oldZoom = zoom;
+          const newZoom = Math.max(
+            MIN_ZOOM,
+            Math.min(MAX_ZOOM, Math.round(nextZoom * 100) / 100),
+          );
+
+          if (Math.abs(newZoom - oldZoom) < 0.001) return;
+
+          if (keepAnchor && oldZoom > 0) {
+            const centerX = viewer.clientWidth / 2;
+            const centerY = viewer.clientHeight / 2;
+
+            // Find the point in the fitted image currently under the pointer.
+            const localX = (anchorX - centerX - panX) / oldZoom;
+            const localY = (anchorY - centerY - panY) / oldZoom;
+
+            // Reposition after zoom so that same image point remains under
+            // the pointer. This avoids the "image jumps away" feeling.
+            panX = anchorX - centerX - localX * newZoom;
+            panY = anchorY - centerY - localY * newZoom;
+          }
+
+          zoom = newZoom;
+
+          if (zoom <= 1.001) {
+            panX = 0;
+            panY = 0;
+          }
+
+          renderImage();
+        }
+
+        function resetZoom() {
+          zoom = 1;
+          panX = 0;
+          panY = 0;
+          renderImage();
+        }
+
+        function showImage(index) {
+          if (!imageFiles.length) return;
+
+          currentIndex = (index + imageFiles.length) % imageFiles.length;
+
+          const current = imageFiles[currentIndex];
+
+          zoom = 1;
+          panX = 0;
+          panY = 0;
+
+          image.src = current.src;
+          image.alt = current.name;
+
+          if (imageWindow) {
+            const title = imageWindow.querySelector(".xp-titlebar__title span");
+            if (title) title.textContent = current.name;
+          }
+        }
+
+        image.addEventListener("load", () => {
+          calculateBaseSize();
+          resetZoom();
+        });
+
+        // Wheel zoom follows the mouse pointer.
+        viewer.addEventListener(
+          "wheel",
+          (event) => {
+            if (event.target.closest(".image-viewer__toolbar")) return;
+
+            event.preventDefault();
+
+            const rect = viewer.getBoundingClientRect();
+            const anchorX = event.clientX - rect.left;
+            const anchorY = event.clientY - rect.top;
+            const direction = event.deltaY < 0 ? 1 : -1;
+
+            setZoom(zoom + direction * ZOOM_STEP, {
+              anchorX,
+              anchorY,
+              keepAnchor: true,
+            });
+          },
+          { passive: false },
+        );
+
+        // Double-click toggles between Fit and 200%.
+        image.addEventListener("dblclick", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+
+          const rect = viewer.getBoundingClientRect();
+          const anchorX = event.clientX - rect.left;
+          const anchorY = event.clientY - rect.top;
+
+          if (zoom > 1.001) {
+            resetZoom();
+          } else {
+            setZoom(2, {
+              anchorX,
+              anchorY,
+              keepAnchor: true,
+            });
+          }
+        });
+
+        // True transform-based panning. Dragging right moves the image right;
+        // dragging left moves it left, with identical bounds on both sides.
+        canvas.addEventListener("pointerdown", (event) => {
+          if (event.button !== 0 || zoom <= 1.001) return;
+
+          isPanning = true;
+          panPointerId = event.pointerId;
+
+          dragStartX = event.clientX;
+          dragStartY = event.clientY;
+          dragStartPanX = panX;
+          dragStartPanY = panY;
+
+          try {
+            canvas.setPointerCapture(event.pointerId);
+          } catch {}
+
+          viewer.classList.add("is-panning");
+
+          event.preventDefault();
+          event.stopPropagation();
+        });
+
+        canvas.addEventListener("pointermove", (event) => {
+          if (!isPanning || event.pointerId !== panPointerId) return;
+
+          panX = dragStartPanX + (event.clientX - dragStartX);
+          panY = dragStartPanY + (event.clientY - dragStartY);
+
+          renderImage();
+
+          event.preventDefault();
+          event.stopPropagation();
+        });
+
+        function stopPanning(event) {
+          if (!isPanning) return;
+
+          if (
+            event &&
+            panPointerId !== null &&
+            event.pointerId !== panPointerId
+          ) {
+            return;
+          }
+
+          isPanning = false;
+          viewer.classList.remove("is-panning");
+
+          if (event && panPointerId !== null) {
+            try {
+              canvas.releasePointerCapture(panPointerId);
+            } catch {}
+          }
+
+          panPointerId = null;
+        }
+
+        canvas.addEventListener("pointerup", stopPanning);
+        canvas.addEventListener("pointercancel", stopPanning);
+        canvas.addEventListener("lostpointercapture", () => {
+          isPanning = false;
+          panPointerId = null;
+          viewer.classList.remove("is-panning");
+        });
+
+        toolbar.addEventListener("pointerdown", (event) => {
+          event.stopPropagation();
+        });
+
+        toolbar.addEventListener("click", (event) => {
+          const button = event.target.closest("[data-viewer-action]");
+          if (!button) return;
+
+          event.preventDefault();
+          event.stopPropagation();
+
+          const action = button.dataset.viewerAction;
+
+          if (action === "previous") {
+            showImage(currentIndex - 1);
+          } else if (action === "next") {
+            showImage(currentIndex + 1);
+          } else if (action === "zoom-in") {
+            setZoom(zoom + ZOOM_STEP, { keepAnchor: false });
+          } else if (action === "zoom-out") {
+            setZoom(zoom - ZOOM_STEP, { keepAnchor: false });
+          } else if (action === "fit") {
+            resetZoom();
+          }
+        });
+
+        imageWindow = createWindow({
           title: file.name,
           icon: "assets/jpg-file.png",
           width: 1040,
           height: 740,
           content: viewer,
         });
+
+        showImage(currentIndex);
+
+        const handleImageKeys = (event) => {
+          if (!imageWindow.isConnected) {
+            document.removeEventListener("keydown", handleImageKeys);
+            window.removeEventListener("resize", handleViewerResize);
+            return;
+          }
+
+          if (imageWindow.dataset.active !== "true") return;
+
+          if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            showImage(currentIndex - 1);
+          } else if (event.key === "ArrowRight") {
+            event.preventDefault();
+            showImage(currentIndex + 1);
+          } else if (event.key === "+" || event.key === "=") {
+            event.preventDefault();
+            setZoom(zoom + ZOOM_STEP, { keepAnchor: false });
+          } else if (event.key === "-" || event.key === "_") {
+            event.preventDefault();
+            setZoom(zoom - ZOOM_STEP, { keepAnchor: false });
+          } else if (event.key === "0") {
+            event.preventDefault();
+            resetZoom();
+          }
+        };
+
+        const handleViewerResize = () => {
+          if (!imageWindow.isConnected) return;
+
+          calculateBaseSize();
+          clampPan();
+          renderImage();
+        };
+
+        document.addEventListener("keydown", handleImageKeys);
+        window.addEventListener("resize", handleViewerResize);
       }
 
       /*
-    ==========================================
-    DESKTOP ICONS
-    ==========================================
-    */
+              ==========================================
+              DESKTOP ICONS
+              ==========================================
+              */
 
       /*
-    ==========================================
-    DESKTOP ICON DRAGGING
-    ==========================================
-    */
+              ==========================================
+              DESKTOP ICON DRAGGING
+              ==========================================
+              */
 
       const ICON_POSITIONS_KEY = "oblorDesktopIconPositions";
 
@@ -775,7 +1329,10 @@ Explore the folders, then launch OBLOR.exe.`,
           }
         };
 
-        icon.addEventListener(IS_MOBILE ? "click" : "dblclick", openDesktopItem);
+        icon.addEventListener(
+          IS_MOBILE ? "click" : "dblclick",
+          openDesktopItem,
+        );
       });
 
       desktop.addEventListener("pointerdown", (event) => {
@@ -789,10 +1346,10 @@ Explore the folders, then launch OBLOR.exe.`,
       });
 
       /*
-    ==========================================
-    WELCOME
-    ==========================================
-    */
+              ==========================================
+              WELCOME
+              ==========================================
+              */
 
       const welcome = document.getElementById("welcome");
 
@@ -815,31 +1372,14 @@ Explore the folders, then launch OBLOR.exe.`,
       const returnedFromGame =
         new URLSearchParams(window.location.search).get("return") === "1";
 
-      // intro.html sets this immediately before sending the visitor here.
-      // It lets the desktop entrance sequence play even if the tab has already
-      // visited index.html earlier during testing.
-      const arrivedFromIntro =
-        sessionStorage.getItem("oblorDesktopEntrance") === "1";
-      sessionStorage.removeItem("oblorDesktopEntrance");
-
-      const introSeen =
-        sessionStorage.getItem("oblorIntroSeen") === "1" || returnedFromGame;
-
       if (returnedFromGame) {
-        sessionStorage.setItem("oblorIntroSeen", "1");
-
-        // Keep the address clean after returning from the game.
-        history.replaceState({}, "", window.location.pathname);
-      }
-
-      // Coming back from the actual game should be instant. Otherwise, the
-      // first desktop entrance (and every entrance from intro.html) gets the
-      // original welcome -> OBLOR.exe reveal sequence.
-      if (returnedFromGame || (introSeen && !arrivedFromIntro)) {
         welcome.classList.add("is-hidden");
         oblorExe.classList.add("is-visible");
+
+        history.replaceState({}, "", window.location.pathname);
       } else {
-        sessionStorage.setItem("oblorIntroSeen", "1");
+        // On every normal desktop entry OBLOR.exe starts hidden.
+        oblorExe.classList.remove("is-visible");
 
         setTimeout(() => {
           welcome.classList.add("is-visible");
@@ -849,28 +1389,30 @@ Explore the folders, then launch OBLOR.exe.`,
           welcome.classList.add("is-hidden");
         }, 4600);
 
-        // Restore the original delayed reveal: OBLOR.exe appears shortly
-        // after the welcome notification leaves. It appears instantly, no fade.
+        // Reveal only after the welcome notification has gone.
         setTimeout(() => {
           oblorExe.classList.add("is-visible");
         }, 5300);
       }
 
       /*
-    ==========================================
-    GAME
-    ==========================================
-    */
+              ==========================================
+              GAME
+              ==========================================
+              */
 
       const launchOblor = () => {
         if (!IS_MOBILE && oblorExe.dataset.justDragged === "true") return;
 
         oblorExe.dataset.selected = "true";
 
-        setTimeout(() => {
-          if (!IS_MOBILE) document.body.classList.add("xp-busy");
-          window.location.href = "game/index.html";
-        }, IS_MOBILE ? 90 : 110);
+        setTimeout(
+          () => {
+            if (!IS_MOBILE) document.body.classList.add("xp-busy");
+            window.location.href = "game/index.html";
+          },
+          IS_MOBILE ? 90 : 110,
+        );
       };
 
       oblorExe.addEventListener(IS_MOBILE ? "click" : "dblclick", launchOblor);

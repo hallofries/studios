@@ -3,7 +3,7 @@
    gets its own cursor language without affecting intro.html or the main site. */
 
 :root {
-  --xp-arrow: url("cursors/default_arrow.png") 0 0;
+  --xp-arrow: url("cursors/default_arrow.png") 1 1;
   --xp-hand: url("cursors/default_link.png") 6 1;
   --xp-text: url("cursors/default_ibeam.png") 8 10;
   --xp-wait: url("cursors/default_wait.png") 8 9;
@@ -70,3 +70,55 @@ html:not(.mobile-desktop) .xp-cursor-crosshair { cursor: var(--xp-crosshair), cr
 html:not(.mobile-desktop) .xp-cursor-forbidden { cursor: var(--xp-forbidden), not-allowed !important; }
 html:not(.mobile-desktop) .xp-cursor-help { cursor: var(--xp-help), help !important; }
 html:not(.mobile-desktop) .xp-cursor-pen { cursor: var(--xp-pen), copy !important; }
+
+
+/* ============================================================
+   v23 — preserve XP cursor everywhere
+   ============================================================ */
+
+/* Never fall back to the browser's native arrow on window chrome. */
+html:not(.mobile-desktop) .xp-titlebar,
+html:not(.mobile-desktop) .xp-titlebar__title,
+html:not(.mobile-desktop) .xp-titlebar__controls,
+html:not(.mobile-desktop) .xp-titlebar__controls button,
+html:not(.mobile-desktop) .image-viewer,
+html:not(.mobile-desktop) .image-viewer__canvas,
+html:not(.mobile-desktop) .image-viewer img,
+html:not(.mobile-desktop) .image-viewer__toolbar,
+html:not(.mobile-desktop) .image-viewer__toolbar button {
+  cursor: var(--xp-arrow), default !important;
+}
+
+/* While actually dragging a window or panning a zoomed image, use the
+   matching custom XP move cursor rather than the browser's grab cursor. */
+html:not(.mobile-desktop) body.xp-window-dragging,
+html:not(.mobile-desktop) body.xp-window-dragging *,
+html:not(.mobile-desktop) .image-viewer.is-panning,
+html:not(.mobile-desktop) .image-viewer.is-panning *,
+html:not(.mobile-desktop) .image-viewer.is-zoomed .image-viewer__canvas:active,
+html:not(.mobile-desktop) .image-viewer.is-zoomed .image-viewer__canvas:active * {
+  cursor: var(--xp-move), move !important;
+}
+
+
+/* ============================================================
+   v24 — forgiving control deck keeps the same XP cursor
+   ============================================================ */
+html:not(.mobile-desktop) .xp-titlebar__control-deck {
+  cursor: var(--xp-arrow), default !important;
+}
+
+
+/* ============================================================
+   v25 — transform-pan viewer cursor
+   ============================================================ */
+
+html:not(.mobile-desktop) .image-viewer__canvas,
+html:not(.mobile-desktop) .image-viewer__canvas img {
+  cursor: var(--xp-arrow), default !important;
+}
+
+html:not(.mobile-desktop) .image-viewer.is-zoomed .image-viewer__canvas,
+html:not(.mobile-desktop) .image-viewer.is-zoomed .image-viewer__canvas img {
+  cursor: var(--xp-move), move !important;
+}

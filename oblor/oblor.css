@@ -1,11 +1,3 @@
-:root {
-  --oblor-mobile-desktop: 0;
-}
-@media (max-width: 768px) {
-  :root {
-    --oblor-mobile-desktop: 1;
-  }
-}
 * {
   box-sizing: border-box;
 }
@@ -292,11 +284,13 @@ DESKTOP ICONS
 
 .desktop-icon--delayed {
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
 }
 
 .desktop-icon--delayed.is-visible {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
 }
 
@@ -778,245 +772,283 @@ WELCOME
   cursor: default;
 }
 
+
 /* ============================================================
-   MOBILE FAKE DESKTOP
-   Single-tap interactions, full-viewport wallpaper, touch-sized icons,
-   and phone-friendly windows. Desktop behavior is unchanged.
+   v24 interaction fixes
    ============================================================ */
-html.mobile-desktop,
-html.mobile-desktop body {
-  width: 100%;
+
+/* The draggable region fills the titlebar EXCEPT for the window controls.
+   This prevents a close/maximize click from ever turning into a window drag. */
+.xp-titlebar__title {
+  flex: 1 1 auto;
+  align-self: stretch;
   height: 100%;
-  min-height: 100%;
-  overflow: hidden;
 }
 
-html.mobile-desktop body {
-  touch-action: manipulation;
+/* Normal Notepad-like text instead of the exaggerated paragraph spacing. */
+.notepad-area {
+  line-height: 1.32;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
 }
 
-html.mobile-desktop .oblor-stage {
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-  transform: none;
-  transform-origin: left top;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-html.mobile-desktop .desktop {
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 0;
-  background-position: center center;
-  background-size: cover;
-}
-
-html.mobile-desktop .return-button {
-  top: max(10px, env(safe-area-inset-top));
-  min-width: 92px;
-  padding: 7px 10px 8px;
-  font-size: 12px;
-}
-
-/* The mobile desktop keeps the scattered XP feel but uses a readable layout. */
-html.mobile-desktop .desktop-icon {
-  width: 94px;
-  transform: translate(-50%, -50%);
-  touch-action: manipulation;
-}
-
-html.mobile-desktop .desktop-icon img {
-  width: 68px;
-  height: 60px;
-  margin: 4px auto 4px;
-  padding: 0 5px;
-}
-
-html.mobile-desktop .desktop-icon span {
-  max-width: 94px;
-  padding: 2px 3px 3px;
-  font-size: 13px;
-  line-height: 16px;
-}
-
-html.mobile-desktop .desktop-icon[data-desktop-id="pictures"] {
-  left: 26% !important;
-  top: 22% !important;
-}
-
-html.mobile-desktop .desktop-icon[data-desktop-id="process"] {
-  left: 19% !important;
-  top: 76% !important;
-}
-
-html.mobile-desktop .desktop-icon[data-desktop-id="sketches"] {
-  left: 78% !important;
-  top: 13% !important;
-}
-
-html.mobile-desktop .desktop-icon[data-desktop-id="readme"] {
-  left: 78% !important;
-  top: 66% !important;
-}
-
-html.mobile-desktop .desktop-icon[data-desktop-id="oblor"] {
-  left: 50% !important;
-  top: 43% !important;
-}
-
-html.mobile-desktop .desktop-icon[data-desktop-id="recycle"] {
-  left: 82% !important;
-  top: 89% !important;
-}
-
-/* Windows act like mobile sheets instead of draggable desktop windows. */
-html.mobile-desktop .xp-window {
-  left: 10px !important;
-  top: max(64px, calc(env(safe-area-inset-top) + 54px)) !important;
-  width: calc(100vw - 20px) !important;
-  height: calc(100vh - 84px) !important;
-  height: calc(100dvh - 84px - env(safe-area-inset-bottom)) !important;
-  min-width: 0;
-  min-height: 0;
-  padding: 3px;
-}
-
-html.mobile-desktop .xp-window.mobile-maximized {
-  left: 0 !important;
-  top: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  height: 100dvh !important;
-  padding: 0;
-}
-
-html.mobile-desktop .xp-window__shell {
-  border-radius: 8px 8px 1px 1px;
-}
-
-html.mobile-desktop .xp-titlebar {
-  height: 44px;
-  margin: -4px -1px -1px;
-  gap: 8px;
-  font-size: 15px;
-  touch-action: manipulation;
-}
-
-html.mobile-desktop .xp-titlebar__icon {
-  width: 22px;
-  height: 22px;
-  margin: 0 7px;
-}
-
-html.mobile-desktop .xp-titlebar__controls [data-action="minimize"],
-html.mobile-desktop .xp-titlebar__controls [data-action="maximize"] {
-  display: none;
-}
-
-html.mobile-desktop .xp-titlebar__controls [data-action="close"] {
-  width: 38px;
-  height: 34px;
-}
-
-html.mobile-desktop .xp-window__content {
-  height: calc(100% - 39px);
-  -webkit-overflow-scrolling: touch;
-}
-
-html.mobile-desktop .folder-view {
-  padding: 12px;
+/* Zoomable image viewer. The JS sizes the inner canvas when zooming so the
+   browser gets real scrollable dimensions instead of a fake transformed image. */
+.image-viewer {
   display: block;
+  overflow: auto;
+  overscroll-behavior: contain;
 }
 
-html.mobile-desktop .file-item {
-  width: 100%;
-  min-height: 76px;
-  padding: 7px 6px;
-  gap: 12px;
-  touch-action: manipulation;
+.image-viewer__canvas {
+  min-width: 100%;
+  min-height: 100%;
+  display: grid;
+  place-items: center;
 }
 
-html.mobile-desktop .file-item:active {
-  background: rgba(49, 106, 197, 0.16);
+.image-viewer img {
+  display: block;
+  max-width: none;
+  max-height: none;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
-html.mobile-desktop .file-item img {
-  width: 58px;
-  height: 58px;
-  flex: 0 0 58px;
+.image-viewer.is-zoomed img {
+  cursor: zoom-out;
 }
 
-html.mobile-desktop .file-item span {
-  font-size: 16px;
-  line-height: 20px;
+
+/* ============================================================
+   v25 image viewer UX + delayed icon correction
+   ============================================================ */
+
+.image-viewer {
+  position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: #9da582 #eef0ea;
 }
 
-html.mobile-desktop .notepad-area {
-  padding: 10px;
-  font-size: 16px;
-  line-height: 1.5;
+.image-viewer__canvas {
+  touch-action: none;
 }
 
-html.mobile-desktop .xp-notification {
-  width: calc(100vw - 30px);
-  max-width: 430px;
-  padding: 15px 16px 16px;
-  font-size: 14px;
-  line-height: 19px;
+.image-viewer.is-zoomed .image-viewer__canvas {
+  /* Cursor is supplied by xp-cursor.css so the XP cursor never disappears. */
 }
 
-html.mobile-desktop .xp-notification p {
-  margin: 9px 0 0 40px;
+.image-viewer.is-panning .image-viewer__canvas,
+.image-viewer.is-panning .image-viewer__canvas * {
+  /* Cursor is supplied by xp-cursor.css. */
 }
 
-html.mobile-desktop .xp-notification__heading img {
-  width: 28px;
-  height: 28px;
+.image-viewer__toolbar {
+  position: sticky;
+  left: 0;
+  bottom: 10px;
+  z-index: 20;
+
+  width: max-content;
+  margin: -45px auto 10px;
+
+  display: flex;
+  align-items: center;
+  gap: 3px;
+
+  padding: 4px;
+
+  border: 1px solid #737b5c;
+  border-radius: 5px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(238, 242, 220, 0.96) 0%,
+    rgba(190, 199, 157, 0.96) 100%
+  );
+
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.8),
+    0 2px 7px rgba(0, 0, 0, 0.28);
+
+  user-select: none;
 }
 
-@media (orientation: landscape) and (max-height: 520px) {
-  html.mobile-desktop .desktop-icon {
-    width: 86px;
-  }
+.image-viewer__toolbar button {
+  min-width: 30px;
+  height: 27px;
+  padding: 0 7px;
 
-  html.mobile-desktop .desktop-icon img {
-    width: 58px;
-    height: 50px;
-  }
+  border: 1px solid #7b8264;
+  border-radius: 3px;
 
-  html.mobile-desktop .desktop-icon span {
-    font-size: 12px;
-    line-height: 14px;
-  }
+  background: linear-gradient(180deg, #f7f9e8 0%, #c9d0ab 100%);
+  color: #20251a;
 
-  html.mobile-desktop .desktop-icon[data-desktop-id="pictures"] {
-    left: 11% !important;
-    top: 27% !important;
-  }
-  html.mobile-desktop .desktop-icon[data-desktop-id="process"] {
-    left: 27% !important;
-    top: 27% !important;
-  }
-  html.mobile-desktop .desktop-icon[data-desktop-id="oblor"] {
-    left: 50% !important;
-    top: 50% !important;
-  }
-  html.mobile-desktop .desktop-icon[data-desktop-id="sketches"] {
-    left: 73% !important;
-    top: 27% !important;
-  }
-  html.mobile-desktop .desktop-icon[data-desktop-id="readme"] {
-    left: 89% !important;
-    top: 27% !important;
-  }
-  html.mobile-desktop .desktop-icon[data-desktop-id="recycle"] {
-    left: 89% !important;
-    top: 77% !important;
-  }
+  font: 700 14px/1 Tahoma, Arial, sans-serif;
+  text-align: center;
+
+  box-shadow:
+    inset 1px 1px 0 #fff,
+    inset -1px -1px 0 #a0a987;
+}
+
+.image-viewer__toolbar button:hover {
+  filter: brightness(1.05);
+}
+
+.image-viewer__toolbar button:active {
+  transform: translate(1px, 1px);
+}
+
+.image-viewer__zoom-label {
+  min-width: 54px;
+  padding: 0 5px;
+
+  color: #20251a;
+
+  font: 12px/27px Tahoma, Arial, sans-serif;
+  text-align: center;
+}
+
+/* Hard safety rule: delayed executable is invisible until JS reveals it. */
+.desktop-icon--delayed:not(.is-visible) {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+
+/* ============================================================
+   v26 window-control hit area safety
+   ============================================================ */
+
+.xp-titlebar__controls {
+  position: relative;
+  z-index: 5;
+  flex: 0 0 auto;
+  pointer-events: auto;
+}
+
+.xp-titlebar__controls button {
+  pointer-events: auto;
+}
+
+.xp-titlebar__title {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+
+/* ============================================================
+   v27 — forgiving window-control interaction
+   ============================================================ */
+
+/*
+  Invisible interaction deck over the three XP controls.
+  It deliberately extends beyond the visible 32px buttons so the controls
+  react when the visible custom cursor reaches them from any direction.
+*/
+.xp-titlebar__control-deck {
+  position: absolute;
+  z-index: 100;
+
+  top: -11px;
+  right: -11px;
+
+  width: 142px;
+  height: 72px;
+
+  background: transparent;
+
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Stronger feedback than the old subtle :hover brightness. */
+.xp-titlebar__controls button.is-proximity-hover {
+  filter: brightness(1.24) saturate(1.06);
+}
+
+.xp-titlebar__controls button.is-proximity-pressed {
+  filter: brightness(0.94);
+  transform: translate(1px, 1px);
+}
+
+/* The deck handles pointer input; the real buttons remain focusable and
+   keyboard-activatable underneath it. */
+.xp-titlebar__controls {
+  z-index: 10;
+}
+
+
+/* ============================================================
+   v28 — symmetric transform-based image pan/zoom
+   ============================================================ */
+
+/*
+  Scroll-based panning has been removed. The viewer is now a clipped viewport,
+  while the image itself moves around a centered origin. This gives identical
+  left/right and top/bottom pan ranges.
+*/
+.image-viewer {
+  position: relative;
+  display: block;
+  overflow: hidden !important;
+}
+
+.image-viewer__canvas {
+  position: absolute;
+  inset: 0;
+
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+
+  display: block;
+
+  overflow: hidden;
+  touch-action: none;
+}
+
+.image-viewer__canvas img {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  max-width: none !important;
+  max-height: none !important;
+
+  margin: 0;
+
+  transform:
+    translate(-50%, -50%)
+    translate3d(0px, 0px, 0)
+    scale(1);
+
+  transform-origin: center center;
+  will-change: transform;
+
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+}
+
+.image-viewer__toolbar {
+  position: absolute !important;
+
+  left: 50% !important;
+  bottom: 10px !important;
+
+  margin: 0 !important;
+
+  transform: translateX(-50%) !important;
+
+  z-index: 30;
 }
